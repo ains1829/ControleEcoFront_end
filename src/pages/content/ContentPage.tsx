@@ -10,38 +10,36 @@ import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
 import { Outlet } from 'react-router-dom';
 import Profil from '../../components/profil/Profil';
-
 const { Header, Content, Sider } = Layout;
-
 type MenuItem = Required<MenuProps>['items'][number];
-
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  } as MenuItem;
-}
-
-const items: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
-  getItem('Option 2', '2', <DesktopOutlined />),
-  getItem('User', 'sub1', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
-];
-
-function ContentPage(){
+function ContentPage() {
+  const role = localStorage.getItem('role')
+  function getItem(
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+  ): MenuItem {
+    return {
+      key,
+      icon,
+      children,
+      label,
+    } as MenuItem;
+  }
+  let item_menu = Array()
+  if (role === "SG") {
+    item_menu.push(getItem('Option 1', '1', <PieChartOutlined />))
+    item_menu.push(getItem('Option 2', '2', <DesktopOutlined />))
+    item_menu.push(
+      getItem('User', 'sub1', <UserOutlined />, [
+      getItem( <a href=''>salut</a>, '3'),
+      getItem('Bill', '4'),
+      getItem('Alex', '5'),
+    ])
+    )
+  }
+  const items: MenuItem[] = item_menu
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer},

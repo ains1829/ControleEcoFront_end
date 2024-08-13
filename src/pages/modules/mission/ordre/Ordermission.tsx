@@ -1,10 +1,19 @@
 import { Breadcrumb, Button, Space, theme } from "antd"
 import Mission from "./Mission";
+import { usegetOrdermission } from "../../../../api/mission/Api";
+import { TransformDataContent } from "../../../../types/mission/Contentdata";
 
 function Ordermission() {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const mission_all = usegetOrdermission();
+  const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
+  if (mission_all.isPending) {
+    return<>loading...</>
+  }
+  if (mission_all.isError) {
+    return<>Error</>
+  }
+  const contendata= TransformDataContent(mission_all.data)
+  console.log(contendata)
   return (
     <>
       <Breadcrumb className="font-sans p-2" items={[{ title: 'Mission' }, { title: 'Ordre de mission' }]} />

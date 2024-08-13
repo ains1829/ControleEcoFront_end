@@ -11,6 +11,8 @@ const Login : FC = () => {
   const HandleAuth: SubmitHandler<Authuser> = async (data) => {
     const reponse = await Authmutation.mutateAsync(data);
     if (reponse.data?.status === 200) {
+      localStorage.setItem('role', reponse.data?.data.role);
+      localStorage.setItem('token-user', reponse.data?.data.token);
       navigate("/ordredemission");
     } else {
       messageApi.open({
@@ -49,7 +51,11 @@ const Login : FC = () => {
             />
           </div>
           <div className="content-form">
-            <Button htmlType="submit" className="no-hover-button w-full text-white bg-secondary font-sans p-6 rounded-full">Connexion</Button>
+            <Button
+              htmlType="submit"
+              className="no-hover-button w-full text-white bg-secondary font-sans p-6 rounded-full"
+              loading = {Authmutation.isPending}
+            >Connexion</Button>
           </div>
           <div className="content-form text-center">
             <span className="text-xs">Don't have an account yet ? <a href="#" className="font-bold text-secondary">Sign up here</a></span>
