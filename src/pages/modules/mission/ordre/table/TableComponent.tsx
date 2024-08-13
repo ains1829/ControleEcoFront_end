@@ -36,8 +36,8 @@ const columns: TableProps<DataType>['columns'] = [
     render: (_, { tags }) => (
       <>
         {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
+          let color = 'geekblue' ;
+          if (tag === 'Chef equipe') {
             color = 'volcano';
           }
           return (

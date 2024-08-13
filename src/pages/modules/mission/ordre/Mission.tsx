@@ -87,7 +87,7 @@ const items: MenuProps['items'] = [
           </>
         )}
       >
-        <DetailMission />
+      <DetailMission />
       </Modal>
       <div className="flex bg-primary gap-4 p-5" style={{borderRadius:'15px'}}>
         <div className="flex-none w-50 font-bold">DESCENTE</div>

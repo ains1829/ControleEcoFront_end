@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import Login from "./pages/auth/Login"
 import './index.css'
 import './css/personaly.css'
-import Typeproduct from "./pages/modules/mission/ordre/Ordermission"
+import Ordermission from "./pages/modules/mission/ordre/Ordermission"
 import ContentPage from "./pages/content/ContentPage"
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route element={<ContentPage />}> 
-          <Route path="/ordredemission" element={<Typeproduct />} />
+          <Route path="/ordredemission" element={<Ordermission />} />
         </Route>
       </Routes>
     </>

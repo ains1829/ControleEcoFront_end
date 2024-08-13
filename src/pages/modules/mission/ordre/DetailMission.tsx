@@ -15,7 +15,7 @@ function DetailMission() {
         </div>
         <div>
           <strong>Region : </strong>
-          <span>Analamanga</span>
+          <span>Analamanga (Antananarivo Renivohitra)</span>
         </div>
         <div>
           <strong>Societe cible : </strong>
