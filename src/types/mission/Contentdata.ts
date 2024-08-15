@@ -9,10 +9,10 @@ export interface Contendata{
 }
 export const TransformDataContent = (data: any) :Contendata => {
   return {
-    hasnext: data.hasnext,
-    mission: TransFormData(data.data),
-    hasprevious: data.hasprevious,
-    page: data.page,
-    nombrepage:data.nombrepage
+    hasnext: data?.hasnext,
+    mission: TransFormData(data?.data),
+    hasprevious: data?.hasprevious,
+    page: data?.page,
+    nombrepage:data?.nombrepage
   }
 }

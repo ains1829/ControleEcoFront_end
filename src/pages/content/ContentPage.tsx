@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import {
   DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
@@ -29,15 +26,20 @@ function ContentPage() {
   }
   let item_menu = Array()
   if (role === "SG") {
-    item_menu.push(getItem('Option 1', '1', <PieChartOutlined />))
-    item_menu.push(getItem('Option 2', '2', <DesktopOutlined />))
+    item_menu.push(getItem('Dashboard', '1', <DesktopOutlined />))
     item_menu.push(
-      getItem('User', 'sub1', <UserOutlined />, [
-      getItem( <a href=''>salut</a>, '3'),
-      getItem('Bill', '4'),
-      getItem('Alex', '5'),
+      getItem('Mission', 'sub1', <UserOutlined />, [
+      getItem( <a href=''>Ordre de mission</a>, '3'),
+      getItem('Suivi de mission', '4')
     ])
     )
+  }
+  if (role === "DR") {
+    item_menu.push(
+      getItem('Mission', 'sub1', <UserOutlined />, [
+      getItem( <a href=''>Ordre de mission</a>, '3'),
+      getItem('Suivi de mission', '4')
+    ]))
   }
   const items: MenuItem[] = item_menu
   const [collapsed, setCollapsed] = useState(false);

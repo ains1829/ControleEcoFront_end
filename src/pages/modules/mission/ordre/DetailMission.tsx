@@ -1,36 +1,52 @@
 import { Divider } from "antd"
 import TableComponent from "./table/TableComponent"
+import { Ordredemission } from "../../../../types/mission/Ordredemission"
 
-function DetailMission() {
+function DetailMission({data} : {data:Ordredemission}) {let type_mission;
+  if (data.typemission === 1) {
+    type_mission = "DESCENTE";
+  } else if (data.typemission === 2) {
+    type_mission = "COLLECTE";
+  } else {
+    type_mission = "AUTRE SUIVI";
+  }
   return (
     <>
       <div className="flex flex-col gap-y-4 detail font-sans">
         <div>
           <strong>L'origine de la demande : </strong>
-          <span>  RAKOTONAVALONA Andy <span className="text-xs">(Direction Regional)</span> </span>
+          <span>{ data.sender }<span className="text-xs">({data.profil})</span> </span>
         </div>
         <div>
           <strong>Type de mission : </strong>
-          <span> DESCENTE</span>
+          <span>{type_mission }</span>
+        </div>
+        <div>
+          <strong>Date debut :  </strong>
+          <span>{data.debut.toString()}</span>
         </div>
         <div>
           <strong>Region : </strong>
-          <span>Analamanga (Antananarivo Renivohitra)</span>
+          <span>{data.region} ({data.nomdistrict})</span>
         </div>
-        <div>
-          <strong>Societe cible : </strong>
-          <span> MAGASIN-U (Analakely-101) </span>
-        </div>
+          {
+            data.typemission === 1 &&
+            <>
+              <div>
+                <strong>Societe cible : </strong>
+                <span> {data.nomsociete} ({data.addresse}) </span>
+              </div>
+            </>
+          }
         <div>
           <strong>Context : </strong>
           <span className="text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus perspiciatis quasi, vitae aspernatur exercitationem, veritatis obcaecati quia quo doloremque esse reprehenderit debitis aperiam, ipsum accusamus ipsa qui totam repellendus facere.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis maxime alias omnis error. Doloremque officiis a quidem quibusdam ut impedit aliquam, quas eligendi maiores harum alias explicabo, sint facere. Eum.
+           {data.context}
           </span>
         </div>
       </div>
       <Divider dashed style={{ borderColor: 'var(--blue)' }} className="font-sans"> <span className="text-xs">Equipe en mission</span></Divider>
-      <TableComponent />
+      <TableComponent data={data.detailequipe} />
     </>
   )
 }

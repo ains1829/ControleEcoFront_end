@@ -13,7 +13,11 @@ const Login : FC = () => {
     if (reponse.data?.status === 200) {
       localStorage.setItem('role', reponse.data?.data.role);
       localStorage.setItem('token-user', reponse.data?.data.token);
-      navigate("/ordredemission");
+      if (localStorage.getItem('role') === "SG") {
+        navigate("/ordredemission");
+      } else {
+        navigate("/ordredemissiondr")
+      }
     } else {
       messageApi.open({
         type: 'error',

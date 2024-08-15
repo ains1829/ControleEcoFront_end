@@ -1,41 +1,32 @@
-import React from 'react';
 import {  Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
-
-interface DataType {
-  key: string;
-  name: string;
-  age: string;
-  address: string;
-  tags: string[];
-}
-
-const columns: TableProps<DataType>['columns'] = [
+import { Equipe } from '../../../../../types/mission/Equipe';
+const columns: TableProps<Equipe>['columns'] = [
   {
     title: <span className="font-sans">Nom</span>,
-    dataIndex: 'name',
-    key: 'name',
+    dataIndex: 'nom',
+    key: 'nom',
     render: (text) => <span className='font-sans'>{text}</span>,
   },
   {
     title: <span className='font-sans'>Matricule</span>,
-    dataIndex: 'age',
-    key: 'age',
+    dataIndex: 'matricule',
+    key: 'matricule',
     render:(text)=><span className='font-sans'> {text} </span>
   },
   {
     title: <span className='font-sans'>Email</span>,
-    dataIndex: 'address',
-    key: 'address',
+    dataIndex: 'email',
+    key: 'email',
     render: (text) => <span className='font-sans'>{text}</span>
   },
   {
     title: <span className="font-sans">Qualite</span>,
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
+    key: 'profil',
+    dataIndex: 'profil',
+    render: (_, { profil }) => (
       <>
-        {tags.map((tag) => {
+        {profil.map((tag) => {
           let color = 'geekblue' ;
           if (tag === 'Chef equipe') {
             color = 'volcano';
@@ -50,31 +41,10 @@ const columns: TableProps<DataType>['columns'] = [
     ),
   }
 ];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: "MIC0000",
-    address: 'andyrakotonavalona0@gmail.com',
-    tags: ['Chef equipe', 'Commissaire'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: "MIC0000",
-    address: 'andyrakotonavalona0@gmail.com',
-    tags: ['Controleur'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: "MIC0000",
-    address: 'andyrakotonavalona0@gmail.com',
-    tags: ['Controleur'],
-  },
-];
-
-const TableComponent: React.FC = () => <Table columns={columns} dataSource={data} pagination={false} />;
+function TableComponent({ data }: { data: Equipe[] }) {
+  return (
+    <Table columns={columns} dataSource={data} pagination={false} />
+  )
+}
 
 export default TableComponent;
