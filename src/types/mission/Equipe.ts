@@ -4,6 +4,7 @@ export interface Equipe{
   matricule: string;
   email: string;
   profil: string[];
+  photo: string;
 }
 export const TransFormDataEquipe = (data: any[]): Equipe[] => {
   return data.map(item => ({
@@ -11,6 +12,7 @@ export const TransFormDataEquipe = (data: any[]): Equipe[] => {
     nom: item.nameadministration,
     matricule: item.matricule,
     email: item.email,
-    profil: item.statustaff === 100 ? ['Chef equipe' , item.profil] : [item.profil]
+    profil: item.statustaff === 100 ? ['Chef equipe', item.profil] : [item.profil],
+    photo:item.photo ?? ''
   }))
 }

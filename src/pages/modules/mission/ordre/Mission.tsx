@@ -8,6 +8,7 @@ import {
 import DetailMission from "./DetailMission";
 import { Ordredemission } from "../../../../types/mission/Ordredemission";
 function Mission({ data }: { data: Ordredemission }) {
+  const role = localStorage.getItem('role')
   let type_mission;
   if (data.typemission === 1) {
     type_mission = "DESCENTE";
@@ -132,16 +133,19 @@ const items: MenuProps['items'] = [
           </div>
           <div className="flex flex-none gap-5 items-center">
             {
-              data.status === 100 ? <><div className="flex justify-center items-center bg-green-400 p-2 rounded-md text-white"><span className="font-bold" style={{fontSize:'10px'}}>VALIDER</span> </div></> :
-                <>
-                <Dropdown className="font-sans" menu={{ items }} trigger={['click']} >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                      <Button className="font-sans text-xs" type="dashed" size={size}>Action</Button>
-                    </Space>
-                  </a>
-                </Dropdown>
-              </>
+              data.status === 100 ? <><div className="flex justify-center items-center bg-green-400 p-2 rounded-md text-white"><span className="font-bold" style={{ fontSize: '10px' }}>VALIDER</span> </div></> : (data.status === 10 && role === 'SG') ?
+                (
+                  <>
+                  <Dropdown className="font-sans" menu={{ items }} trigger={['click']} >
+                    <a onClick={(e) => e.preventDefault()}>
+                      <Space>
+                        <Button className="font-sans text-xs" type="dashed" size={size}>Action</Button>
+                      </Space>
+                    </a>
+                  </Dropdown>
+                </>
+                ) :
+                <><div className="flex justify-center items-center bg-amber-400 p-2 rounded-md text-white"><span className="font-bold" style={{ fontSize: '10px' }}>En attente</span> </div></>
             }
             <Button className="font-sans text-xs bg-secondary text-neutral-200" type="dashed" size={size} onClick={() => setOpen(true)}>Details</Button>
           </div>

@@ -15,7 +15,7 @@ export const getOrdermissionByUser = async () => {
 }
 export function usegetOrdermissionByUser() {
   return useQuery({
-    queryKey: ["order-missions"],
+    queryKey: ["order-missions-user"],
     queryFn: getOrdermissionByUser,
     staleTime: Infinity,
     gcTime: Infinity,
