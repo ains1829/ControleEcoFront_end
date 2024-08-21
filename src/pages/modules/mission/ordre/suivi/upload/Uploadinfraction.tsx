@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 import type { UploadFile, UploadProps } from 'antd';
-import { useEnqueteFicheTechnique } from '../../../../../../api/mission/Apiordremission';
+import { useEnquetePvinfraction } from '../../../../../../api/mission/Apiordremission';
 
-function UploadComponent({idordermission} : {idordermission : number} ) {
+function Uploadinfraction({idordermission} : {idordermission : number} ) {
   const [file, setFile] = useState<UploadFile | null>(null);
   const [uploading, setUploading] = useState(false);
   const [ispdf, setIspdf] = useState(false);
-  const envoyer = useEnqueteFicheTechnique();
+  const envoyer = useEnquetePvinfraction();
   const handleUpload = async () => {
     setUploading(true);
     const file_upload = file as unknown as File;
@@ -61,4 +61,4 @@ function UploadComponent({idordermission} : {idordermission : number} ) {
   );
 };
 
-export default UploadComponent;
+export default Uploadinfraction;

@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 import type { UploadFile, UploadProps } from 'antd';
-import { useEnqueteFicheTechnique } from '../../../../../../api/mission/Apiordremission';
+import {useEnquetePvaudition } from '../../../../../../api/mission/Apiordremission';
 
-function UploadComponent({idordermission} : {idordermission : number} ) {
+function Uploadaudition({idordermission} : {idordermission : number} ) {
   const [file, setFile] = useState<UploadFile | null>(null);
   const [uploading, setUploading] = useState(false);
   const [ispdf, setIspdf] = useState(false);
-  const envoyer = useEnqueteFicheTechnique();
+  const envoyer = useEnquetePvaudition();
   const handleUpload = async () => {
     setUploading(true);
     const file_upload = file as unknown as File;
@@ -44,7 +44,7 @@ function UploadComponent({idordermission} : {idordermission : number} ) {
       <Upload {...props}>
         <div className='flex items-center' style={{cursor:'pointer'}}>
           <span className='font-sans'>Fichier en pdf  : </span>  
-          <Button className='ml-2' icon={<UploadOutlined />}>Fiche Technique</Button>
+          <Button className='ml-2' icon={<UploadOutlined />}>Pv Audition</Button>
         </div>
       </Upload>
       <Button
@@ -61,4 +61,4 @@ function UploadComponent({idordermission} : {idordermission : number} ) {
   );
 };
 
-export default UploadComponent;
+export default Uploadaudition;

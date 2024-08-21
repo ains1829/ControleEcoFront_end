@@ -2,6 +2,25 @@ import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios"
 import { token } from "../token/Token"
 
+const EnqueteMissionByEquipe = async (idmission : number) => {
+  try {
+    const reponse = (await instanceAxios.get(`mission/enqeuetebyordermission?idordermission=${idmission}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }));
+    return reponse.data?.object;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function useEnqueteMissionByEquipe (id : number) {
+  return useQuery({
+    queryKey: ["enquetemissionbyequipe", id],
+    queryFn : () => EnqueteMissionByEquipe(id) 
+  })
+}
 const OrdremissionByEquipe = async () => {
   try {
     const reponse = (await instanceAxios.get("mission/suivi_mission" , {

@@ -4,7 +4,8 @@ import {
   AntDesignOutlined,
   CalendarOutlined,
   SyncOutlined,
-  ArrowRightOutlined
+  ArrowRightOutlined,
+  CheckCircleOutlined
 } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import { Ordredemission } from "../../../../../types/mission/Ordredemission";
@@ -32,16 +33,23 @@ function SuiviMission({ data }: { data: Ordredemission }) {
             </Avatar.Group>
           </div>
           <div className="status">
-            <Tag icon={<SyncOutlined spin />} className="font-sans text-xs p-1" color="processing">
-              En cours
-            </Tag>
+            {
+              data.fin !== null ?
+              <Tag icon={<CheckCircleOutlined />} className="font-sans text-xs p-1" color="success">
+                Terminer
+                </Tag> :
+                <>
+                <Tag icon={<SyncOutlined spin />} className="font-sans text-xs p-1" color="processing">
+                En cours
+                </Tag> </>
+            }
           </div>
         </div>
         <div className="title">
           <div className="font-bold mb-2">
             {
               data.typemission === 1 ? <>Descente chez {data.nomsociete}</> :
-                data.typemission === 2 ? <>Collecte a {data.nomdistrict}</> :
+                data.typemission === 2 ? <>{data.nomdistrict}</> :
                   <>Autre Suivi</>
             }
           </div>

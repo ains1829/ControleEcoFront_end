@@ -9,6 +9,7 @@ export interface Ordredemission{
   context: string;
   debut: Date;
   dateordre: Date;
+  fin: Date;
   societe: number;
   nomsociete: string;
   addresse: string;
@@ -16,6 +17,8 @@ export interface Ordredemission{
   nomdistrict: string;
   detailequipe: Equipe[];
   status: number;
+  urlfile: string;
+  
 }
 export const TransFormData = (data : any[]) : Ordredemission[] => {
   return data.map(item => ({
@@ -33,6 +36,29 @@ export const TransFormData = (data : any[]) : Ordredemission[] => {
     nomdistrict: item.nomdistrict ?? "",
     detailequipe: TransFormDataEquipe(item.equipe.detailequipes),
     status: item.status_validation,
-    dateordre:item.dateorder
+    dateordre: item.dateorder,
+    fin: item.dateorderend,
+    urlfile : item.fileordermission
   }))
+}
+export const TransFormDataOnData = (data : any) : Ordredemission => {
+  return {
+    idordermission: data.idordermission,
+    typemission: data.idtypeordermission,
+    context: data.motifs,
+    region: data.region.nameregion,
+    debut: data.datedescente,
+    sender: data.sender.nameadministration,
+    profil: data.sender.profil.description,
+    societe: data.idsociete ?? 0,
+    addresse: data.addressesociete ?? "",
+    nomsociete: data.nomsociete ?? "",
+    district: data.iddistrict ?? 0 ,
+    nomdistrict: data.nomdistrict ?? "",
+    detailequipe: TransFormDataEquipe(data.equipe.detailequipes),
+    status: data.status_validation,
+    dateordre: data.dateorder,
+    fin: data.dateorderend,
+    urlfile : data.fileordermission
+  }
 }
