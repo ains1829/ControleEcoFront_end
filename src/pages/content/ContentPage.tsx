@@ -5,7 +5,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import Profil from '../../components/profil/Profil';
 const { Header, Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
@@ -29,7 +29,7 @@ function ContentPage() {
     item_menu.push(getItem('Dashboard', '1', <DesktopOutlined />))
     item_menu.push(
       getItem('Mission', 'sub1', <UserOutlined />, [
-      getItem( <a href=''>Ordre de mission</a>, '3'),
+      getItem( <a href='#'>Ordre de mission</a>, '3'),
       getItem('Suivi de mission', '4')
     ])
     )
@@ -37,8 +37,14 @@ function ContentPage() {
   if (role === "DR") {
     item_menu.push(
       getItem('Mission', 'sub1', <UserOutlined />, [
-      getItem( <a href=''>Ordre de mission</a>, '3'),
-      getItem('Suivi de mission', '4')
+      getItem( <Link to="/ordredemissiondr">Ordre de mission</Link>, '3'),
+      getItem(<Link to='/suivimission'>Suivi de mission</Link>, '4')
+    ]))
+  }
+  if (role === "CH") {
+    item_menu.push(
+      getItem('Mission', 'sub1', <UserOutlined />, [
+      getItem(<Link to='/suivimission'>Suivi de mission</Link>, '4')
     ]))
   }
   const items: MenuItem[] = item_menu

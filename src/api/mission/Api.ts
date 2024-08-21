@@ -17,11 +17,11 @@ export function usegetOrdermissionByUser() {
   return useQuery({
     queryKey: ["order-missions-user"],
     queryFn: getOrdermissionByUser,
-    staleTime: Infinity,
-    gcTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
+    // staleTime: Infinity,
+    // gcTime: Infinity,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    // refetchOnReconnect: false,
   })
 }
 export const getOrdermission = async () => {
@@ -40,11 +40,11 @@ export function usegetOrdermission() {
   return useQuery({
     queryKey: ["order-missions"],
     queryFn: getOrdermission,
-    staleTime: Infinity,
-    gcTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
+    // staleTime: Infinity,
+    // gcTime: Infinity,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    // refetchOnReconnect: false,
   })
 }
 export const getOrdermissionValider = async () => {
@@ -64,11 +64,11 @@ export function usegetOrdermissionValider() {
   return useQuery({
     queryKey: ["order-missions-valider"],
     queryFn: getOrdermissionValider,
-    staleTime: Infinity,
-    gcTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
+    // staleTime: Infinity,
+    // gcTime: Infinity,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    // refetchOnReconnect: false,
   })
 }
 export const getOrdermissionNonValider = async () => {
@@ -87,11 +87,11 @@ export function usegetOrdermissionNonValider() {
   return useQuery({
     queryKey: ["order-missions-nonvalider"],
     queryFn: getOrdermissionNonValider,
-    staleTime: Infinity,
-    gcTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
+    // staleTime: Infinity,
+    // gcTime: Infinity,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    // refetchOnReconnect: false,
   })
 }
 export const getOrdermissionAttente = async () => {
@@ -110,10 +110,10 @@ export function usegetOrdermissionAttente() {
   return useQuery({
     queryKey: ["order-missions-Attente"],
     queryFn: getOrdermissionAttente,
-    staleTime: Infinity,
-    gcTime: Infinity,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
+    // staleTime: Infinity,
+    // gcTime: Infinity,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    // refetchOnReconnect: false,
   })
 }

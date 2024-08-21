@@ -15,8 +15,10 @@ const Login : FC = () => {
       localStorage.setItem('token-user', reponse.data?.data.token);
       if (localStorage.getItem('role') === "SG") {
         navigate("/ordredemission");
-      } else {
+      } else if (localStorage.getItem('role') === "DG") {
         navigate("/ordredemissiondr")
+      } else {
+        navigate("/suivimission")
       }
     } else {
       messageApi.open({

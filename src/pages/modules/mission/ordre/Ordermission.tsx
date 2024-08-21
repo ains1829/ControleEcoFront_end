@@ -1,6 +1,6 @@
 import { Breadcrumb, Button, Empty, Space, theme } from "antd"
 import Mission from "./Mission";
-import { usegetOrdermission, usegetOrdermissionAttente, usegetOrdermissionNonValider, usegetOrdermissionValider } from "../../../../api/mission/Api";
+import { usegetOrdermission, usegetOrdermissionNonValider, usegetOrdermissionValider } from "../../../../api/mission/Api";
 import {TransformDataContent } from "../../../../types/mission/Contentdata";
 import {  useState } from "react";
 
@@ -12,11 +12,8 @@ function Ordermission() {
   } else if (selectedButton === '1') {
     mission_all = usegetOrdermissionValider();
   }
-  else if (selectedButton === '2') {
+  else{
     mission_all = usegetOrdermissionNonValider();
-  }
-  else {
-    mission_all = usegetOrdermissionAttente();
   }
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (mission_all?.isPending) {
@@ -47,7 +44,6 @@ function Ordermission() {
             <Button className={`font-sans ${selectedButton === '0' ? 'bg-secondary text-white' : ''}`} type="dashed" onClick={()=>handleClick('0')}>All</Button>
             <Button className={`font-sans ${selectedButton === '1' ? 'bg-secondary text-white' : ''}`} type="dashed" onClick={()=>handleClick('1')}>Valider</Button>
             <Button className={`font-sans ${selectedButton === '2' ? 'bg-secondary text-white' : ''}`} type="dashed" onClick={()=>handleClick('2')} >Non valider</Button>
-            <Button className={`font-sans ${selectedButton === '3' ? 'bg-secondary text-white' : ''}`} type="dashed" onClick={()=>handleClick('3')}>En Attente</Button>
           </div>
         </Space>
         {

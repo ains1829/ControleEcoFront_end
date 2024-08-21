@@ -7,8 +7,13 @@ import {
 } from '@ant-design/icons';
 import DetailMission from "./DetailMission";
 import { Ordredemission } from "../../../../types/mission/Ordredemission";
+import dayjs from 'dayjs';
+import 'dayjs/locale/fr';
+import { useValidateOrdermission } from "../../../../api/mission/Apiordremission";
 function Mission({ data }: { data: Ordredemission }) {
-  const role = localStorage.getItem('role')
+  const validation = useValidateOrdermission();
+  const role = localStorage.getItem('role');
+  dayjs.locale('fr')
   let type_mission;
   if (data.typemission === 1) {
     type_mission = "DESCENTE";
@@ -17,37 +22,54 @@ function Mission({ data }: { data: Ordredemission }) {
   } else {
     type_mission = "AUTRESUIVI";
   }
-const confirm: PopconfirmProps['onConfirm'] = (e) => {
-  console.log(e);
-  message.success('Click on Yes');
-  setOpen(false)
-};
-
-const cancel: PopconfirmProps['onCancel'] = (e) => {
-  console.log(e);
-  message.error('Click on No');
-};
+  const confirms_ordermission = async (id: number, validate: boolean) => {
+    try {
+      const response = await validation.mutateAsync({ idordermission: id, validate });
+      console.log(response);
+      message.success('Demande valider');
+    } catch (error) {
+      message.error('Mutation failed');
+      console.error(error);
+    }
+    finally {
+      setOpen(false);
+    }
+  };
+  const confirm: PopconfirmProps['onConfirm'] = (e) => {
+    console.log(e);
+    message.success('Click on Yes');
+    setOpen(false)
+  };
+  const cancel: PopconfirmProps['onCancel'] = (e) => {
+    console.log(e);
+  };
+  
 
 const items: MenuProps['items'] = [
   {
     label:
       <Popconfirm title={<span className="font-sans">Valider L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
+        onConfirm={()=>confirms_ordermission(data.idordermission , true)}
+        onCancel={cancel}
+        okText={<span className="font-sans">Oui</span>}
+        cancelText={<span className="font-sans">Non</span>}
+        icon={<CheckCircleOutlined style={{color:"green"}} /> }
+      >
+      <Button className="flex font-sans w-full bg-green-400 text-white text-xs" style={{flex:'1'}}>Valider</Button>
+      </Popconfirm>,
+    key: '0',
+  },
+  {
+    label:
+      <Popconfirm title={<span className="font-sans">Basucler L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
         onConfirm={confirm}
         onCancel={cancel}
         okText={<span className="font-sans">Oui</span>}
         cancelText={<span className="font-sans">Non</span>}
         icon={<CheckCircleOutlined style={{color:"green"}} /> }
       >
-      <span className="font-sans">Valider</span>
+      <Button className="flex font-sans w-full bg-orange-400 text-white text-xs" style={{flex:'1'}}>Basculer to DG</Button>
       </Popconfirm>,
-    key: '0',
-  },
-  {
-    label: <span className="font-sans">Mettre en Attente</span>,
-    key: '1',
-  },
-   {
-    label: <span className="font-sans">Basculer</span>,
     key: '2',
   },
 ];
@@ -66,30 +88,22 @@ const items: MenuProps['items'] = [
         footer={(_, {}) => (
           <>
             <Space>
-              <Popconfirm title={<span className="font-sans">Mettre en Attente</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir mettre en attente L'OM ?</span>}
-                onConfirm={confirm}
-                onCancel={cancel}
-                okText={<span className="font-sans">Oui</span>}
-                cancelText={<span className="font-sans">Non</span>}
-                >
-              <Button className="font-sans text-xs" type="dashed">En Attente</Button>
-              </Popconfirm>
               <Popconfirm title={<span className="font-sans">Basculer L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir basculer L'OM ?</span>}
                 onConfirm={confirm}
                 onCancel={cancel}
                 okText={<span className="font-sans">Oui</span>}
                 cancelText={<span className="font-sans">Non</span>}
                 >
-              <Button className="font-sans text-xs" type="dashed">Basculer</Button>
+              <Button className="font-sans text-xs" type="dashed">Basculer to DG</Button>
               </Popconfirm>
               <Popconfirm title={<span className="font-sans">Valider L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
-                onConfirm={confirm}
+                onConfirm={()=>confirms_ordermission(data.idordermission , true)}
                 onCancel={cancel}
                 okText={<span className="font-sans">Oui</span>}
                 cancelText={<span className="font-sans">Non</span>}
                 icon={<CheckCircleOutlined style={{color:"green"}}  /> }
                 >
-                <Button className="bg-secondary text-white font-sans  text-xs" type="dashed">Valider</Button>
+                <Button className="bg-secondary text-white font-sans  text-xs" type="dashed" >Valider</Button>
               </Popconfirm>
             </Space>
           </>
@@ -129,11 +143,11 @@ const items: MenuProps['items'] = [
             <span className="text-sm"> <span className="text-sm">context : </span> <span className="text-gray-600">{ data.context }</span>  </span>
           </div>
           <div className="flex-none w-1/4">
-            <strong>{ data.dateordre.toString() }</strong>
+            <strong className="text-xs">{ dayjs(data.dateordre).format('DD MMMM YYYY') }</strong>
           </div>
           <div className="flex flex-none gap-5 items-center">
             {
-              data.status === 100 ? <><div className="flex justify-center items-center bg-green-400 p-2 rounded-md text-white"><span className="font-bold" style={{ fontSize: '10px' }}>VALIDER</span> </div></> : (data.status === 10 && role === 'SG') ?
+              data.status === 100 ? <><div className="flex justify-center items-center bg-green-400 p-2 rounded-md text-white"><span className="font-bold" style={{ fontSize: '10px' }}>VALIDER</span> </div></> : (data.status === 0 && role === 'SG') ?
                 (
                   <>
                   <Dropdown className="font-sans" menu={{ items }} trigger={['click']} >

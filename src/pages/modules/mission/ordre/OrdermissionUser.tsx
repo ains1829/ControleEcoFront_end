@@ -7,7 +7,8 @@ import TextArea from "antd/es/input/TextArea";
 import {
   UserOutlined,
   AntDesignOutlined
-} from '@ant-design/icons';import dayjs from 'dayjs';
+} from '@ant-design/icons';
+import dayjs from 'dayjs';
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Jsonmission } from "../../../../api/json/mission/Jsonmission";
 import { usegetDistrictByregion, usegetEquipeByregion, usegetSocieteByregion } from "../../../../api/equipe/Apiequipe";
@@ -18,7 +19,7 @@ import { useSaveMission } from "../../../../api/mission/Apiordremission";
 export function OrdermissionUser() {
   const [selectedButton, selectedFetch] = useState('0');
   const [Typemission, setTypemission] = useState('1');
-    const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi, contextHolder] = message.useMessage();
   const test_equipe = usegetEquipeByregion();
   const mutationSavemission = useSaveMission();
   let district_object = usegetDistrictByregion();
@@ -110,7 +111,7 @@ export function OrdermissionUser() {
        <Modal
         title={<div className="flex flex-col gap-y-3 font-sans">
           <span className="text-secondary text-2xl">Nouveaux Demande</span>
-          <span className="text-sm text-gray-400 ">
+          <span className="text-xs text-gray-400 ">
             Veuillez compléter ce formulaire pour soumettre une demande d'ordre de mission.
             Assurez-vous que toutes les informations sont exactes et complètes avant de valider.
           </span>
