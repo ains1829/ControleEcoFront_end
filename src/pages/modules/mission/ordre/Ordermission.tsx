@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Empty, Space, theme } from "antd"
+import { Breadcrumb, Button, Empty, Segmented, Space, theme } from "antd"
 import Mission from "./Mission";
 import { usegetOrdermission, usegetOrdermissionNonValider, usegetOrdermissionValider } from "../../../../api/mission/Api";
 import {TransformDataContent } from "../../../../types/mission/Contentdata";
@@ -39,16 +39,34 @@ function Ordermission() {
           borderRadius: borderRadiusLG,
         }}
       >
-        <Space>
-          <div className="flex gap-x-5 mb-3">
-            <Button className={`font-sans ${selectedButton === '0' ? 'bg-secondary text-white' : ''}`} type="dashed" onClick={()=>handleClick('0')}>All</Button>
-            <Button className={`font-sans ${selectedButton === '1' ? 'bg-secondary text-white' : ''}`} type="dashed" onClick={()=>handleClick('1')}>Valider</Button>
-            <Button className={`font-sans ${selectedButton === '2' ? 'bg-secondary text-white' : ''}`} type="dashed" onClick={()=>handleClick('2')} >Non valider</Button>
+          <div>
+            <Segmented
+        className="font-sans"
+        options={[
+          { label: 'All', value: '0' },
+          { label: 'Valider', value: '1' },
+          { label: 'Non Valider', value: '2' }
+        ]}
+        value={selectedButton}
+        onChange={handleClick}
+        block
+        style={{
+          display: 'flex',
+          gap: '1rem',
+          marginBottom: '1rem'
+        }}
+      />
           </div>
-        </Space>
         {
           contendata.mission.length === 0 && <Empty />
         }
+
+        <div className="flex bg-gray-100 gap-4 p-5  mb-1 font-bold rounded-lg shadow-md">
+          <div className="flex-none w-1/4">Demande</div>
+          <div className="flex-none w-1/4">Date</div>
+          <div className="flex-none w-1/4">Status</div>
+          <div className="w-1/4">Action</div>
+        </div>
         {contendata.mission.map((item, index) => (
           <Mission key={index} data={item} />
         ))}

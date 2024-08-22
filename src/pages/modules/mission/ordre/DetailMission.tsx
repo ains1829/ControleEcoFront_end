@@ -14,38 +14,38 @@ function DetailMission({data} : {data:Ordredemission}) {let type_mission;
     <>
       <div className="flex flex-col gap-y-4 detail font-sans">
         <div>
-          <strong>L'origine de la demande : </strong>
+          <span>L'origine de la demande : </span>
           <span>{ data.sender }<span className="text-xs">({data.profil})</span> </span>
         </div>
         <div>
-          <strong>Type de mission : </strong>
+          <span>Type de mission : </span>
           <span>{type_mission }</span>
         </div>
         <div>
-          <strong>Date debut :  </strong>
+          <span>Date debut :  </span>
           <span>{data.debut.toString()}</span>
         </div>
         <div>
-          <strong>Region : </strong>
+          <span>Region : </span>
           <span>{data.region} ({data.nomdistrict})</span>
         </div>
           {
             data.typemission === 1 &&
             <>
               <div>
-                <strong>Societe cible : </strong>
+                <span>Societe cible : </span>
                 <span> {data.nomsociete} ({data.addresse}) </span>
               </div>
             </>
           }
         <div>
-          <strong>Context : </strong>
+          <span>Context : </span>
           <span className="text">
            {data.context}
           </span>
         </div>
       </div>
-      <Divider dashed style={{ borderColor: 'var(--blue)' }} className="font-sans"> <span className="text-xs">Equipe en mission</span></Divider>
+      <Divider dashed className="font-sans"> <span className="text-xs">Equipe en mission</span></Divider>
       <TableComponent data={data.detailequipe} />
     </>
   )

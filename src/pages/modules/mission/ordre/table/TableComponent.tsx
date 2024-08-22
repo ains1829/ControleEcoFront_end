@@ -27,7 +27,7 @@ const columns: TableProps<Equipe>['columns'] = [
     render: (_, { profil }) => (
       <>
         {profil.map((tag) => {
-          let color = 'geekblue' ;
+          let color = 'blue' ;
           if (tag === 'Chef equipe') {
             color = 'volcano';
           }
