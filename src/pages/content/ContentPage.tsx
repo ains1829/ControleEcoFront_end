@@ -26,19 +26,20 @@ function ContentPage() {
   }
   let item_menu = Array()
   if (role === "SG") {
-    item_menu.push(getItem('Dashboard', '1', <DesktopOutlined />))
+    item_menu.push(getItem('Dashboard', 'sub1', <DesktopOutlined />, [
+      getItem(<Link to="/dashboardsg">Ordre</Link>, '1'),
+      getItem(<Link to="#">PPN</Link>,'2')
+    ]))
     item_menu.push(
-      getItem('Mission', 'sub1', <UserOutlined />, [
-      getItem( <a href='#'>Ordre de mission</a>, '3'),
-      getItem('Suivi de mission', '4')
+      getItem('Mission', 'sub2', <UserOutlined />, [
+      getItem( <Link to='/ordredemission'>Ordre de mission</Link>, '3'),
     ])
     )
   }
   if (role === "DR") {
     item_menu.push(
       getItem('Mission', 'sub1', <UserOutlined />, [
-      getItem( <Link to="/ordredemissiondr">Ordre de mission</Link>, '3'),
-      getItem(<Link to='/suivimission'>Suivi de mission</Link>, '4')
+      getItem( <Link to="/ordredemissiondr">Ordre de mission</Link>, '3')
     ]))
   }
   if (role === "CH") {

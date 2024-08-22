@@ -11,10 +11,12 @@ const Login : FC = () => {
   const HandleAuth: SubmitHandler<Authuser> = async (data) => {
     const reponse = await Authmutation.mutateAsync(data);
     if (reponse.data?.status === 200) {
+      localStorage.removeItem('role');
+      localStorage.removeItem('token-user');
       localStorage.setItem('role', reponse.data?.data.role);
       localStorage.setItem('token-user', reponse.data?.data.token);
       if (localStorage.getItem('role') === "SG") {
-        navigate("/ordredemission");
+        navigate("/dashboardsg");
       } else if (localStorage.getItem('role') === "DG") {
         navigate("/ordredemissiondr")
       } else {

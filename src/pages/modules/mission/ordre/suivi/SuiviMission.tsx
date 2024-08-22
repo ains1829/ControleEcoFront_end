@@ -12,7 +12,7 @@ import { Ordredemission } from "../../../../../types/mission/Ordredemission";
 function SuiviMission({ data }: { data: Ordredemission }) {
   let url = `/enquete/${data.idordermission}`;
   if (data.typemission === 2) {
-    url = "/collecteeconomique"
+    url = `/collecteeconomique/${data.idordermission}`
   } else if (data.typemission === 3) {
     url = "/autresuivi"
   }

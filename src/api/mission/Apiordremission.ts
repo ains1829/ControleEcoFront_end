@@ -2,6 +2,34 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 import { Jsonmission } from "../json/mission/Jsonmission";
 import { token } from "../token/Token";
+import { Jsoncollecte } from "../json/mission/jsoncollecte";
+const CollecteFinished = async (idordermission : number, data: Jsoncollecte[]) => {
+  try {
+    const reponse = (await instanceAxios.post(`mission/collecte_missionFinished?id=${idordermission}`, data , {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    }))
+      .data;
+    return reponse;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function useCollecteFinished() {
+  const queryclient = useQueryClient();
+  return useMutation({
+    mutationFn: ({idordermission,data}: { idordermission: number , data : Jsoncollecte[]}) => CollecteFinished(idordermission , data),
+    onSettled: async (_, error , variables) => {
+      if (error) {
+        console.log(error);
+      } else {
+        queryclient.invalidateQueries({queryKey : ["collectemissionbyequipe" , variables.idordermission]})
+      }
+    }
+  })
+}
 
 const EnqueteFinished = async (idorderdemission : number) => {
   try {
@@ -202,6 +230,7 @@ const OrdermissionValidate = async (idordermission:number , validate:boolean) =>
     console.log(error)
   }
 }
+
 export function useValidateOrdermission() {
   const queryclient = useQueryClient();
   return useMutation({
@@ -228,6 +257,7 @@ const OrdremissionSave = async (data: Jsonmission) => {
     console.log(error)
   }
 }
+
 export function useSaveMission() {
   const queryclient = useQueryClient();
   return useMutation({
