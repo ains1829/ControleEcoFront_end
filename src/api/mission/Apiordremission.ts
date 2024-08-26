@@ -1,13 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 import { Jsonmission } from "../json/mission/Jsonmission";
-import { token } from "../token/Token";
 import { Jsoncollecte } from "../json/mission/jsoncollecte";
 const CollecteFinished = async (idordermission : number, data: Jsoncollecte[]) => {
   try {
     const reponse = (await instanceAxios.post(`mission/collecte_missionFinished?id=${idordermission}`, data , {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }))
       .data;
@@ -35,7 +34,7 @@ const EnqueteFinished = async (idorderdemission : number) => {
   try {
     const reponse = (await instanceAxios.post(`mission/enquete_missionFinished?idordermission=${idorderdemission}`, {} , {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }))
       .data;
@@ -69,7 +68,7 @@ const EnvoyePvinfraction = async (idorderdemission : number , file : File) => {
     const reponse = (await instanceAxios.post('mission/pvinfraction', formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }))
       .data;
@@ -100,7 +99,7 @@ const EnvoyePvaudition = async (idorderdemission : number , file : File) => {
     const reponse = (await instanceAxios.post('mission/pvaudition', formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }))
       .data;
@@ -132,7 +131,7 @@ const EnvoyeConvocation = async (idorderdemission : number , file : File) => {
     const reponse = (await instanceAxios.post('mission/convocation', formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }))
       .data;
@@ -164,7 +163,7 @@ const EnvoyeFicheTechnique = async (idorderdemission : number , file : File) => 
     const reponse = (await instanceAxios.post('mission/fichetechnique', formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }))
       .data;
@@ -190,7 +189,7 @@ const OrdermissionBasculed = async (idordermission: number) => {
   try {
     const reponse = (await instanceAxios.post(`mission/basculed_ordre_mission?idorderdemission=${idordermission}}`, {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }))
       .data?.object;
@@ -221,7 +220,7 @@ const OrdermissionValidate = async (idordermission:number , validate:boolean) =>
     }
     const reponse = (await instanceAxios.get(`mission/validation_ordre_mission?idorderdemission=${idordermission}&&confirmation=${booleans_validate}`, {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }))
       .data?.object;
@@ -249,7 +248,7 @@ const OrdremissionSave = async (data: Jsonmission) => {
   try {
      const reponse = (await instanceAxios.post("mission/demandeordre", data , {
       headers: {
-        "Authorization" : `Bearer ${token}`
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
      }));
     return reponse;

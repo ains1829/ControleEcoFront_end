@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
-import { instanceAxios } from "../axios/Theaxios"
-import { token } from "../token/Token";
+import { instanceAxios } from "../axios/Theaxios";
 export const getOrdermissionByUser = async () => {
   try {
     const reponse = (await instanceAxios.get("mission/OrderMissionAllbydrdt", {
       headers: {
-        "Authorization" : `Bearer ${token}`
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
     })).data?.object;
     return reponse
@@ -28,7 +27,7 @@ export const getOrdermission = async () => {
   try {
     const reponse = (await instanceAxios.get("mission/OrderMissionAll", {
       headers: {
-        "Authorization" : `Bearer ${token}`
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
     })).data?.object;
     return reponse
@@ -51,7 +50,7 @@ export const getOrdermissionValider = async () => {
   try {
     const reponse = (await instanceAxios.get("mission/OrderMissionValider", {
       headers: {
-        "Authorization" : `Bearer ${token}`
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
     })).data?.object;
     console.log(reponse);
@@ -75,7 +74,7 @@ export const getOrdermissionNonValider = async () => {
   try {
     const reponse = (await instanceAxios.get("mission/OrderMissionNonValider", {
       headers: {
-        "Authorization" : `Bearer ${token}`
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
     })).data?.object;
     return reponse
@@ -98,7 +97,7 @@ export const getOrdermissionAttente = async () => {
   try {
     const reponse = (await instanceAxios.get("mission/OrderMissionenAttente", {
       headers: {
-        "Authorization" : `Bearer ${token}`
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
     })).data?.object;
     return reponse

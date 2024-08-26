@@ -1,12 +1,49 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios"
-import { token } from "../token/Token"
+
+const missionBytype = async () => {
+   try {
+    const reponse = (await instanceAxios.get('statistique/stat_typemissionbyequipe', {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+    return reponse.data?.object;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function useStatTypeMissionByEquipe() {
+  return useQuery({
+    queryKey: ["stattypemissionbyequipe"],
+    queryFn : missionBytype 
+  })
+}
+
+const StatMission = async () => {
+  try {
+    const reponse = (await instanceAxios.get('statistique/missionstatbyequipe', {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+    return reponse.data?.object;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function useStatMissionByEquipe() {
+  return useQuery({
+    queryKey: ["statmissionbyequipe"],
+    queryFn : StatMission 
+  })
+}
 
 const CollecteMissionByEquipe = async (idmission : number) => {
   try {
     const reponse = (await instanceAxios.get(`mission/collectebyordermission?idordermission=${idmission}`, {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }));
     return reponse.data?.object;
@@ -26,7 +63,7 @@ const EnqueteMissionByEquipe = async (idmission : number) => {
   try {
     const reponse = (await instanceAxios.get(`mission/enqeuetebyordermission?idordermission=${idmission}`, {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }));
     return reponse.data?.object;
@@ -46,7 +83,7 @@ const OrdremissionByEquipe = async () => {
   try {
     const reponse = (await instanceAxios.get("mission/suivi_mission" , {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }));
     return reponse.data?.object
@@ -66,7 +103,7 @@ const getEquipeByRegion = async () => {
   try {
     const reponse = (await instanceAxios.get("scomadminstration/equipebyregion" , {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }));
     return reponse.data?.object
@@ -84,7 +121,7 @@ const getDistrict = async () => {
   try {
     const reponse = (await instanceAxios.get("scomadminstration/getdistrictbyregion", {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }));
     return reponse.data?.object
@@ -102,7 +139,7 @@ const getSociete = async () => {
   try {
     const reponse = (await instanceAxios.get("scomadminstration/getSocietebyregion", {
       headers: {
-        "Authorization": `Bearer ${token}`
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }));
     return reponse.data?.object

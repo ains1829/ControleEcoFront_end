@@ -43,8 +43,9 @@ function Mission({ data }: { data: Ordredemission }) {
   const cancel: PopconfirmProps['onCancel'] = (e) => {
     console.log(e);
   };
-  const truncateText = (text:string, maxLength:number) => {
-  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+  const truncateText = (text: string) => {
+  let maxlength = 35;
+  return text.length > maxlength ? `${text.slice(0, maxlength)}...` : text;
 };
 
 const items: MenuProps['items'] = [
@@ -127,7 +128,7 @@ const items: MenuProps['items'] = [
                       <div>
                         <span className="font-bold text-white bg-green-400 p-1 rounded-full text-xs shadow-xl ">{type_mission}</span>
                       </div>
-                      <span className="text-xs"> <span className="text-sm"> </span> <span className="text-gray-600">{ truncateText(data.context,50) }</span>  </span>
+                      <span className="text-xs"> <span className="text-sm"> </span> <span className="text-gray-600">{ truncateText(data.context) }</span>  </span>
                     </div>
                   </div>
                 </> 
@@ -141,7 +142,7 @@ const items: MenuProps['items'] = [
                       <div>
                         <span className="font-bold text-white bg-blue-400  p-1 rounded-full text-xs shadow-xl ">{type_mission}</span> 
                       </div>
-                      <span className="text-xs"> <span className="text-sm"></span> <span className="text-gray-600">{ truncateText(data.context,50) }</span>  </span>
+                      <span className="text-xs"> <span className="text-sm"></span> <span className="text-gray-600">{ truncateText(data.context) }</span>  </span>
                     </div>
                   </div>
                 </>
@@ -155,7 +156,7 @@ const items: MenuProps['items'] = [
                       <div>
                         <span className="font-bold text-white bg-yellow-400 p-1 rounded-full text-xs shadow-xl ">{type_mission}</span>
                       </div>
-                      <span className="text-xs"> <span className="text-sm"></span> <span className="text-gray-600">{ truncateText(data.context,50) }</span>  </span>
+                      <span className="text-xs"> <span className="text-sm"></span> <span className="text-gray-600">{ truncateText(data.context) }</span>  </span>
                     </div>
                 </div>
             </>

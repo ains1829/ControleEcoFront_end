@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   DesktopOutlined,
   UserOutlined,
+  TeamOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
@@ -45,8 +46,9 @@ function ContentPage() {
   if (role === "CH") {
     item_menu.push(
       getItem('Mission', 'sub1', <UserOutlined />, [
-      getItem(<Link to='/suivimission'>Suivi de mission</Link>, '4')
+      getItem(<Link to='/suivimission'>Suivi de mission</Link>, '1')
     ]))
+    item_menu.push(getItem('Mon Equipe' , '2' , <TeamOutlined />))
   }
   const items: MenuItem[] = item_menu
   const [collapsed, setCollapsed] = useState(false);

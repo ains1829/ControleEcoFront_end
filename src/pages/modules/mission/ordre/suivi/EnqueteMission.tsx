@@ -132,35 +132,6 @@ function EnqueteMission() {
           </Button>
         </Space>
           <Divider dashed />
-          <div>
-            <div className="mb-2">
-              <strong>Feed-back</strong>
-            </div>
-            <div className="flex flex-col gap-y-3 ">
-              <div className="flex flex-col p-2 gap-y-2 border-dotted border-2 border-gray-200 rounded-lg">
-                <span className="date text-blue-500"> <SendOutlined /> Envoye le : 20 aout 2024 </span>
-                <span><strong>Context : </strong>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores, enim perferendis explicabo debitis officiis, sed veritatis vel minima aliquam architecto culpa? Consectetur autem aliquid laborum illo dolores, quaerat explicabo ea!</span>
-                <strong>Photo</strong>
-                <div>
-                  <Image.PreviewGroup
-                    preview={{
-                      onChange: (current, prev) => console.log(`current index: ${current}, prev index: ${prev}`),
-                    }}
-                  >
-                    <Image width={100} src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />
-                    <Image
-                      width={100}
-                      src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
-                    />
-                  </Image.PreviewGroup>
-                </div>
-              </div>
-              <div className="flex flex-col p-2 gap-y-2 border-dotted border-2 border-gray-200 rounded-lg">
-                <span className="date text-blue-500"> <SendOutlined /> Envoye le : 20 aout 2024 </span>
-                <span><strong>Context : </strong>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolores, enim perferendis explicabo debitis officiis, sed veritatis vel minima aliquam architecto culpa? Consectetur autem aliquid laborum illo dolores, quaerat explicabo ea!</span>
-              </div>
-            </div>
-          </div>
         </div>
       <Drawer
         title={`Detail Mission`}

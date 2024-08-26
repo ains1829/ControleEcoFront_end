@@ -11,14 +11,17 @@ import { Link } from "react-router-dom";
 import { Ordredemission } from "../../../../../types/mission/Ordredemission";
 function SuiviMission({ data }: { data: Ordredemission }) {
   let url = `/enquete/${data.idordermission}`;
+  let bg = 'bg-green-200'
   if (data.typemission === 2) {
     url = `/collecteeconomique/${data.idordermission}`
+    bg='bg-blue-200'
   } else if (data.typemission === 3) {
     url = "/autresuivi"
+    bg = 'bg-yellow-200'
   }
   return (
     <>
-      <div className="flex flex-col card bg-primary p-5 font-sans gap-y-3 rounded-lg ">
+      <div className={`flex flex-col card ${bg} p-5 font-sans gap-y-3 rounded-2xl `}>
         <div className="flex justify-between header-card">
           <div className="avatar">
             <Avatar.Group  shape="circle">
@@ -68,7 +71,7 @@ function SuiviMission({ data }: { data: Ordredemission }) {
         </div>
         <div className="footer flex flex-end">
           <Link to={`${url}`}>
-            <Button className="font-sans text-xs">
+            <Button type="dashed" className="font-sans text-xs">
               Voir <ArrowRightOutlined />
             </Button>
           </Link>

@@ -13,6 +13,7 @@ import { Link, useParams } from "react-router-dom";
 import { TransformdataCollecte } from "../../../../../types/mission/suivi/Collecte";
 import { useCollecteFinished } from "../../../../../api/mission/Apiordremission";
 import { Jsoncollecte } from "../../../../../api/json/mission/jsoncollecte";
+import Tableppn from "./Tableppn";
 export interface InputGroup {
   id: number;
   nameproduct: string;
@@ -148,7 +149,7 @@ function CollecteMission() {
             </div>
             <Divider dashed className="font-sans text-xs" > PPN </Divider>
             {
-              collecte_object?.statu === 200 ? 'TABLEAU PPN' :
+              collecte_object?.statu === 200 ? <Tableppn /> :
               <form onSubmit={handleSumbit}>
                 <div className="flex flex-col gap-y-4">
                     {inputGroups.map((group) => (
