@@ -1,13 +1,20 @@
-import { Divider, Segmented, theme } from "antd";
+import { Button, Divider, Modal, Segmented, theme } from "antd";
 import SuiviMission from "./suivi/SuiviMission";
-import { useState } from "react";
+import {useState } from "react";
 import { usegetOrdermissionByEquipe, useStatMissionByEquipe, useStatTypeMissionByEquipe } from "../../../../api/equipe/Apiequipe";
 import { TransformDataContent } from "../../../../types/mission/Contentdata";
+import FullCalendar  from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+
 function ContentSuivi() {
+
   const [selectedButton, selectedFetch] = useState('0');
   const suivi_mission = usegetOrdermissionByEquipe();
   const dashboard_mission = useStatMissionByEquipe();
   const type_mission_dashboard = useStatTypeMissionByEquipe();
+  const [open, setOpen] = useState(false);
+   const [calendarKey, setCalendarKey] = useState(0);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (suivi_mission.isPending) {
     return <span>loading...</span>
@@ -33,6 +40,14 @@ function ContentSuivi() {
   const handleClick = (name:string) =>{
     selectedFetch(name)
   }
+  const handleDateClick = (arg:any) => {
+    alert('Date clicked: ' + arg.dateStr);
+  };
+  const handleOpenModal = () => {
+    setCalendarKey(calendarKey + 1); // Change key to force re-render
+    setOpen(true);
+  };
+
   return (
     <>
         <div
@@ -100,8 +115,34 @@ function ContentSuivi() {
               <SuiviMission key={index}  data={item}/>
             ))
           }
-          </div>
         </div>
+        <div>
+          <Button type="primary" onClick={handleOpenModal}>
+            Open Modal of 1000px width
+          </Button>
+          <Modal
+        centered
+        open={open}
+        onOk={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+        width={1000}
+      >
+        <div>
+          <h1>Calendar</h1>
+              <FullCalendar
+                key={calendarKey}
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            events={[
+              { title: 'Event 1', date: '2024-08-25' },
+              { title: 'Event 2', date: '2024-08-26' },
+            ]}
+            dateClick={handleDateClick}
+          />
+        </div>
+      </Modal>
+        </div>
+      </div>
     </>
   )
 }

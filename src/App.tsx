@@ -9,6 +9,7 @@ import ContentSuivi from "./pages/modules/mission/ordre/ContentSuivi"
 import EnqueteMission from "./pages/modules/mission/ordre/suivi/EnqueteMission"
 import CollecteMission from "./pages/modules/mission/ordre/suivi/CollecteMission"
 import { Missionboard } from "./pages/modules/dashboard/Missionboard"
+import Ppnboard from "./pages/modules/dashboard/Ppnboard"
 function App() {
   return (
     <>
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route element={<ContentPage />}> 
           <Route path="/dashboardsg" element={<Missionboard />}></Route>
+          <Route path="/ppnglobal" element={<Ppnboard />}></Route>
           <Route path="/ordredemission" element={<Ordermission />} />
           <Route path="/ordredemissiondr" element={<OrdermissionUser />} />
           <Route path="/suivimission" element={<ContentSuivi />} />

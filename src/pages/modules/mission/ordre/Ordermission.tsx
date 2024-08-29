@@ -64,22 +64,22 @@ function Ordermission() {
           </div>
         </div>
         <div className="w-1/2">
-            <Segmented
-              className="font-sans p-1"
-              options={[
-                { label: 'All', value: '0' },
-                { label: 'Valider', value: '1' },
-                { label: 'Non Valider', value: '2' }
-              ]}
-              value={selectedButton}
-              onChange={handleClick}
-              block
-              style={{
-                display: 'flex',
-                gap: '1rem',
-              }}
-            />
-          </div>
+          <Segmented
+            className="font-sans p-1"
+            options={[
+              { label: 'All', value: '0' },
+              { label: 'Valider', value: '1' },
+              { label: 'Non Valider', value: '2' }
+            ]}
+            value={selectedButton}
+            onChange={handleClick}
+            block
+            style={{
+              display: 'flex',
+              gap: '1rem',
+            }}
+          />
+        </div>
         {
           contendata.mission.length === 0 && <Empty />
         }

@@ -29,7 +29,7 @@ function ContentPage() {
   if (role === "SG") {
     item_menu.push(getItem('Dashboard', 'sub1', <DesktopOutlined />, [
       getItem(<Link to="/dashboardsg">Ordre</Link>, '1'),
-      getItem(<Link to="#">PPN</Link>,'2')
+      getItem(<Link to="/ppnglobal">PPN</Link>,'2')
     ]))
     item_menu.push(
       getItem('Mission', 'sub2', <UserOutlined />, [
