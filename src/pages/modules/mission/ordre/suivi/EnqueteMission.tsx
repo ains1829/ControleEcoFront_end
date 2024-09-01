@@ -2,11 +2,10 @@ import { Breadcrumb, Button, Divider, Drawer, message, Space, Steps, Tag, theme 
 import {
   SyncOutlined,
   ArrowRightOutlined,
-  CalendarOutlined,SendOutlined,CheckCircleOutlined,FileDoneOutlined
+  CalendarOutlined,CheckCircleOutlined,FileDoneOutlined
 } from '@ant-design/icons';
 import { useState } from "react";
 import UploadComponent from "./upload/UploadComponent";
-import { Image } from 'antd';
 import { Link, useParams } from "react-router-dom";
 import { useEnqueteMissionByEquipe } from "../../../../../api/equipe/Apiequipe";
 import { TransformdataEnquete } from "../../../../../types/mission/suivi/Enquete";
@@ -20,6 +19,13 @@ function EnqueteMission() {
   const enquete = useEnqueteMissionByEquipe(Number(id));
   const enquete_finish = useEnqueteFinished();
   const [open, setOpen] = useState(false);
+  const role = localStorage.getItem('role');
+  let url = "";
+  if (role === 'DR' || role == 'DT') {
+    url = "/suivimission_dr_dt"
+  } else {
+    url = "/suivimission";
+  }
   let enquete_object = null;
   if (enquete.isPending) {
     return <>Loadingg...</>
@@ -44,7 +50,7 @@ function EnqueteMission() {
   }
   return (
     <>
-      <Breadcrumb className="font-sans p-2" items={[{ title: 'Mission' }, { title: <Link to={'/suivimission'}>Suivi de mission</Link>  } , {title:'Descente'}]} />
+      <Breadcrumb className="font-sans p-2" items={[{ title: 'Mission' }, { title: <Link to={`${url}`}>Suivi de mission</Link>  } , {title:'Descente'}]} />
         <div
           className="flex flex-col gap-y-2 font-sans"
           style={{
@@ -166,7 +172,7 @@ function EnqueteMission() {
                   } 
                 </span>
                 {
-                  enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
+                  role === 'DR' || role === 'DR' ||enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
                     <UploadComponent idordermission={enquete_object.ordermission.idordermission}/>
                 }
               </div>
@@ -180,7 +186,7 @@ function EnqueteMission() {
                 Fichier : {enquete_object.statu < 20 ? 'En attente' : enquete_object.statu === 20 ? 'en cours' : <a className="ml-2" style={{color:'blue'}}>{ enquete_object.url_convocation.toString()}</a>}
               </span>
               {
-                enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
+                role === 'DR' || role === 'DR' || enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
                 <UploadConvocation idordermission={enquete_object.ordermission.idordermission}/>
               }
             </div>
@@ -197,7 +203,7 @@ function EnqueteMission() {
                   {enquete_object.statu < 30 ? 'En Attente'  : enquete_object.statu === 30 ? 'en cours' : <a className="ml-2" style={{color:'blue'}}>{ enquete_object.urlpvaudition.toString()}</a>}
               </span>
               {
-                enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
+                role === 'DR' || role === 'DR' || enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
                   <Uploadaudition idordermission={enquete_object.ordermission.idordermission}/>
               }
             </div>
@@ -215,7 +221,7 @@ function EnqueteMission() {
                 {enquete_object.statu < 200 ? 'En Attente' : enquete_object.statu === 200 ? 'en cours' : enquete_object.statu === 210 ? ' Clean ' :  <a className="ml-2" style={{ color: 'blue' }}>{enquete_object.url_pvinfraction.toString()}</a>}
               </span>
               {
-                enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
+                role === 'DR' || role === 'DR' || enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
                   <Uploadinfraction idordermission={enquete_object.ordermission.idordermission}/>
               }
           </div>

@@ -53,12 +53,18 @@ const data: DataType[] = [
       title: 'Region Name',
       dataIndex: 'nomregion',
       key: 'nomregion',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
       render: (text) => <span className="font-sans">{text}</span>
     },
     {
       title: 'Prix Moyenne',
       dataIndex: 'prix1',
       key: 'prix1',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
       sorter: (a, b) => a.prix1 - b.prix1,
       render: (text) => <span className="font-sans">{text} Ariary</span>
     },
@@ -66,6 +72,9 @@ const data: DataType[] = [
       title: 'Prix Max',
       dataIndex: 'prix2',
       key: 'prix2',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent'},
+      }),
       sorter: (a, b) => a.prix2 - b.prix2,
       render: (text) => <span className="font-sans">{text} Ariary</span>
     },
@@ -73,12 +82,17 @@ const data: DataType[] = [
       title: 'Prix Min',
       dataIndex: 'prix3',
       key: 'prix3',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
       sorter: (a, b) => a.prix3 - b.prix3,
       render: (text) => <span className="font-sans">{text} Ariary</span>
     },
     {
-      title: 'Detail',
       key: 'action',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
       render: (_, record) => (
         <Space size="middle">
           <Button type="dashed" className="text-xs font-sans p-4 bg-red-500 text-white" icon={<TableOutlined />} onClick={() => handleEdit(record.key)} > Voir</Button>
@@ -103,7 +117,7 @@ const data: DataType[] = [
         <span className="text-bold text-sm font-bold ">Detail par region</span>
         <span className="text-bold text-sm font-bold">Aout 2024</span>
       </div>
-      <Table columns={columns} dataSource={data} onChange={onChange} pagination={false} />
+      <Table  columns={columns} dataSource={data} onChange={onChange} pagination={false} />
       <Modal
         title={<span className="text-sm font-bold" >Detail Analamanga.</span>}
         centered

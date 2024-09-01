@@ -15,9 +15,9 @@ const Login : FC = () => {
       localStorage.removeItem('token-user');
       localStorage.setItem('role', reponse.data?.data.role);
       localStorage.setItem('token-user', reponse.data?.data.token);
-      if (localStorage.getItem('role') === "SG") {
+      if (localStorage.getItem('role') === "SG" || localStorage.getItem('role') === 'DG') {
         navigate("/dashboardsg");
-      } else if (localStorage.getItem('role') === "DG") {
+      } else if (localStorage.getItem('role') === "DR" || localStorage.getItem('role') === "DT") {
         navigate("/ordredemissiondr")
       } else {
         navigate("/suivimission")

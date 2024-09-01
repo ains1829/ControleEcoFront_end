@@ -1,5 +1,4 @@
-import { Button, Dropdown, MenuProps, Popconfirm, PopconfirmProps, Space, message , Modal, Divider, Tag } from "antd";
-import { SizeType } from "antd/es/config-provider/SizeContext";
+import { Button, Popconfirm, PopconfirmProps, Space, message , Modal, Divider, Tag } from "antd";
 import { useState } from "react";
 import {
   CheckCircleOutlined,
@@ -9,9 +8,10 @@ import DetailMission from "./DetailMission";
 import { Ordredemission } from "../../../../types/mission/Ordredemission";
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
-import { useValidateOrdermission } from "../../../../api/mission/Apiordremission";
+import { useValidateOrdermission, useValidateOrdermissionDgdmt } from "../../../../api/mission/Apiordremission";
 function Mission({ data }: { data: Ordredemission }) {
   const validation = useValidateOrdermission();
+  const validation_dg = useValidateOrdermissionDgdmt();
   const role = localStorage.getItem('role');
   dayjs.locale('fr')
   let type_mission;
@@ -24,21 +24,18 @@ function Mission({ data }: { data: Ordredemission }) {
   }
   const confirms_ordermission = async (id: number, validate: boolean) => {
     try {
-      const response = await validation.mutateAsync({ idordermission: id, validate });
-      console.log(response);
-      message.success('Demande valider');
+      if (localStorage.getItem('role') === "SG") {
+        await validation.mutateAsync({ idordermission: id, validate });
+      } else {
+        await validation_dg.mutateAsync({ idordermission: id });
+      }
+      message.success('Demande OK');
     } catch (error) {
       message.error('Mutation failed');
-      console.error(error);
     }
     finally {
       setOpen(false);
     }
-  };
-  const confirm: PopconfirmProps['onConfirm'] = (e) => {
-    console.log(e);
-    message.success('Click on Yes');
-    setOpen(false)
   };
   const cancel: PopconfirmProps['onCancel'] = (e) => {
     console.log(e);
@@ -47,37 +44,6 @@ function Mission({ data }: { data: Ordredemission }) {
   let maxlength = 35;
   return text.length > maxlength ? `${text.slice(0, maxlength)}...` : text;
 };
-
-const items: MenuProps['items'] = [
-  {
-    label:
-      <Popconfirm title={<span className="font-sans">Valider L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
-        onConfirm={()=>confirms_ordermission(data.idordermission , true)}
-        onCancel={cancel}
-        okText={<span className="font-sans">Oui</span>}
-        cancelText={<span className="font-sans">Non</span>}
-        icon={<CheckCircleOutlined style={{color:"green"}} /> }
-      >
-      <Button className="flex font-sans w-full bg-green-400 text-white text-xs" style={{flex:'1'}}>Valider</Button>
-      </Popconfirm>,
-    key: '0',
-  },
-  {
-    label:
-      <Popconfirm title={<span className="font-sans">Basucler L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
-        onConfirm={confirm}
-        onCancel={cancel}
-        okText={<span className="font-sans">Oui</span>}
-        cancelText={<span className="font-sans">Non</span>}
-        icon={<CheckCircleOutlined style={{color:"green"}} /> }
-      >
-      <Button className="flex font-sans w-full bg-orange-400 text-white text-xs" style={{flex:'1'}}>Basculer to DG</Button>
-      </Popconfirm>,
-    key: '2',
-  },
-];
-
-  const [size] = useState<SizeType>('large');
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -90,31 +56,28 @@ const items: MenuProps['items'] = [
         width={1000}
         footer={(_, {}) => (
           <>
-            <Space>
-              <Popconfirm title={<span className="font-sans">Basculer L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir basculer L'OM ?</span>}
-                onConfirm={confirm}
-                onCancel={cancel}
-                okText={<span className="font-sans">Oui</span>}
-                cancelText={<span className="font-sans">Non</span>}
-                >
-              <Button className="font-sans text-xs" type="dashed">Basculer to DG</Button>
-              </Popconfirm>
-              <Popconfirm title={<span className="font-sans">Valider L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
-                onConfirm={()=>confirms_ordermission(data.idordermission , true)}
-                onCancel={cancel}
-                okText={<span className="font-sans">Oui</span>}
-                cancelText={<span className="font-sans">Non</span>}
-                icon={<CheckCircleOutlined style={{color:"green"}}  /> }
-                >
-                <Button className="bg-secondary text-white font-sans  text-xs" type="dashed" >Valider</Button>
-              </Popconfirm>
-            </Space>
+            {
+              (
+                data.status === 100 || (data.status === 0 && role !== "SG") || (data.status === 10 && role !== "DG")
+              ) ? '' : 
+              <Space>
+                <Popconfirm title={<span className="font-sans">Valider L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
+                  onConfirm={()=>confirms_ordermission(data.idordermission , true)}
+                  onCancel={cancel}
+                  okText={<span className="font-sans">Oui</span>}
+                  cancelText={<span className="font-sans">Non</span>}
+                  icon={<CheckCircleOutlined style={{color:"green"}}  /> }
+                  >
+                  <Button className="font-sans text-xs" size="large" type="dashed" >Valider</Button>
+                </Popconfirm>
+              </Space>
+            }
           </>
         )}
       >
       <DetailMission data={data} />
       </Modal>
-      <div className="flex bg-gray-100 gap-4 p-5 items-center">
+      <div className="flex border-b-2 border-gray-100 gap-4 p-5 items-center">
         <div className="flex-none w-1/4">
           {
             data.typemission === 1 ?
@@ -126,7 +89,7 @@ const items: MenuProps['items'] = [
                     </svg>
                     <div className="flex flex-col ml-2 gap-y-1">
                       <div>
-                        <span className="font-bold text-white bg-green-400 p-1 rounded-full text-xs shadow-xl ">{type_mission}</span>
+                        <span className="font-bold text-white bg-green-400 p-1  text-xs rounded-full ">{type_mission}</span>
                       </div>
                       <span className="text-xs"> <span className="text-sm"> </span> <span className="text-gray-600">{ truncateText(data.context) }</span>  </span>
                     </div>
@@ -140,7 +103,7 @@ const items: MenuProps['items'] = [
                     </svg>
                     <div className="flex flex-col ml-2 gap-y-1">
                       <div>
-                        <span className="font-bold text-white bg-blue-400  p-1 rounded-full text-xs shadow-xl ">{type_mission}</span> 
+                        <span className="font-bold text-white bg-blue-400  p-1  text-xs rounded-full ">{type_mission}</span> 
                       </div>
                       <span className="text-xs"> <span className="text-sm"></span> <span className="text-gray-600">{ truncateText(data.context) }</span>  </span>
                     </div>
@@ -154,7 +117,7 @@ const items: MenuProps['items'] = [
                     </svg>
                     <div className="flex flex-col ml-2 gap-y-1">
                       <div>
-                        <span className="font-bold text-white bg-yellow-400 p-1 rounded-full text-xs shadow-xl ">{type_mission}</span>
+                        <span className="font-bold text-white bg-yellow-400 p-1  text-xs rounded-full ">{type_mission}</span>
                       </div>
                       <span className="text-xs"> <span className="text-sm"></span> <span className="text-gray-600">{ truncateText(data.context) }</span>  </span>
                     </div>
@@ -168,25 +131,30 @@ const items: MenuProps['items'] = [
         <div className="flex-none w-1/4">
           {
             data.status === 100 ? <Tag color="success" className="font-sans p-1">valider</Tag> :
-              (data.status === 0 && role === 'SG') ? <Tag color="error" className="font-sans p-1">non valider</Tag> :
-                <Tag color="warning" className="font-sans p-1">En attente</Tag>
+              (data.status === 0 && role === 'SG') ? <Tag color="error" className="font-sans p-1">non valider</Tag> : 
+                (data.status === 10 && role === 'SG') ? <Tag color="warning" className="font-sans p-1">En attente DG</Tag> :
+                  (data.status === 10 && role === 'DG') ?
+                    <Tag color="error" className="font-sans p-1">non valider</Tag> :
+                      <Tag color="warning" className="font-sans p-1">En attente</Tag>
           }
         </div>
         <div className="flex flex-none w-1/4 gap-5 items-center">
           {
-            (data.status === 0 && role === 'SG') ? <>
-                <Dropdown className="font-sans" menu={{ items }} trigger={['click']} >
-                  <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                      <Button className="font-sans text-xs" type="dashed" size={size}>Action</Button>
-                    </Space>
-                  </a>
-                </Dropdown>
+            ((data.status === 0 && role === 'SG') || (data.status === 10 && role === 'DG')) ? <>
+                <Popconfirm title={<span className="font-sans">Valider L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
+                  onConfirm={()=>confirms_ordermission(data.idordermission , true)}
+                  onCancel={cancel}
+                  okText={<span className="font-sans">Oui</span>}
+                  cancelText={<span className="font-sans">Non</span>}
+                  icon={<CheckCircleOutlined style={{color:"green"}} /> }
+                >
+                  <Button className="font-sans text-xs" type="dashed" size="large">Valider</Button>
+                </Popconfirm>
             </>
               :
               ''
           }
-          <Button className="font-sans text-xs" type="dashed" size={size} onClick={() => setOpen(true)}>Details</Button>
+          <Button className="font-sans text-xs" type="dashed" size="large" onClick={() => setOpen(true)}>Details</Button>
         </div>
       </div>
     </>

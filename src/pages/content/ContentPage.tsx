@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import {
   DesktopOutlined,
   UserOutlined,
-  TeamOutlined
+  TeamOutlined,
+  ScheduleOutlined,CalendarOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
@@ -26,22 +27,26 @@ function ContentPage() {
     } as MenuItem;
   }
   let item_menu = Array()
-  if (role === "SG") {
+  if (role === "SG" || role === "DG") {
     item_menu.push(getItem('Dashboard', 'sub1', <DesktopOutlined />, [
       getItem(<Link to="/dashboardsg">Ordre</Link>, '1'),
-      getItem(<Link to="/ppnglobal">PPN</Link>,'2')
+      getItem(<Link to="/ppnglobal">PPN</Link>, '2')
     ]))
     item_menu.push(
       getItem('Mission', 'sub2', <UserOutlined />, [
-      getItem( <Link to='/ordredemission'>Ordre de mission</Link>, '3'),
-    ])
+        getItem(<Link to='/ordredemission'>Ordre de mission</Link>, '3'),
+      ])
     )
   }
-  if (role === "DR") {
+  if (role === "DR" || role === "DT") {
     item_menu.push(
       getItem('Mission', 'sub1', <UserOutlined />, [
-      getItem( <Link to="/ordredemissiondr">Ordre de mission</Link>, '3')
-    ]))
+        getItem(<Link to="/ordredemissiondr">Ordre de mission</Link>, '1'),
+        getItem(<Link to="/suivimission_dr_dt" >Suivi Mission </Link> ,'2')
+      ]))
+    item_menu.push(getItem(<Link to="/calendar">Agenda</Link> , '4' , <CalendarOutlined />))
+    item_menu.push(getItem(<Link to="/societe">Societe</Link>, '3', <ScheduleOutlined />))
+     item_menu.push(getItem(<Link to="/missionnaire">Missionnaire</Link> , '5' , <ScheduleOutlined />))
   }
   if (role === "CH") {
     item_menu.push(

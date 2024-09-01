@@ -116,3 +116,28 @@ export function usegetOrdermissionAttente() {
     // refetchOnReconnect: false,
   })
 }
+
+export const getSocieteByregion = async () => {
+  try {
+    const reponse = (await instanceAxios.get("scomadminstration/getSocietebyregionpagination", {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    })).data?.object;
+    return reponse;
+  } catch (error) {
+    console.log('ERROR FETCHING ORDER MISSION:' , error)
+  }
+}
+
+export function usegetSocietebyregion() {
+  return useQuery({
+    queryKey: ["societebyregion"],
+    queryFn: getSocieteByregion,
+    // staleTime: Infinity,
+    // gcTime: Infinity,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+    // refetchOnReconnect: false,
+  })
+}

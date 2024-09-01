@@ -1,7 +1,23 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 import { Jsonmission } from "../json/mission/Jsonmission";
 import { Jsoncollecte } from "../json/mission/jsoncollecte";
+const SocieteRef = async (idsociete: number) => {
+  try {
+    const reponse = (await instanceAxios.get(`data/ref_societe?idsociete=${idsociete}`))
+      .data.object;
+    return reponse;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function useSocieteRef(idsociete : number){
+  return useQuery({
+    queryKey: ["societeref", idsociete],
+    queryFn:()=> SocieteRef(idsociete) 
+  })
+}
+
 const CollecteFinished = async (idordermission : number, data: Jsoncollecte[]) => {
   try {
     const reponse = (await instanceAxios.post(`mission/collecte_missionFinished?id=${idordermission}`, data , {
@@ -57,7 +73,6 @@ export function useEnqueteFinished() {
     }
   })
 }
-
 
 const EnvoyePvinfraction = async (idorderdemission : number , file : File) => {
   try {
@@ -243,6 +258,38 @@ export function useValidateOrdermission() {
     }
   })
 }
+
+const OrdermissionValidateDgdmt = async (idordermission:number ) => {
+  try {
+    const reponse = (await instanceAxios.get(`mission/validation_demande_dt?idorderdemission=${idordermission}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+      .data?.object;
+    return reponse;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function useValidateOrdermissionDgdmt() {
+  const queryclient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ idordermission }: { idordermission: number}) =>  OrdermissionValidateDgdmt(idordermission),
+    onSettled: async (_, error) => {
+      if (error) {
+        console.log(error)
+      } else {
+        queryclient.invalidateQueries({ queryKey: ["order-missions"] });
+      }
+    }
+  })
+}
+
+
+
+
 
 const OrdremissionSave = async (data: Jsonmission) => {
   try {

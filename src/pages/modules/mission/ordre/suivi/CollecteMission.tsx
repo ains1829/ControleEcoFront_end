@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Divider, Input, Tag, theme } from "antd";
+import { Breadcrumb, Button, Divider, Empty, Input, Tag, theme } from "antd";
 import {
   SyncOutlined,
   PlusCircleOutlined,
@@ -92,10 +92,16 @@ function CollecteMission() {
       console.log('idordermission undefined');
     }
   }
-
+  const role = localStorage.getItem('role');
+  let url = "";
+  if (role === 'DR' || role == 'DT') {
+    url = "/suivimission_dr_dt"
+  } else {
+    url = "/suivimission";
+  }
   return (
     <>
-      <Breadcrumb className="font-sans p-2" items={[{ title: 'Mission' }, { title: <Link to={'/suivimission'}>Suivi de mission</Link> }, { title: 'Collecte economique' }]} />
+      <Breadcrumb className="font-sans p-2" items={[{ title: 'Mission' }, { title: <Link to={`${url}`}>Suivi de mission</Link> }, { title: 'Collecte economique' }]} />
       <div
         className="flex flex-col gap-y-2 font-sans"
         style={{
@@ -133,23 +139,24 @@ function CollecteMission() {
                 <span>{ collecte_object?.ordermission.nomdistrict }</span>
               </div>
               <div>
-                <strong>Debut du mission : </strong>
+                <strong>Debut de la mission : </strong>
                 <span>{ collecte_object?.ordermission.debut.toString() }</span>
               </div>
               <div>
-                <strong>Fin du mission : </strong>
+                <strong>Fin de la mission : </strong>
                 <span>
                   { collecte_object?.ordermission.fin != null ? collecte_object?.ordermission.fin.toString() : 'en cours' }
                 </span>
               </div>
               <div className="flex flex-col">
-                <strong className="mb-1">Context</strong>
+                <strong className="mb-1">Contexte</strong>
                 <span>{ collecte_object?.ordermission.context }</span> 
               </div>
             </div>
             <Divider dashed className="font-sans text-xs" > PPN </Divider>
             {
               collecte_object?.statu === 200 ? <Tableppn /> :
+              (role === 'DR' || role === 'DT') ? <Empty /> :
               <form onSubmit={handleSumbit}>
                 <div className="flex flex-col gap-y-4">
                     {inputGroups.map((group) => (
