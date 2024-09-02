@@ -3,10 +3,16 @@ import { usegetSocietebyregion } from "../../../api/mission/Api";
 import C_societe from "./C_societe";
 import Search, { SearchProps } from "antd/es/input/Search";
 import { TransformdataSociete } from "../../../types/societe/SocieteData";
-
+import { useState } from "react";
+import {
+  LeftOutlined,
+  RightOutlined
+} from '@ant-design/icons';
 function Societe() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
-  const societe = usegetSocietebyregion();
+  const [page, setPage] = useState(0);
+  const [search, setSearch] = useState('');
+  const societe = usegetSocietebyregion(page , search);
   if (societe.isPending) {
     return <>loading....</>
   }
@@ -14,8 +20,28 @@ function Societe() {
     return <>error...</>
   }
   const data_societe = TransformdataSociete(societe.data.data)
-  const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log(info?.source, value);
-
+  const onSearch: SearchProps['onSearch'] = (value, _e) => {
+    setPage(0)
+    setSearch(value)
+  };
+  const handleNext = () => {
+    if (societe.data.hasnext) {
+      setPage(page + 1)
+    }
+  }
+  const handlePrevious = () => {
+    if (societe.data.hasprevious) {
+      setPage(page - 1)
+    }
+  }
+  let classNameNext = "bg-gray-400 cursor-not-allowed";
+  let ClassNamePrevious = "bg-gray-400 cursor-not-allowed";
+  if (societe.data.hasnext) {
+    classNameNext = "bg-green-500 cursor-pointer"
+  }
+  if (societe.data.hasprevious) {
+    ClassNamePrevious = "bg-green-500 cursor-pointer"
+  }
   return (
     <>
     <Breadcrumb className="font-sans p-2" items={[{ title: 'Liste' } , {title:'Societe'}]} />
@@ -33,6 +59,25 @@ function Societe() {
           <Search placeholder="Recherche" allowClear onSearch={onSearch} className="w-1/4 font-sans" />
         </div>
         <C_societe data={data_societe} />
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2">
+            <div className={`${ClassNamePrevious} p-2 text-xs items-center text-white rounded-xl font-bold flex gap-2`} onClick={handlePrevious}>
+              <LeftOutlined />
+              <span>
+                Previous
+              </span>
+            </div>
+            <div className={`${classNameNext} bg-green-500 p-2 text-xs items-center text-white rounded-xl font-bold flex gap-2`} onClick={handleNext}>
+              <span>
+                Next
+              </span>
+              <RightOutlined/>
+            </div>
+          </div>
+          <div>
+            <span className="text-xs text-gray-500 font-bold">Page {societe.data.page + 1} de {societe.data.nombrepage}</span>
+          </div>
+        </div>
     </div>
     </>
   )

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 import { Jsonmission } from "../json/mission/Jsonmission";
 import { Jsoncollecte } from "../json/mission/jsoncollecte";
+import { SocieteForm } from "../../types/societe/SocieteForm";
 const SocieteRef = async (idsociete: number) => {
   try {
     const reponse = (await instanceAxios.get(`data/ref_societe?idsociete=${idsociete}`))
@@ -92,6 +93,7 @@ const EnvoyePvinfraction = async (idorderdemission : number , file : File) => {
     console.log(error);
   }
 }
+
 export function useEnquetePvinfraction() {
   const queryclient = useQueryClient();
   return useMutation({
@@ -287,10 +289,6 @@ export function useValidateOrdermissionDgdmt() {
   })
 }
 
-
-
-
-
 const OrdremissionSave = async (data: Jsonmission) => {
   try {
      const reponse = (await instanceAxios.post("mission/demandeordre", data , {
@@ -313,6 +311,33 @@ export function useSaveMission() {
         console.log(error)
       } else {
         await queryclient.invalidateQueries({ queryKey : ["order-missions-user"]})
+      }
+    }
+  })
+}
+
+const SaveSociete = async (data: SocieteForm) => {
+  try {
+     const reponse = (await instanceAxios.post("scomadminstration/newSociete", data , {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+     }));
+    return reponse;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function useSaveSociete() {
+  const queryclient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: SocieteForm) => SaveSociete(data),
+    onSettled: async (_, error) => {
+      if (error) {
+        console.log(error)
+      } else {
+        await queryclient.invalidateQueries({queryKey:["societeglobalpagination" , 0 , '' , 0]})
       }
     }
   })

@@ -13,6 +13,10 @@ const C_societe = ({data} : {data : Societedata[]}) => {
     setSociete(Number(data.key))
     setOpen(true);
   }
+  const truncateText = (text: string) => {
+    let maxlength = 50;
+    return text.length > maxlength ? `${text.slice(0, maxlength)}...` : text;
+  };
   const columns: TableColumnsType<Societedata>  = [
     {
       title: <span className='font-sans'>Nom Société</span>,
@@ -31,7 +35,7 @@ const C_societe = ({data} : {data : Societedata[]}) => {
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      render: (text) => <span className='font-sans'>{text }</span>
+      render: (text) => <span className='font-sans'>{truncateText(text) }</span>
     },
     {
       title:  <span className='font-sans'>NIF</span>,

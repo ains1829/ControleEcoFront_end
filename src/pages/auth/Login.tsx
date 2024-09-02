@@ -19,7 +19,10 @@ const Login : FC = () => {
         navigate("/dashboardsg");
       } else if (localStorage.getItem('role') === "DR" || localStorage.getItem('role') === "DT") {
         navigate("/ordredemissiondr")
-      } else {
+      } else if (localStorage.getItem('role') === "DSI") {
+        navigate("/ppnglobal")
+      }
+      else {
         navigate("/suivimission")
       }
     } else {

@@ -41,9 +41,9 @@ function Mission({ data }: { data: Ordredemission }) {
     console.log(e);
   };
   const truncateText = (text: string) => {
-  let maxlength = 35;
-  return text.length > maxlength ? `${text.slice(0, maxlength)}...` : text;
-};
+    let maxlength = 35;
+    return text.length > maxlength ? `${text.slice(0, maxlength)}...` : text;
+  };
   const [open, setOpen] = useState(false);
   return (
     <>

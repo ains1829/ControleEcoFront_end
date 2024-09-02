@@ -14,6 +14,7 @@ import ContentSuividrdt from "./pages/modules/mission/ordre/ContentSuividrdt"
 import Societe from "./pages/modules/pmter/Societe"
 import Calendar from "./pages/modules/mission/ordre/Calendar"
 import Administration from "./pages/modules/administration/AdministrationPage"
+import Societeglobal from "./pages/modules/pmter/Societeglobal"
 function App() {
   return (
     <>
@@ -23,6 +24,7 @@ function App() {
           <Route path="/dashboardsg" element={<Missionboard />}></Route>
           <Route path="/missionnaire" element={<Administration />}></Route>
           <Route path="/societe" element={<Societe />}></Route>
+          <Route path="/societeglobal" element={<Societeglobal />}></Route>
           <Route path="/calendar" element={<Calendar />}></Route>
           <Route path="/ppnglobal" element={<Ppnboard />}></Route>
           <Route path="/ordredemission" element={<Ordermission />} />
