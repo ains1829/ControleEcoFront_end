@@ -1,14 +1,46 @@
-import { Avatar, Divider, Tooltip } from "antd";
+import { Avatar, Divider, Dropdown, MenuProps, Tooltip } from "antd";
 import {
   UserOutlined,
-  AntDesignOutlined
+  AntDesignOutlined,
+  MoreOutlined,
+  EditOutlined,
+  DeleteOutlined
 } from '@ant-design/icons';
 function Equipe() {
+  const handleClick = () => {
+    alert('modifier')
+  }
+  const items: MenuProps['items'] = [
+  {
+    key: '1',
+      label: (
+      <div className="flex  font-sans mb-1" onClick={handleClick}>
+        <EditOutlined />
+        <span className="text-xs ml-2">Modifier</span>
+      </div>
+    ),
+  },
+  {
+    key: '2',
+    label: (
+      <div className="flex  font-sans">
+        <DeleteOutlined />
+        <span className="text-xs ml-2">Supprimer</span>
+      </div>
+    ),
+  }
+];
+
   return (
     <>
       <div className="flex flex-col p-3 shadow-lg rounded-lg">
         <div className="flex flex-col gap-y-4">
-            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" size={"large"}/>
+          <div className="flex justify-between">
+            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" size={"large"} />
+            <Dropdown menu={{ items }} placement="bottom" arrow={{ pointAtCenter: true }}>
+              <MoreOutlined className="cursor-pointer"/>
+            </Dropdown>
+          </div>
           <div className="flex flex-col gap-y-1">
             <span className="font-bold">RAKOTONAVALONA Andy</span>
           </div>
