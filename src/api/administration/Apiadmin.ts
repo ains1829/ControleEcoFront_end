@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 
-const Missionnaire = async () => {
+const Missionnaire = async (page: number, search: string) => {
   try {
-    const reponse = (await instanceAxios.get("scomadminstration/getmissionnairebyregion" , {
+    const reponse = (await instanceAxios.get(`scomadminstration/getmissionnairebyregion?page=${page}&text=${search}` , {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
@@ -13,9 +13,9 @@ const Missionnaire = async () => {
     console.log(error);
   }
 }
-export function usegetMissionnaire() {
+export function usegetMissionnaire(page:number , search:string) {
   return useQuery({
-    queryKey: ["getmissionnairebyregion"],
-    queryFn:Missionnaire
+    queryKey: ["getmissionnairebyregion" , page,search],
+    queryFn:()=>Missionnaire(page,search)
   })
 }

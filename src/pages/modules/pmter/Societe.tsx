@@ -67,7 +67,7 @@ function Societe() {
                 Previous
               </span>
             </div>
-            <div className={`${classNameNext} bg-green-500 p-2 text-xs items-center text-white rounded-xl font-bold flex gap-2`} onClick={handleNext}>
+            <div className={`${classNameNext} p-2 text-xs items-center text-white rounded-xl font-bold flex gap-2`} onClick={handleNext}>
               <span>
                 Next
               </span>

@@ -97,8 +97,6 @@ export function usegetOrdermissionByEquipe() {
     queryFn : OrdremissionByEquipe ,
   })
 }
-
-
 const getEquipeByRegion = async () => {
   try {
     const reponse = (await instanceAxios.get("scomadminstration/equipebyregion" , {
