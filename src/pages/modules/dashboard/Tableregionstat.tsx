@@ -1,9 +1,9 @@
 import { Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
-import { useEnqueteregionglobal } from '../../../api/dashboard/Statistique';
-import { Statregion, TransFormDataStat } from '../../../types/stat/Statregion';
+import {useStatbyregionbytypemission } from '../../../api/dashboard/Statistique';
+import { Statregiontype, TransFormStatRegion } from '../../../types/stat/Statregiontype';
 
-const columns: TableColumnsType<Statregion> = [
+const columns: TableColumnsType<Statregiontype> = [
   {
     title:<span className='font-sans'>Region</span>,
     dataIndex: 'nameregion',
@@ -51,7 +51,7 @@ const columns: TableColumnsType<Statregion> = [
   },
   {
     title: <span className='font-sans'>Enquete total</span>,
-    dataIndex : 't_enquete',
+    dataIndex : 't_mission',
     render: (text) =>
       <span className='font-sans'>{text}</span>
   },
@@ -68,39 +68,25 @@ const columns: TableColumnsType<Statregion> = [
     sorter: (a, b) => a.fini - b.fini,
     render: (text) =>
       <span className='font-sans'>{text}</span>
-  },
-  {
-    title: <span className='font-sans'>Conforme</span>,
-    dataIndex: 'clean',
-    sorter: (a, b) => a.clean - b.clean,
-    render: (text) =>
-      <span className='font-sans'>{text}</span>
-  },
-  {
-    title: <span className='font-sans'>Infraction</span>,
-    dataIndex: 'infraction',
-    sorter: (a, b) => a.infraction - b.infraction,
-    render: (text) =>
-      <span className='font-sans'>{text}</span>
-  },
+  }
 ];
 
-const onChange: TableProps<Statregion>['onChange'] = (pagination, filters, sorter, extra) => {
+const onChange: TableProps<Statregiontype>['onChange'] = (pagination, filters, sorter, extra) => {
   console.log('params', pagination, filters, sorter, extra);
 };
 
-function Tableregion({date} : {date : number}) {
-  const data_region = useEnqueteregionglobal(date);
+function Tableregionstat({typemission ,  date} : {typemission:number , date : number}) {
+  const data_region = useStatbyregionbytypemission(typemission,date);
   if (data_region.isPending) {
     return <>loading....</>
   }
   if (data_region.isError) {
     return<>Error...</>
   }
-  const data_stat_region = TransFormDataStat(data_region.data);
+  const data_stat_region = TransFormStatRegion(data_region.data);
   return (
     <Table columns={columns} dataSource={data_stat_region} onChange={onChange} pagination={false} />
   )
 }
 
-export default Tableregion;
+export default Tableregionstat;

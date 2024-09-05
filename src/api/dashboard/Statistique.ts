@@ -1,5 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
+
+const statbyregionbytypemission = async (typemission:number , anne:number) => {
+  try {    
+    const reponse = (await instanceAxios.get(`statistique/missionbyregionbytypemission?typemission=${typemission}&annee=${anne}`, {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+    return reponse.data?.object;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function useStatbyregionbytypemission(typemission:number , annee:number) {
+  return useQuery({
+    queryKey: ['missionbyregionbytypemission' , typemission , annee],
+    queryFn : ()=>statbyregionbytypemission(typemission ,annee) 
+  })
+}
+
+
+
 const OMvalidation = async () => {
   try {    
     const reponse = (await instanceAxios.get(`statistique/om_stat`, {
