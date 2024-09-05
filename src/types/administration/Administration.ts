@@ -7,6 +7,7 @@ export interface Administration{
   profil: string;
   photo: string;
   addresse: string;
+  region: string;
 }
 export const TransformDataAdministration = (data: any[]): Administration[] => {
   return data.map(item => ({
@@ -17,6 +18,7 @@ export const TransformDataAdministration = (data: any[]): Administration[] => {
     telephone: item.telephone,
     profil: item.profil.description,
     photo: item.photo,
-    addresse:item.addresse
+    addresse: item.addresse,
+    region:item.region.nameregion
   }))
 }

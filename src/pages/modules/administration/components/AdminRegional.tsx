@@ -1,49 +1,28 @@
-import { Breadcrumb, Table, TableColumnsType, theme } from "antd";
-import { usegetMissionnaire } from "../../../api/administration/Apiadmin";
-import { Administration, TransformDataAdministration } from "../../../types/administration/Administration";
-import ContentEquipe from "./ContentEquipe";
+import { Table, TableColumnsType, theme } from "antd";
+import { usegetDirecteur } from "../../../../api/mission/Apipublic";
+import { useState } from "react";
+import { Administration, TransformDataAdministration } from "../../../../types/administration/Administration";
 import {
   LeftOutlined,
   RightOutlined
 } from '@ant-design/icons';
-import { useState } from "react";
-import Search, { SearchProps } from "antd/es/input/Search";
-function AdministrationPage() {
+function AdminRegional() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
-  const [page, setPage] = useState(0);
-  const [search, setSearch] = useState('');
-  const data = usegetMissionnaire(page,search);
-  if (data.isPending) {
+  const [page , setPage] = useState(0)
+  const Directeur = usegetDirecteur(page);
+  if (Directeur.isPending) {
     return <>loading...</>
   }
-  if (data.isError) {
-    return<>errorr...</>
+  if (Directeur.isError) {
+    return <>Erreur...</>
   }
-  const handleNext = () => {
-    if (data.data.hasnext) {
-      setPage(page + 1)
-    }
-  }
-  const handlePrevious = () => {
-    if (data.data.hasprevious) {
-      setPage(page - 1)
-    }
-  }
-  const onSearch: SearchProps['onSearch'] = (value, _e) => {
-    if (value.trim().length === 0) {
-      setSearch('')
-      setPage(0)
-    } else {
-      setPage(0);
-      setSearch(value)
-    }
-  };
+  const directeur_data = TransformDataAdministration(Directeur.data.data);
   const columns: TableColumnsType<Administration> = [
     {
       title: <span className="font-sans">Nom</span>,
       dataIndex: 'name',
       key: 'name',
-      width:'35%',
+      width:'25%',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
@@ -86,6 +65,15 @@ function AdministrationPage() {
       render: (text) => <span className='font-sans'>{text}</span>
     },
     {
+      title: <span className="font-sans">Region</span>,
+      dataIndex: 'region',
+      key:'region',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+      render: (text) => <span className='font-sans'>{text}</span>
+    },
+    {
       title: <span className="font-sans">Addresse</span>,
       dataIndex: 'addresse',
       key: 'addresse',
@@ -95,20 +83,27 @@ function AdministrationPage() {
       render: (text) => <span className='font-sans'>{text}</span>
     }
   ]
-  const data_missionnaire = TransformDataAdministration(data.data.data)
+  const handleNext = () => {
+    if (Directeur.data.hasnext) {
+      setPage(page + 1)
+    }
+  }
+  const handlePrevious = () => {
+    if (Directeur.data.hasprevious) {
+      setPage(page - 1)
+    }
+  }
   let classNameNext = "bg-gray-400 cursor-not-allowed";
   let ClassNamePrevious = "bg-gray-400 cursor-not-allowed";
-  if (data.data.hasnext) {
+  if (Directeur.data.hasnext) {
     classNameNext = "bg-green-500 cursor-pointer"
   }
-  if (data.data.hasprevious) {
+  if (Directeur.data.hasprevious) {
     ClassNamePrevious = "bg-green-500 cursor-pointer"
   }
   return (
     <>
-      <Breadcrumb className="font-sans p-2" items={[{ title: 'Liste' }, { title: 'Membre' }]} />
-      <div className="flex flex-col gap-y-3">
-        <div
+      <div
         className="flex flex-col gap-y-2 font-sans"
         style={{
           padding: 24,
@@ -116,13 +111,12 @@ function AdministrationPage() {
           background: colorBgContainer,
           borderRadius: borderRadiusLG,
         }}
-        > 
-          <div className="flex justify-between items-center">
-            <span className="text-xl font-bold" >Membres.</span>
-            <Search placeholder="Recherche" allowClear onSearch={onSearch} className="w-1/4 font-sans" />
+      >
+        <div className="flex justify-between items-center">
+            <span className="text-xl font-bold" >Regional.</span>
           </div>
-          <Table columns={columns} dataSource={data_missionnaire} pagination={false} />
-          <div className="flex justify-between items-center">
+        <Table columns={columns} dataSource={directeur_data} pagination={false} />
+        <div className="flex justify-between items-center">
             <div className="flex gap-2">
               <div className={`${ClassNamePrevious} p-2 text-xs items-center text-white rounded-xl font-bold flex gap-2`} onClick={handlePrevious}>
                 <LeftOutlined />
@@ -138,23 +132,11 @@ function AdministrationPage() {
               </div>
             </div>
             <div>
-              <span className="text-xs text-gray-500 font-bold">Page {data.data.page + 1} de {data.data.nombrepage}</span>
+              <span className="text-xs text-gray-500 font-bold">Page {Directeur.data.page + 1} de {Directeur.data.nombrepage}</span>
             </div>
           </div>
-        </div>
-        <div
-        className="flex flex-col gap-y-2 font-sans"
-        style={{
-          padding: 24,
-          minHeight: 360,
-          background: colorBgContainer,
-          borderRadius: borderRadiusLG,
-        }}
-        > 
-          <ContentEquipe />
-        </div>
       </div>
     </>
   )
 }
-export default AdministrationPage;
+export default AdminRegional;

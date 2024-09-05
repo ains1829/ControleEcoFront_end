@@ -1,9 +1,9 @@
 import { Table, TableColumnsType, TableProps, theme } from "antd";
-import { useRegionProvince } from "../../../../api/dashboard/PpnStat";
-import { Statppn, TransFormPpnRegion } from "../../../../types/stat/Statppn";
+import {useRegionProvincebydirecteur } from "../../../../../api/dashboard/PpnStat";
+import { Statppn, TransFormPpnRegion } from "../../../../../types/stat/Statppn";
 
-function Provinceregion({province , product,mois , annee} : {province:number , product:number , mois:number, annee:number}) {
-  const ppnregion = useRegionProvince(province, product, mois, annee);
+function Provinceregional({product,mois , annee} : {product:number , mois:number, annee:number}) {
+  const ppnregion = useRegionProvincebydirecteur(product, mois, annee);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (ppnregion.isPending) {
     return <>loading...</>
@@ -74,4 +74,4 @@ function Provinceregion({province , product,mois , annee} : {province:number , p
     
   )
 }
-export default Provinceregion;
+export default Provinceregional;

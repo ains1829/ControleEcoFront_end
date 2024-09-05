@@ -13,7 +13,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { usePpnAnne } from "../../../../api/dashboard/PpnStat";
+import {usePpnAnnebydirecteur } from "../../../../../api/dashboard/PpnStat";
 import { useState } from "react";
 ChartJS.register(
   CategoryScale,
@@ -24,12 +24,12 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-function Evoluation({province , product,annee} : {province:number,product:number,annee:number}) {
+function Evoluationbyregion({product,annee} : {product:number,annee:number}) {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const [date1, setDate1] = useState(annee);
   const [date2, setDate2] = useState(0);
   const [choix, setChoix] = useState(true);
-  const ppn = usePpnAnne(province, product, choix, date1, date2);
+  const ppn = usePpnAnnebydirecteur(product, choix, date1, date2);
   const { RangePicker } = DatePicker;
   const onYearRangeChange = async (dates:any, _:any) => {
     if (dates) {
@@ -149,4 +149,4 @@ const data = {
     </div>
   )
 }
-export default Evoluation;
+export default Evoluationbyregion;

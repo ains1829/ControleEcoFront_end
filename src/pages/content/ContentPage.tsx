@@ -42,6 +42,8 @@ function ContentPage() {
   if (role === "DSI") {
     item_menu.push(getItem(<Link to="/ppnglobal">PPN</Link>, '1'))
     item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '2', <ScheduleOutlined />))
+    item_menu.push(getItem(<Link to="/administration">Administration</Link> , '3' , <ScheduleOutlined />))
+    item_menu.push(getItem(<Link to="#">Missionnaire</Link> , '4' , <ScheduleOutlined />))
   }
   if (role === "DR" || role === "DT") {
     item_menu.push(
@@ -51,7 +53,9 @@ function ContentPage() {
       ]))
     item_menu.push(getItem(<Link to="/calendar">Agenda</Link> , '4' , <CalendarOutlined />))
     item_menu.push(getItem(<Link to="/societe">Societe</Link>, '3', <ScheduleOutlined />))
-    item_menu.push(getItem(<Link to="/missionnaire">Missionnaire</Link> , '5' , <ScheduleOutlined />))
+    item_menu.push(getItem(<Link to="/missionnaire">Missionnaire</Link>, '5', <ScheduleOutlined />))
+    
+    item_menu.push(getItem(<Link to="/ppnregion">Ppn</Link> , '6' , <ScheduleOutlined />))
   }
   if (role === "CH") {
     item_menu.push(
