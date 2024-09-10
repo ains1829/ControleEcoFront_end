@@ -2,18 +2,17 @@ import { useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 import type { UploadFile, UploadProps } from 'antd';
-import { useEnqueteConvocation } from '../../../../../../api/mission/Apiordremission';
+import { useEnvoyeRapport } from '../../../../../../api/mission/Apiordremission';
 
-function UploadConvocation({idordermission} : {idordermission : number} ) {
+function Uploadrapport({idordermission} : {idordermission : number} ) {
   const [file, setFile] = useState<UploadFile | null>(null);
   const [uploading, setUploading] = useState(false);
   const [ispdf, setIspdf] = useState(false);
-  const envoyer = useEnqueteConvocation();
+  const envoyer = useEnvoyeRapport();
   const handleUpload = async () => {
     setUploading(true);
     const file_upload = file as unknown as File;
-    const reponse = await envoyer.mutateAsync({ idordermission: idordermission, fiche: file_upload});
-    console.log(reponse);
+    const reponse = await envoyer.mutateAsync({ idordermission: idordermission, rapport: file_upload});
     if (reponse.status === 200 ) {
       setUploading(false);
     } else {
@@ -42,9 +41,8 @@ function UploadConvocation({idordermission} : {idordermission : number} ) {
   return (
     <>
       <Upload {...props}>
-        <div className='flex items-center' style={{cursor:'pointer'}}>
-          <span className='font-sans'>Fichier en pdf  : </span>  
-          <Button className='ml-2' icon={<UploadOutlined />}>Fiche Technique</Button>
+        <div className='flex items-center mb-2' style={{cursor:'pointer'}}> 
+          <Button className='ml-2' icon={<UploadOutlined />}>Joindre fichier</Button>
         </div>
       </Upload>
       <Button
@@ -52,8 +50,7 @@ function UploadConvocation({idordermission} : {idordermission : number} ) {
         onClick={handleUpload}
         disabled={file === null || ispdf == false}
         loading={uploading}
-        style={{ marginTop: 16, marginLeft:'auto'}}
-        className='flex font-sans  w-1/4'
+        className='flex font-sans'
       >
         {uploading ? 'Uploading' : 'Envoyer'}
       </Button>
@@ -61,4 +58,4 @@ function UploadConvocation({idordermission} : {idordermission : number} ) {
   );
 };
 
-export default UploadConvocation;
+export default Uploadrapport;

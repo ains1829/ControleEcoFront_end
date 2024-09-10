@@ -39,6 +39,24 @@ export function useStatMissionByEquipe() {
   })
 }
 
+const Autresuivibyordermission = async (idmission: number) => {
+    try {
+    const reponse = (await instanceAxios.get(`mission/autresuivibyordermission?idordermission=${idmission}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }));
+    return reponse.data?.object;
+  } catch (error) {
+    console.log(error)
+  }
+}
+export function useAutresuivibyordermission(idmission : number) {
+  return useQuery({
+    queryKey: ["autresuivibyordermission", idmission],
+    queryFn:() => Autresuivibyordermission(idmission)
+ }) 
+}
 const CollecteMissionByEquipe = async (idmission : number) => {
   try {
     const reponse = (await instanceAxios.get(`mission/collectebyordermission?idordermission=${idmission}`, {

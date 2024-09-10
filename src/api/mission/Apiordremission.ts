@@ -74,7 +74,37 @@ export function useEnqueteFinished() {
     }
   })
 }
-
+const EnvoyeRapport = async (idordermission: number, file: File) => {
+   try {
+    const formData = new FormData();
+    formData.append('idordermission', idordermission.toString());
+    formData.append('rapport', file);
+    console.log(file)
+    const reponse = (await instanceAxios.post('mission/autresuivi_finished', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+      .data;
+    return reponse;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function useEnvoyeRapport() {
+  const queryclient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ idordermission, rapport }: { idordermission: number, rapport: File }) => EnvoyeRapport(idordermission, rapport),
+    onSettled: async (_, error,variables) => {
+      if (error) {
+        console.log(error)
+      } else {
+        queryclient.invalidateQueries({queryKey:["autresuivibyordermission" , variables.idordermission]})
+      }
+    }
+  })
+}
 const EnvoyePvinfraction = async (idorderdemission : number , file : File) => {
   try {
     const formData = new FormData();

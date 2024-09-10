@@ -11,7 +11,7 @@ const GroupedBarChart = () => {
       {
         label: 'Infraction',
         data: [3, 4, 2, 0, 3, 2, 4, 3, 5, 6, 2, 4], // Remplacez par vos données
-        backgroundColor: '#4F1787',
+        backgroundColor: '#e74c3c',
       }
     ]
   }
@@ -28,7 +28,7 @@ const GroupedBarChart = () => {
   return (
     <div>
       <div className='flex'>
-        <span className='font-sans font-bold'>Nombre d'infractions constatées par mois</span>
+        <span className='font-sans font-bold'>Visualisation du Nombre de Signalements par Mois</span>
       </div>
       <Bar data={data} options={options} />
     </div>

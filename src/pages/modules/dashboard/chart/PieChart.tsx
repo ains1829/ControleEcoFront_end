@@ -1,43 +1,71 @@
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+import { Divider } from 'antd';
 
-// Enregistrer les composants nécessaires pour Chart.js
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 function PieChart() {
-  const data_pie = {
-    labels: ['Enquete', 'Collecte' , 'Autre suivi'],
+const data_pie = {
+    labels: ['Produit Périmé', 'Affichage Non Conforme', 'Autre'],
     datasets: [
-      {
-        label: 'Répartition des Missions',
-        data: [2, 5, 1], // Remplacez ces valeurs par les données dynamiques
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(255, 99, 132, 0.2)',
-          'blue'
-        ],
-        borderWidth: 1
-      }
+        {
+            label: 'Répartition des Anomalies',
+            data: [10, 7, 5], // Remplacez par les données réelles
+            backgroundColor: [
+                '#ff4d4f', // Couleur pour "Produit Périmé"
+                '#f39c12', // Couleur pour "Affichage Non Conforme"
+                '#3498db'  // Couleur pour "Autre"
+            ]
+        }
     ]
-  };
+};
 
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        display:false
       },
+
       tooltip: {
         callbacks: {
           label: function(tooltipItem:any) {
-            return `${tooltipItem.label}: ${tooltipItem.raw}`;
+            return`${tooltipItem.label} :  ${tooltipItem.raw}`;
           }
         }
       }
     }
   };
   return (
-    <Pie data={data_pie} options={options} />
-    
+    <div className='flex flex-col font-sans'>
+      <span className='font-sans font-bold'>Répartition des anomalies</span>
+      <div className='mt-10'>
+        <Pie data={data_pie} options={options} />
+      </div>
+      <Divider dashed />
+      <div className='flex flex-col gap-y-5'>
+        <div className='flex justify-between items-center'>
+          <div className='flex gap-4 items-center'>
+            <span style={{minHeight:10, minWidth:50, padding:10, background:'#ff4d4f'}}></span>
+            <span>Produit perimer</span>
+          </div>
+          <span>10</span>
+        </div>
+        <div className='flex justify-between items-center'>
+          <div className='flex gap-4 items-center'>
+            <span style={{minHeight:10, minWidth:50, padding:10, background:'#f77f00'}}></span>
+            <span>Affichage Non Conforme</span>
+          </div>
+          <span>10</span>
+        </div>
+        <div className='flex justify-between items-center'>
+          <div className='flex gap-4 items-center'>
+            <span style={{minHeight:10, minWidth:50, padding:10, background:'rgba(153, 102, 255, 0.2)'}}></span>
+            <span>Autre</span>
+          </div>
+          <span>10</span>
+        </div>
+      </div>
+    </div>
   )
 
 }

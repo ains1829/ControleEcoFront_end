@@ -1,6 +1,25 @@
 import { useQuery } from "@tanstack/react-query"
 import { instanceAxios } from "../axios/Theaxios";
-export const getOrdermissionByUser = async () => {
+const getFeedback = async (idorderdemission:number) => {
+  try {
+    const reponse = (await instanceAxios.get(`mission/feedback_content?idordermission=${idorderdemission} `, {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    })).data?.object;
+    return reponse;
+  } catch (error) {
+    
+  }
+}
+export function usegetFeedback(idorderdemission : number) {
+  return useQuery({
+    queryKey: ["feedback"], 
+    queryFn:()=>getFeedback(idorderdemission)
+  })
+}
+
+const getOrdermissionByUser = async () => {
   try {
     const reponse = (await instanceAxios.get("mission/OrderMissionAllbydrdt", {
       headers: {
@@ -23,9 +42,9 @@ export function usegetOrdermissionByUser() {
     // refetchOnReconnect: false,
   })
 }
-export const getOrdermission = async () => {
+const getOrdermission = async (page:number,filtre:number,text:string) => {
   try {
-    const reponse = (await instanceAxios.get("mission/OrderMissionAll", {
+    const reponse = (await instanceAxios.get(`mission/OrderMissionAll?pagenumber=${page}&filter=${filtre}&text=${text}`, {
       headers: {
         "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
@@ -35,57 +54,10 @@ export const getOrdermission = async () => {
     console.log('ERROR FETCHING ORDER MISSION:' , error)
   }
 }
-export function usegetOrdermission() {
+export function usegetOrdermission(page:number , filter:number,text:string) {
   return useQuery({
-    queryKey: ["order-missions"],
-    queryFn: getOrdermission,
-    // staleTime: Infinity,
-    // gcTime: Infinity,
-    // refetchOnWindowFocus: false,
-    // refetchOnMount: false,
-    // refetchOnReconnect: false,
-  })
-}
-export const getOrdermissionValider = async () => {
-  try {
-    const reponse = (await instanceAxios.get("mission/OrderMissionValider", {
-      headers: {
-        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
-      }
-    })).data?.object;
-    console.log(reponse);
-    return reponse
-  } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:' , error)
-  }
-}
-export function usegetOrdermissionValider() {
-  return useQuery({
-    queryKey: ["order-missions-valider"],
-    queryFn: getOrdermissionValider,
-    // staleTime: Infinity,
-    // gcTime: Infinity,
-    // refetchOnWindowFocus: false,
-    // refetchOnMount: false,
-    // refetchOnReconnect: false,
-  })
-}
-export const getOrdermissionNonValider = async () => {
-  try {
-    const reponse = (await instanceAxios.get("mission/OrderMissionNonValider", {
-      headers: {
-        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
-      }
-    })).data?.object;
-    return reponse
-  } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:' , error)
-  }
-}
-export function usegetOrdermissionNonValider() {
-  return useQuery({
-    queryKey: ["order-missions-nonvalider"],
-    queryFn: getOrdermissionNonValider,
+    queryKey: ["order-missions" , page,filter,text],
+    queryFn: ()=>getOrdermission(page,filter,text),
     // staleTime: Infinity,
     // gcTime: Infinity,
     // refetchOnWindowFocus: false,

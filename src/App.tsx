@@ -17,6 +17,8 @@ import Administrationpage from "./pages/modules/administration/AdministrationPag
 import Societeglobal from "./pages/modules/pmter/Societeglobal"
 import Administration from "./pages/modules/administration/Adminpage"
 import Ppnboardregional from "./pages/modules/dashboard/Ppnboardregional"
+import Autresuivi from "./pages/modules/mission/ordre/suivi/Autresuivi"
+import Signalement from "./pages/modules/dashboard/stat/Signalement"
 function App() {
   return (
     <>
@@ -24,6 +26,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route element={<ContentPage />}> 
           <Route path="/dashboardsg" element={<Missionboard />}></Route>
+          <Route path="/signalement" element={<Signalement />}></Route>
           <Route path="/missionnaire" element={<Administrationpage />}></Route>
           <Route path="/societe" element={<Societe />}></Route>
           <Route path="/societeglobal" element={<Societeglobal />}></Route>
@@ -35,6 +38,7 @@ function App() {
           <Route path="/suivimission" element={<ContentSuivi />} />
           <Route path="/suivimission_dr_dt" element={<ContentSuividrdt />} />
           <Route path="/enquete/:id" element={<EnqueteMission />} />
+          <Route path="/autresuivi/:id" element={<Autresuivi />} />
           <Route path="/collecteeconomique/:id" element={<CollecteMission />} />
           <Route path="/administration" element={<Administration />} />
         </Route>

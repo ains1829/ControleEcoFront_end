@@ -61,8 +61,14 @@ export function Missionboard() {
           }}
       > 
         <div className="flex justify-between">
-          <span className="text-sm font-bold">DASHBOARD</span>
-          <DatePicker onChange={onChange} picker="year" />
+          <div className="flex flex-col gap-y-1">
+            <span className="text-sm font-bold">DASHBOARD</span>
+            <span className="text-xs text-gray-500">(annee : {date_actuelle })</span>
+          </div>
+          <div className="flex gap-4 items-center">
+            <span className="font-bold">Date:</span>
+            <DatePicker onChange={onChange} picker="year" />
+          </div>
         </div>
         <Divider dashed />
         <div className="flex flex-col font-sans">

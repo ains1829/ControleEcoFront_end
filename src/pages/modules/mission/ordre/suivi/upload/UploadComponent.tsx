@@ -27,12 +27,12 @@ function UploadComponent({idordermission} : {idordermission : number} ) {
       setIspdf(false);
     },
     beforeUpload: (file) => {
-      setFile(file)
       const isPNG = file.type === 'application/pdf';
       if (!isPNG) {
         message.error(`${file.name} is not a pdf file`);
         setIspdf(false)
       } else {
+        setFile(file)
         setIspdf(true)
       }
       return false;

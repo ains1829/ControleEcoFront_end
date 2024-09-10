@@ -1,6 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 
+const statbyprogressiongbyregion = async (anne:number) => {
+  try {    
+    const reponse = (await instanceAxios.get(`statistique/missionprogressingbyregion?annee=${anne}`, {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+    return reponse.data?.object;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function useStatbyprogressiongbyregion(annee:number) {
+  return useQuery({
+    queryKey: ['missionprogressingbyregion' ,annee],
+    queryFn : ()=>statbyprogressiongbyregion(annee) 
+  })
+}
+
 const statbyregionbytypemission = async (typemission:number , anne:number) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique/missionbyregionbytypemission?typemission=${typemission}&annee=${anne}`, {
@@ -19,8 +38,6 @@ export function useStatbyregionbytypemission(typemission:number , annee:number) 
     queryFn : ()=>statbyregionbytypemission(typemission ,annee) 
   })
 }
-
-
 
 const OMvalidation = async () => {
   try {    

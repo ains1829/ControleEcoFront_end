@@ -18,6 +18,7 @@ export interface Ordredemission{
   detailequipe: Equipe[];
   status: number;
   urlfile: string;
+  numeroserie: string;
   
 }
 export const TransFormData = (data : any[]) : Ordredemission[] => {
@@ -38,7 +39,8 @@ export const TransFormData = (data : any[]) : Ordredemission[] => {
     status: item.status_validation,
     dateordre: item.dateorder,
     fin: item.dateorderend,
-    urlfile : item.fileordermission
+    urlfile: item.fileordermission,
+    numeroserie:item.numeroserie
   }))
 }
 export const TransFormDataOnData = (data : any) : Ordredemission => {
@@ -59,6 +61,7 @@ export const TransFormDataOnData = (data : any) : Ordredemission => {
     status: data.status_validation,
     dateordre: data.dateorder,
     fin: data.dateorderend,
-    urlfile : data.fileordermission
+    urlfile : data.fileordermission,
+    numeroserie:data.numeroserie
   }
 }

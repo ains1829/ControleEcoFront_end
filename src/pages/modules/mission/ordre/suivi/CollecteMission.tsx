@@ -14,6 +14,7 @@ import { TransformdataCollecte } from "../../../../../types/mission/suivi/Collec
 import { useCollecteFinished } from "../../../../../api/mission/Apiordremission";
 import { Jsoncollecte } from "../../../../../api/json/mission/jsoncollecte";
 import Tableppn from "./Tableppn";
+import Feedback from "./Feedback";
 export interface InputGroup {
   id: number;
   nameproduct: string;
@@ -153,10 +154,13 @@ function CollecteMission() {
                 <span>{ collecte_object?.ordermission.context }</span> 
               </div>
             </div>
-            <Divider dashed className="font-sans text-xs" > PPN </Divider>
+            <Divider dashed />
             {
               collecte_object?.statu === 200 ? <Tableppn /> :
-              (role === 'DR' || role === 'DT') ? <Empty /> :
+                (role === 'DR' || role === 'DT') ? <>
+                  <strong>Ppn en cours de collecte</strong>
+                  <Empty />
+                </> :
               <form onSubmit={handleSumbit}>
                 <div className="flex flex-col gap-y-4">
                     {inputGroups.map((group) => (
@@ -201,6 +205,11 @@ function CollecteMission() {
                     </div>
                 </div>
               </form>
+            }
+            <Divider dashed />
+            {
+              role === 'CH' ? '' :
+                <Feedback idordermission={Number(id)} />
             }
           </div>
         </div>

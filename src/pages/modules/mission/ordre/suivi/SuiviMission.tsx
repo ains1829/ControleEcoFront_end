@@ -16,7 +16,7 @@ function SuiviMission({ data }: { data: Ordredemission }) {
     url = `/collecteeconomique/${data.idordermission}`
     bg='bg-blue-200'
   } else if (data.typemission === 3) {
-    url = "/autresuivi"
+    url = `/autresuivi/${data.idordermission}`
     bg = 'bg-yellow-200'
   }
   return (

@@ -14,6 +14,10 @@ function DetailMission({data} : {data:Ordredemission}) {let type_mission;
     <>
       <div className="flex flex-col gap-y-4 detail font-sans">
         <div>
+          <span>Ref : </span>
+          <span className="font-bold text-xs">{data.numeroserie }</span>
+        </div>
+        <div>
           <span>L'origine de la demande : </span>
           <span>{ data.sender }<span className="text-xs">({data.profil})</span> </span>
         </div>

@@ -77,7 +77,7 @@ function Mission({ data }: { data: Ordredemission }) {
       >
       <DetailMission data={data} />
       </Modal>
-      <div className="flex border-b-2 border-gray-100 gap-4 p-5 items-center">
+      <div className="flex border-b-2 border-dotted border-gray-100 gap-4 p-3 items-center">
         <div className="flex-none w-1/4">
           {
             data.typemission === 1 ?

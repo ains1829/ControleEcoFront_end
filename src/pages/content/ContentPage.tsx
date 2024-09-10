@@ -30,11 +30,13 @@ function ContentPage() {
   if (role === "SG" || role === "DG") {
     item_menu.push(getItem('Dashboard', 'sub1', <DesktopOutlined />, [
       getItem(<Link to="/dashboardsg">Ordre</Link>, '1'),
-      getItem(<Link to="/ppnglobal">PPN</Link>, '2')
+      getItem(<Link to="/ppnglobal">PPN</Link>, '2'),
+      getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
     item_menu.push(
       getItem('Mission', 'sub2', <UserOutlined />, [
         getItem(<Link to='/ordredemission'>Ordre de mission</Link>, '3'),
+        getItem(<Link to='/ordredemission'>Recherche</Link>, '5'),
       ])
     )
     item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '4', <ScheduleOutlined />))
@@ -77,7 +79,7 @@ function ContentPage() {
       </Sider>
       <Layout>
         <Header className='flex justify-end' style={{ padding: 0, background: colorBgContainer }} > <Profil /> </Header>
-        <Content  style={{ margin: '0 16px' }}>
+        <Content  style={{ margin: '0 16px' }} className='text-wrap'>
           <Outlet />
         </Content>
       </Layout>

@@ -13,6 +13,7 @@ import UploadConvocation from "./upload/UploadConvocation";
 import Uploadaudition from "./upload/Uploadaudition";
 import Uploadinfraction from "./upload/Uploadinfraction";
 import { useEnqueteFinished } from "../../../../../api/mission/Apiordremission";
+import Feedback from "./Feedback";
 function EnqueteMission() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const { id } = useParams();
@@ -59,7 +60,7 @@ function EnqueteMission() {
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
           }}
-      > 
+        > 
         <div className="flex flex-col">
           <div>
             <div className="flex items-center justify-between">
@@ -98,7 +99,7 @@ function EnqueteMission() {
               </div>
               <div className="flex flex-col">
                 <strong className="mb-1">Context</strong>
-                <span>{ enquete_object.ordermission.context }</span> 
+                <span>{enquete_object.ordermission.context}</span> 
               </div>
             </div>
           </div>
@@ -132,12 +133,16 @@ function EnqueteMission() {
                 },
               ]}
           />
-        <Space>
-          <Button className="font-sans" type="dashed" onClick={()=>setOpen(true)}>
-            Consulter <ArrowRightOutlined />
-          </Button>
-        </Space>
+          <Space>
+            <Button className="font-sans" type="dashed" onClick={()=>setOpen(true)}>
+              Consulter <ArrowRightOutlined />
+            </Button>
+          </Space>
           <Divider dashed />
+          {
+            role === 'CH' ? '' :
+              <Feedback idordermission={enquete_object.ordermission.idordermission}/>
+          }
         </div>
       <Drawer
         title={`Detail Mission`}
@@ -159,7 +164,7 @@ function EnqueteMission() {
           <div className="flex flex-col gap-y-2">
           <div>
             <strong>NB : </strong>
-            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure quae deserunt repudiandae non mollitia</span>
+            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure quae deserunt repudiandae non mollitia lor</span>
           </div>
           <div className="flex flex-col gap-y-1 border-dotted border-2 border-gray-200 p-3 rounded-lg">
             <span className="font-bold mb-1">Fiche technique</span>
@@ -172,25 +177,27 @@ function EnqueteMission() {
                   } 
                 </span>
                 {
-                  role === 'DR' || role === 'DR' ||enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
-                    <UploadComponent idordermission={enquete_object.ordermission.idordermission}/>
+                  role === 'CH' ?
+                    <UploadComponent idordermission={enquete_object.ordermission.idordermission} />
+                  :''
                 }
               </div>
             </div>
             <div className="flex flex-col gap-y-1 border-dotted border-2 border-gray-200 p-3 rounded-lg">
             <span className="font-bold mb-1">Convocation</span>
-            <div className="flex flex-col gap-y-1">
+            <div className="flex flex-col gap-y-2">
               <span><CalendarOutlined /> Date :  {enquete_object.statu < 20 ? 'En attente' : enquete_object.statu === 20 ? 'en cours' : enquete_object.dateconvocation.toString()}</span></div>
               <span>
                 <FileDoneOutlined />
                 Fichier : {enquete_object.statu < 20 ? 'En attente' : enquete_object.statu === 20 ? 'en cours' : <a className="ml-2" style={{color:'blue'}}>{ enquete_object.url_convocation.toString()}</a>}
               </span>
               {
-                role === 'DR' || role === 'DR' || enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
+                role === 'CH' ?
                 <UploadConvocation idordermission={enquete_object.ordermission.idordermission}/>
+                :''
               }
             </div>
-            <div className="flex flex-col gap-y-1 border-dotted border-2 border-gray-200 p-3 rounded-lg">
+            <div className="flex flex-col gap-y-2 border-dotted border-2 border-gray-200 p-3 rounded-lg">
             <span className="font-bold mb-1">PV Audition</span>
               <div className="">
                 <span><CalendarOutlined /> Date :
@@ -203,11 +210,12 @@ function EnqueteMission() {
                   {enquete_object.statu < 30 ? 'En Attente'  : enquete_object.statu === 30 ? 'en cours' : <a className="ml-2" style={{color:'blue'}}>{ enquete_object.urlpvaudition.toString()}</a>}
               </span>
               {
-                role === 'DR' || role === 'DR' || enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
-                  <Uploadaudition idordermission={enquete_object.ordermission.idordermission}/>
+                role === 'CH' ?
+                  <Uploadaudition idordermission={enquete_object.ordermission.idordermission} />
+                :''
               }
             </div>
-            <div className="flex flex-col gap-y-1 border-dotted border-2 border-gray-200 p-3 rounded-lg">
+            <div className="flex flex-col gap-y-2 border-dotted border-2 border-gray-200 p-3 rounded-lg">
             <span className="font-bold mb-1">PV Infraction</span>
               <div className="">
                 <span>
@@ -221,8 +229,8 @@ function EnqueteMission() {
                 {enquete_object.statu < 200 ? 'En Attente' : enquete_object.statu === 200 ? 'en cours' : enquete_object.statu === 210 ? ' Clean ' :  <a className="ml-2" style={{ color: 'blue' }}>{enquete_object.url_pvinfraction.toString()}</a>}
               </span>
               {
-                role === 'DR' || role === 'DR' || enquete_object.statu === 210 || enquete_object.statu === 515 ? '' :
-                  <Uploadinfraction idordermission={enquete_object.ordermission.idordermission}/>
+                role === 'CH' ?
+                  <Uploadinfraction idordermission={enquete_object.ordermission.idordermission}/> :''
               }
           </div>
         </div>
