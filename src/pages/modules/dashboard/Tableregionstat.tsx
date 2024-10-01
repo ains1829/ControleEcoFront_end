@@ -51,7 +51,8 @@ const columns: TableColumnsType<Statregiontype> = [
   },
   {
     title: <span className='font-sans'>Enquete total</span>,
-    dataIndex : 't_mission',
+    dataIndex: 't_mission',
+    sorter:(a,b) => a.t_mission - b.t_mission,
     render: (text) =>
       <span className='font-sans'>{text}</span>
   },

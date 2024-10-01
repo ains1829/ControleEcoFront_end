@@ -1,58 +1,64 @@
 import React from 'react';
 import { Table } from 'antd';
 import type { TableColumnsType } from 'antd';
+import { useDetailCollecte } from '../../../../../api/mission/Apiordremission';
 
 interface PpnType {
   key: React.Key;
   product: string;
   price: number;
-  region: string;
+  obsevation: string;
+  unite: string;
+}
+const TransformdataDetailCollecte = (data: any[]): PpnType[] => {
+  return data.map(item => ({
+    key: item.iddetailcollecte,
+    product: item.product.nameproduct,
+    price: item.prix,
+    obsevation: item.observation,
+    unite:item.product.typeproduct.unite.nameunite
+  }))
 }
 
 const columns: TableColumnsType<PpnType> = [
   {
-    title: 'Product',
+    title: <span className='font-sans'>Produit (PPN)</span> ,
     dataIndex: 'product',
+     onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+    render: (text) => <span className='font-sans'>{text }</span>
   },
   {
-    title: 'Price',
+    title:<span className='font-sans'>Prix</span> ,
     dataIndex: 'price',
+     onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+    render: (text, record) => <span className='font-sans'>{text} Ar / {record.unite}</span>
   },
   {
-    title: 'Region',
-    dataIndex: 'region',
-  },
+    title: <span className='font-sans'>Lieu d'observation</span>,
+    dataIndex: 'obsevation',
+     onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+    render: (text) => <span className='font-sans'>{text }</span>
+  }
 ];
-
-const data: PpnType[] = [
-  {
-    key: '1',
-    product: 'Rice',
-    price: 1500,
-    region: 'Antananarivo',
-  },
-  {
-    key: '2',
-    product: 'Sugar',
-    price: 2200,
-    region: 'Toamasina',
-  },
-  {
-    key: '3',
-    product: 'Oil',
-    price: 4500,
-    region: 'Antsirabe',
-  },
-  {
-    key: '4',
-    product: 'Flour',
-    price: 3000,
-    region: 'Mahajanga',
-  },
-];
-
-const Tableppn: React.FC = () => (
-  <Table columns={columns} dataSource={data} pagination={false} />
-);
+function Tableppn({ idcollecte }: { idcollecte: number }) {
+  const collecte = useDetailCollecte(idcollecte);
+  if (collecte.isPending) {
+    return <>loading...</>
+  }
+  if (collecte.isError) {
+    return <>error...</>
+  }
+  return (
+    <>
+      <Table columns={columns} dataSource={TransformdataDetailCollecte(collecte.data)} pagination={false} />
+    </>
+  )
+}
 
 export default Tableppn;

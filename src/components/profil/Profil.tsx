@@ -5,15 +5,16 @@ import {
 LogoutOutlined
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { UserInstance } from '../../types/administration/Userconnected';
 
 function Profil() {
   const navigate = useNavigate();
+  const role = UserInstance().getRole;
   const handleLogout = () => {
     localStorage.removeItem('role');
     localStorage.removeItem('token-user');
     navigate("/");
   }
-  const role = localStorage.getItem("role");
   const items: MenuProps['items'] = [
     {
       label: <span className='font-sans'>andyRakotonavalona0@gmail.com</span>,

@@ -1,8 +1,7 @@
-import { Button, Drawer, Empty, Space, Table, TableColumnsType } from 'antd';
+import { Avatar, Button, Drawer, Empty, Space, Table, TableColumnsType } from 'antd';
 import { useState } from 'react';
 import { Societedata } from '../../../types/societe/SocieteData';
 import { useSocieteRef } from '../../../api/mission/Apiordremission';
-
 const C_societe = ({data} : {data : Societedata[]}) => {
   const [open, setOpen] = useState(false);
   const [data_societe, setdatasociete] = useState<Societedata>();
@@ -17,7 +16,16 @@ const C_societe = ({data} : {data : Societedata[]}) => {
     let maxlength = 50;
     return text.length > maxlength ? `${text.slice(0, maxlength)}...` : text;
   };
-  const columns: TableColumnsType<Societedata>  = [
+  const columns: TableColumnsType<Societedata> = [
+    {
+      title: <span className='font-sans'>Logo</span>,
+      dataIndex: 'logo',
+      key: 'logo',
+      onHeaderCell: () => ({
+        style:{backgroundColor:'transparent'}
+      }),
+      render:(text)=><Avatar src={text} size="large" />
+    },
     {
       title: <span className='font-sans'>Nom Société</span>,
       dataIndex: 'namesociete',
@@ -80,7 +88,7 @@ const C_societe = ({data} : {data : Societedata[]}) => {
       }),
       render: (_, record) => (
         <Space size="middle">
-          <Button type="dashed" className="text-xs font-sans p-4 bg-green-500 text-white" onClick={()=>handleClick(record)} >Detail</Button>
+          <Button className="text-xs font-sans p-4" onClick={()=>handleClick(record)} >Detail</Button>
         </Space>
       ),
     }
@@ -90,20 +98,18 @@ const C_societe = ({data} : {data : Societedata[]}) => {
   };
   return (
     <>
-      < Table columns={columns} dataSource={data} pagination={false} />
-       <Drawer
-        title={<span className='font-sans'>Societe A</span> }
+      <Table columns={columns} dataSource={data} pagination={false} />
+      <Drawer
+        title={
+          <div className='flex items-center gap-2'>
+            <Avatar src={data_societe?.logo} size={'large'}/>
+            <span className='font-sans'>{data_societe?.namesociete}</span>
+          </div>
+        }
         placement="right"
         size={"large"}
         onClose={onClose}
         open={open}
-        extra={
-          <Space>
-            <Button type="dashed" size='large' className='font-sans text-xs bg-green-500 text-white border-green-200' onClick={onClose}>
-              Retour
-            </Button>
-          </Space>
-        }
       >
         <div className='flex flex-col gap-y-10'>
           <div className='font-sans flex flex-col gap-y-2'>
@@ -151,22 +157,20 @@ const C_societe = ({data} : {data : Societedata[]}) => {
           </div>
           <div className='font-sans flex flex-col gap-y-2'>
             <span className='font-bold text-xs'>Reference OM</span>
-            <div className='flex flex-col gap-y-4'>
-            {
-              data_ref.isPending ? <>loading....</> :
-                data_ref.isError ? <>erreurr...</> :
-                  <>
-                    {
-                      data_ref.data.length === 0 ? <Empty /> :
-                        data_ref.data.map((item:any) => (
-                          <div key={item.idordermission} className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
-                            <span>Ref</span>
-                            <span className='text-xs font-bold'>{ item.numeroserie}</span>
-                          </div>
-                        ))
-                    }
-                  </>
-              }
+              <div className='flex flex-col gap-y-4'>
+                {
+                  data_ref.isPending ? <>loading....</> :
+                      data_ref.isError ? <>erreurr...</> :
+                        (
+                          data_ref.data.length === 0 ? <Empty /> :
+                            data_ref.data.map((item:any , index:number) => (
+                              <div key={index} className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
+                                <span>Ref</span>
+                                <span className='text-xs font-bold'>{ item.numeroserie}</span>
+                              </div>
+                          ))
+                        )
+                }
               </div>
             </div>
         </div>

@@ -9,10 +9,12 @@ import { Ordredemission } from "../../../../types/mission/Ordredemission";
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
 import { useValidateOrdermission, useValidateOrdermissionDgdmt } from "../../../../api/mission/Apiordremission";
+import { UserInstance } from "../../../../types/administration/Userconnected";
 function Mission({ data }: { data: Ordredemission }) {
+  const [open, setOpen] = useState(false);
   const validation = useValidateOrdermission();
   const validation_dg = useValidateOrdermissionDgdmt();
-  const role = localStorage.getItem('role');
+  const role = UserInstance().getRole;
   dayjs.locale('fr')
   let type_mission;
   if (data.typemission === 1) {
@@ -24,12 +26,29 @@ function Mission({ data }: { data: Ordredemission }) {
   }
   const confirms_ordermission = async (id: number, validate: boolean) => {
     try {
-      if (localStorage.getItem('role') === "SG") {
-        await validation.mutateAsync({ idordermission: id, validate });
+      if (role === "SG") {
+        const reponse = await validation.mutateAsync({ idordermission: id, validate });
+        if (reponse.status === 200) {
+          if (validate == true) {
+            message.success('Demande OK');
+          } else {
+            message.success('Om supprimer')
+          }
+        } else {
+          message.error(reponse.object);
+        }
       } else {
-        await validation_dg.mutateAsync({ idordermission: id });
+        const reponse = await validation_dg.mutateAsync({ idordermission: id,validate });
+         if (reponse.status === 200) {
+          if (validate == true) {
+            message.success('Demande OK');
+          } else {
+            message.success('Om supprimer')
+          }
+        } else {
+          message.error(reponse.object);
+        }
       }
-      message.success('Demande OK');
     } catch (error) {
       message.error('Mutation failed');
     }
@@ -44,7 +63,6 @@ function Mission({ data }: { data: Ordredemission }) {
     let maxlength = 35;
     return text.length > maxlength ? `${text.slice(0, maxlength)}...` : text;
   };
-  const [open, setOpen] = useState(false);
   return (
     <>
       <Modal
@@ -58,18 +76,11 @@ function Mission({ data }: { data: Ordredemission }) {
           <>
             {
               (
-                data.status === 100 || (data.status === 0 && role !== "SG") || (data.status === 10 && role !== "DG")
+                data.status === 100 || data.status === 500 || (data.status === 0 && role !== "SG") || (data.status === 10 && role !== "DG")
               ) ? '' : 
               <Space>
-                <Popconfirm title={<span className="font-sans">Valider L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
-                  onConfirm={()=>confirms_ordermission(data.idordermission , true)}
-                  onCancel={cancel}
-                  okText={<span className="font-sans">Oui</span>}
-                  cancelText={<span className="font-sans">Non</span>}
-                  icon={<CheckCircleOutlined style={{color:"green"}}  /> }
-                  >
-                  <Button className="font-sans text-xs" size="large" type="dashed" >Valider</Button>
-                </Popconfirm>
+                  <Button className="font-sans text-xs" type="dashed" onClick={() => confirms_ordermission(data.idordermission, true)} >Valider</Button>
+                  <Button className="font-sans text-xs" type="dashed" danger onClick={()=>confirms_ordermission(data.idordermission , false)} >Supprimer</Button>
               </Space>
             }
           </>
@@ -131,6 +142,7 @@ function Mission({ data }: { data: Ordredemission }) {
         <div className="flex-none w-1/4">
           {
             data.status === 100 ? <Tag color="success" className="font-sans p-1">valider</Tag> :
+              data.status === 500 ? <Tag color="error">Supprimer</Tag> : 
               (data.status === 0 && role === 'SG') ? <Tag color="error" className="font-sans p-1">non valider</Tag> : 
                 (data.status === 10 && role === 'SG') ? <Tag color="warning" className="font-sans p-1">En attente DG</Tag> :
                   (data.status === 10 && role === 'DG') ?
@@ -141,20 +153,28 @@ function Mission({ data }: { data: Ordredemission }) {
         <div className="flex flex-none w-1/4 gap-5 items-center">
           {
             ((data.status === 0 && role === 'SG') || (data.status === 10 && role === 'DG')) ? <>
-                <Popconfirm title={<span className="font-sans">Valider L'OM</span>} description={<span className="font-sans"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
+                <Popconfirm title={<span className="font-sans text-xs">Valider L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
                   onConfirm={()=>confirms_ordermission(data.idordermission , true)}
                   onCancel={cancel}
-                  okText={<span className="font-sans">Oui</span>}
-                  cancelText={<span className="font-sans">Non</span>}
+                  okText={<span className="font-sans text-xs">Oui</span>}
+                  cancelText={<span className="font-sans text-xs">Non</span>}
                   icon={<CheckCircleOutlined style={{color:"green"}} /> }
                 >
-                  <Button className="font-sans text-xs" type="dashed" size="large">Valider</Button>
-                </Popconfirm>
+                  <Button className="font-sans text-xs" type="dashed">Valider</Button>
+              </Popconfirm>
+              <Popconfirm title={<span className="font-sans text-xs">Supprimer L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir de supprimer L'OM ?</span>}
+              onConfirm={()=>confirms_ordermission(data.idordermission , false)}
+               onCancel={cancel}
+                okText={<span className="font-sans text-xs">Oui</span>}
+              cancelText={<span className="font-sans text-xs">Non</span>}
+              >
+                <Button type="dashed" className="font-sans text-xs" danger>Supprimer</Button>
+              </Popconfirm>
             </>
               :
               ''
           }
-          <Button className="font-sans text-xs" type="dashed" size="large" onClick={() => setOpen(true)}>Details</Button>
+          <Button className="font-sans text-xs" type="dashed"onClick={() => setOpen(true)}>Details</Button>
         </div>
       </div>
     </>

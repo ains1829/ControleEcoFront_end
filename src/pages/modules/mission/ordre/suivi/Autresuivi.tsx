@@ -8,9 +8,11 @@ import {
 } from '@ant-design/icons';
 import Feedback from "./Feedback";
 import Uploadrapport from "./upload/Uploadrapport";
+import { UserInstance } from "../../../../../types/administration/Userconnected";
 function Autresuivi() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const { id } = useParams();
+  const role = UserInstance().getRole;
   const autreSuivi = useAutresuivibyordermission(Number(id));
   if (autreSuivi.isPending) {
     return <>loading...</>
@@ -20,7 +22,6 @@ function Autresuivi() {
   }
   const data_autre = TransFormDataAutresuivi(autreSuivi.data)
   console.log(data_autre)
-  const role = localStorage.getItem('role');
   let url = "";
   if (role === 'DR' || role == 'DT') {
     url = "/suivimission_dr_dt"

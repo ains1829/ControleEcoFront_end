@@ -13,13 +13,14 @@ const Login : FC = () => {
     if (reponse.data?.status === 200) {
       localStorage.removeItem('role');
       localStorage.removeItem('token-user');
-      localStorage.setItem('role', reponse.data?.data.role);
+      localStorage.setItem('role',reponse.data?.data.role );
       localStorage.setItem('token-user', reponse.data?.data.token);
-      if (localStorage.getItem('role') === "SG" || localStorage.getItem('role') === 'DG') {
+      const role = reponse.data?.data.role;
+      if (role === "SG" || role === 'DG') {
         navigate("/dashboardsg");
-      } else if (localStorage.getItem('role') === "DR" || localStorage.getItem('role') === "DT") {
+      } else if (role === "DR" || role === "DT") {
         navigate("/ordredemissiondr")
-      } else if (localStorage.getItem('role') === "DSI") {
+      } else if (role === "DSI") {
         navigate("/ppnglobal")
       }
       else {

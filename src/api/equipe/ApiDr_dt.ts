@@ -27,7 +27,6 @@ export function UseDesactivateEquipe(){
     }
   })
 }
-
 const NewEquipe = async (data : EquipeForm) => {
  try {
     const reponse = (await instanceAxios.post("scomadminstration/createEquipe" , data , {
@@ -74,9 +73,9 @@ export function UseAdministrationNoequipe() {
   })
 }
 
-const OrdremissionByDrDt = async () => {
+const OrdremissionByDrDt = async (page:number , annee:number , filter:number) => {
   try {
-    const reponse = (await instanceAxios.get("mission/suivi_mission_sender" , {
+    const reponse = (await instanceAxios.get(`mission/suivi_mission_sender?page=${page}&annee=${annee}&filter=${filter}` , {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
@@ -86,9 +85,29 @@ const OrdremissionByDrDt = async () => {
     console.log(error)
   }
 }
-export function usegetOrdremissionByDrDt() {
+export function usegetOrdremissionByDrDt(page:number , annee:number , filter:number) {
   return useQuery({
-    queryKey: ["suivi_mission_sender"],
-    queryFn : OrdremissionByDrDt ,
+    queryKey: ["suivi_mission_sender" , page , annee,filter],
+    queryFn : ()=> OrdremissionByDrDt(page , annee , filter) ,
+  })
+}
+
+const CalendarByDrDt = async (annee:number) => {
+  try {
+    const reponse = (await instanceAxios.get(`mission/calendar?annee=${annee}` , {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }));
+    return reponse.data?.object
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function usegetCalendar(annee:number) {
+  return useQuery({
+    queryKey: ["calendar" , annee],
+    queryFn : ()=> CalendarByDrDt(annee) ,
   })
 }

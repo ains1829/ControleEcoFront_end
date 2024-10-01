@@ -5,4 +5,6 @@ export interface Jsonmission{
   district: number;
   datedescente: string;
   motifs: string;
+  context: string;
+  lieu_controle: string;
 }

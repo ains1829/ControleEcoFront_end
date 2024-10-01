@@ -55,7 +55,7 @@ function Societe() {
       }}
       > 
         <div className="flex justify-between items-center">
-          <span className="text-3xl font-bold" >Societe.</span>
+          <span className="text-xl font-bold" >Societe.</span>
           <Search placeholder="Recherche" allowClear onSearch={onSearch} className="w-1/4 font-sans" />
         </div>
         <C_societe data={data_societe} />

@@ -21,7 +21,7 @@ function Priceglobalbyregion({ product, mois,annee} : { product:number,mois:numb
               <DollarOutlined  style={{fontSize:'22px'}}/>
             </div>
             <div className="flex justify-between items-center ">
-              <span className="text-3xl font-bold">{data_price.price_actu.p_moyenne} MGA</span>
+              <span className="text-3xl font-bold">{data_price.price_actu.p_moyenne} Ar</span>
           <div className="flex gap-2 items-center">
                 {
                   data_price.haverapport === false ?
@@ -45,7 +45,7 @@ function Priceglobalbyregion({ product, mois,annee} : { product:number,mois:numb
               <DollarOutlined  style={{fontSize:'22px'}}/>
             </div>
             <div className="flex justify-between items-center ">
-              <span className="text-3xl font-bold">{data_price.price_actu.p_max} MGA</span>
+              <span className="text-3xl font-bold">{data_price.price_actu.p_max} Ar</span>
               <div className="flex gap-2 items-center">
                 {
                   data_price.haverapport === false ?
@@ -69,7 +69,7 @@ function Priceglobalbyregion({ product, mois,annee} : { product:number,mois:numb
               <DollarOutlined  style={{fontSize:'22px'}}/>
             </div>
             <div className="flex justify-between items-center ">
-              <span className="text-3xl font-bold">{data_price.price_actu.p_min} MGA</span>
+              <span className="text-3xl font-bold">{data_price.price_actu.p_min} Ar</span>
               <div className="flex gap-2 items-center">
                 {
                   data_price.haverapport === false ?

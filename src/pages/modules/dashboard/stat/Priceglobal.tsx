@@ -18,11 +18,11 @@ function Priceglobal({province , product, mois,annee} : {province:number , produ
         <div className="grid grid-cols-3 gap-10">
           <div className="flex flex-col gap-y-10  p-5 rounded-xl shadow-lg">
             <div className="flex justify-between">
-              <span className="text-xs text-gray-500 font-bold">Prix moyenne</span>
+              <span className="text-xs text-green-500 font-bold">Prix moyenne</span>
               <DollarOutlined  style={{fontSize:'22px'}}/>
             </div>
             <div className="flex justify-between items-center ">
-              <span className="text-3xl font-bold">{data_price.price_actu.p_moyenne} MGA</span>
+              <span className="text-3xl font-bold">{data_price.price_actu.p_moyenne} Ar</span>
           <div className="flex gap-2 items-center">
                 {
                   data_price.haverapport === false ?
@@ -42,11 +42,11 @@ function Priceglobal({province , product, mois,annee} : {province:number , produ
           </div>
           <div className="flex flex-col gap-y-10  p-5 rounded-xl shadow-lg">
             <div className="flex justify-between">
-              <span className="text-xs text-gray-500 font-bold">Prix max</span>
+              <span className="text-xs text-red-500 font-bold">Prix max</span>
               <DollarOutlined  style={{fontSize:'22px'}}/>
             </div>
             <div className="flex justify-between items-center ">
-              <span className="text-3xl font-bold">{data_price.price_actu.p_max} MGA</span>
+              <span className="text-3xl font-bold">{data_price.price_actu.p_max} Ar</span>
               <div className="flex gap-2 items-center">
                 {
                   data_price.haverapport === false ?
@@ -66,11 +66,11 @@ function Priceglobal({province , product, mois,annee} : {province:number , produ
           </div>
           <div className="flex flex-col gap-y-10  p-5 rounded-xl shadow-lg">
             <div className="flex justify-between">
-              <span className="text-xs text-gray-500 font-bold">Prix min</span>
+              <span className="text-xs text-blue-500 font-bold">Prix min</span>
               <DollarOutlined  style={{fontSize:'22px'}}/>
             </div>
             <div className="flex justify-between items-center ">
-              <span className="text-3xl font-bold">{data_price.price_actu.p_min} MGA</span>
+              <span className="text-3xl font-bold">{data_price.price_actu.p_min} Ar</span>
               <div className="flex gap-2 items-center">
                 {
                   data_price.haverapport === false ?

@@ -1,9 +1,14 @@
-import { Table, TableColumnsType, TableProps, theme } from "antd";
+import { Button, Modal, Table, TableColumnsType, TableProps, theme } from "antd";
 import {useRegionProvincebydirecteur } from "../../../../../api/dashboard/PpnStat";
 import { Statppn, TransFormPpnRegion } from "../../../../../types/stat/Statppn";
+import Tabledistrict from "../Tabledistrict";
+import { useState } from "react";
 
 function Provinceregional({product,mois , annee} : {product:number , mois:number, annee:number}) {
   const ppnregion = useRegionProvincebydirecteur(product, mois, annee);
+  const [open, setOpen] = useState(false);
+  const [region_click, setRegion] = useState(0);
+  const [name_region , setNameregion] = useState('')
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (ppnregion.isPending) {
     return <>loading...</>
@@ -11,7 +16,12 @@ function Provinceregional({product,mois , annee} : {product:number , mois:number
   if (ppnregion.isError) {
     return <>error...</>
   }
-  const data =  TransFormPpnRegion(ppnregion.data)
+  const data = TransFormPpnRegion(ppnregion.data)
+  const handleClick = (data: Statppn) => {
+    setOpen(true)
+    setRegion(data.key);
+    setNameregion(data.nameregion)
+  }
   const columns: TableColumnsType<Statppn> = [
     {
       title: <span className="font-sans">Region Name</span>,
@@ -52,6 +62,14 @@ function Provinceregional({product,mois , annee} : {product:number , mois:number
       sorter: (a, b) => a.p_min - b.p_min,
       render: (text) => <span className="font-sans">{text} Ariary</span>
     },
+    {
+      dataIndex: 'action',
+      key: 'action',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+      render: (_,record) => <Button type="dashed" className="font-sans text-xs font-bold text-secondary" onClick={()=>handleClick(record)}>Detail par district</Button>
+    }
   ];
   const onChange: TableProps<Statppn>['onChange'] = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
@@ -61,7 +79,6 @@ function Provinceregional({product,mois , annee} : {product:number , mois:number
         className="flex flex-col  font-sans"
         style={{
           padding: 24,
-          minHeight: 360,
           background: colorBgContainer,
           borderRadius: borderRadiusLG,
         }}
@@ -69,7 +86,20 @@ function Provinceregional({product,mois , annee} : {product:number , mois:number
       <div className="flex justify-between mb-5 items-center">
         <span className="text-bold text-sm font-bold ">Detail par region</span>
       </div>
-      <Table  columns={columns} dataSource={data} onChange={onChange} pagination={false} />
+      <Table columns={columns} dataSource={data} onChange={onChange} pagination={false} />
+      <Modal
+        title={<span className="font-sans">Detail du region {name_region}</span>}
+        centered
+        width={1000}
+        open={open}
+        onOk={() => setOpen(false)}
+        onCancel={() => setOpen(false)}
+        footer={() => (
+          <></>
+        )}
+        >
+        <Tabledistrict idregion={region_click}  idproduct={product} mois={mois} annee={annee}/>
+      </Modal>
     </div>
     
   )

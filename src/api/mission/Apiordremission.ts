@@ -3,6 +3,27 @@ import { instanceAxios } from "../axios/Theaxios";
 import { Jsonmission } from "../json/mission/Jsonmission";
 import { Jsoncollecte } from "../json/mission/jsoncollecte";
 import { SocieteForm } from "../../types/societe/SocieteForm";
+const DetailCollecte = async (idcollecte: number) => {
+  try {
+    const reponse = (await instanceAxios.get(`mission/detail_collecte?idcollecte=${idcollecte}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+      .data.object;
+    return reponse;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function useDetailCollecte(idcollecte: number){
+  return useQuery({
+    queryKey: ["detail_collecte", idcollecte],
+    queryFn:()=>DetailCollecte(idcollecte)
+  })
+}
+
 const SocieteRef = async (idsociete: number) => {
   try {
     const reponse = (await instanceAxios.get(`data/ref_societe?idsociete=${idsociete}`))
@@ -270,7 +291,7 @@ const OrdermissionValidate = async (idordermission:number , validate:boolean) =>
         "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
     }))
-      .data?.object;
+      .data;
     return reponse;
   } catch (error) {
     console.log(error)
@@ -286,14 +307,19 @@ export function useValidateOrdermission() {
         console.log(error)
       } else {
         queryclient.invalidateQueries({ queryKey: ["order-missions"] });
+        queryclient.invalidateQueries({queryKey:["om_stat"]})
       }
     }
   })
 }
 
-const OrdermissionValidateDgdmt = async (idordermission:number ) => {
+const OrdermissionValidateDgdmt = async (idordermission:number, validate:boolean ) => {
   try {
-    const reponse = (await instanceAxios.get(`mission/validation_demande_dt?idorderdemission=${idordermission}`, {
+    let booleans_validate = 1;
+    if (validate == false) {
+      booleans_validate = 0;
+    }
+    const reponse = (await instanceAxios.get(`mission/validation_demande_dt?idorderdemission=${idordermission}&&confirmation=${booleans_validate}`, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
@@ -308,7 +334,7 @@ const OrdermissionValidateDgdmt = async (idordermission:number ) => {
 export function useValidateOrdermissionDgdmt() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission }: { idordermission: number}) =>  OrdermissionValidateDgdmt(idordermission),
+    mutationFn: ({ idordermission,validate }: { idordermission: number , validate:boolean}) =>  OrdermissionValidateDgdmt(idordermission,validate),
     onSettled: async (_, error) => {
       if (error) {
         console.log(error)
@@ -346,12 +372,16 @@ export function useSaveMission() {
   })
 }
 
-const SaveSociete = async (data: SocieteForm) => {
+const SaveSociete = async (logo:File ,data: SocieteForm) => {
   try {
-     const reponse = (await instanceAxios.post("scomadminstration/newSociete", data , {
+    const formData = new FormData();
+    formData.append("photo", logo);
+    formData.append("data", new Blob([JSON.stringify(data)], { type:'application/json'}));
+     const reponse = (await instanceAxios.post("scomadminstration/newSociete", formData , {
       headers: {
-        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
-      }
+        "Content-Type": "multipart/form-data",
+         "Authorization": `Bearer ${localStorage.getItem('token-user')}`,
+        }
      }));
     return reponse;
   } catch (error) {
@@ -362,7 +392,7 @@ const SaveSociete = async (data: SocieteForm) => {
 export function useSaveSociete() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: (data: SocieteForm) => SaveSociete(data),
+    mutationFn: ({logo , data} : {logo:File , data:SocieteForm}) => SaveSociete(logo,data),
     onSettled: async (_, error) => {
       if (error) {
         console.log(error)

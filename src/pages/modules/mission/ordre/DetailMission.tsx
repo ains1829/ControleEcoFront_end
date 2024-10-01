@@ -2,14 +2,7 @@ import { Divider } from "antd"
 import TableComponent from "./table/TableComponent"
 import { Ordredemission } from "../../../../types/mission/Ordredemission"
 
-function DetailMission({data} : {data:Ordredemission}) {let type_mission;
-  if (data.typemission === 1) {
-    type_mission = "DESCENTE";
-  } else if (data.typemission === 2) {
-    type_mission = "COLLECTE";
-  } else {
-    type_mission = "AUTRE SUIVI";
-  }
+function DetailMission({data} : {data:Ordredemission}) {
   return (
     <>
       <div className="flex flex-col gap-y-4 detail font-sans">
@@ -23,7 +16,7 @@ function DetailMission({data} : {data:Ordredemission}) {let type_mission;
         </div>
         <div>
           <span>Type de mission : </span>
-          <span>{type_mission }</span>
+          <span>{data.nametymission }</span>
         </div>
         <div>
           <span>Date debut :  </span>

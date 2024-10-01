@@ -1,7 +1,20 @@
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import { useEvolutionSignalment } from '../../../../api/dashboard/SignalementStat';
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
-const GroupedBarChart = () => {
+const GroupedBarChart = ({ date }: { date: number }) => {
+  const evolution = useEvolutionSignalment(date);
+  if (evolution.isPending) {
+    return <>loading...</>
+  }
+  if (evolution.isError) {
+    return <>error...</>
+  }
+  console.log(evolution.data)
+  const value: any[] = [];
+  evolution.data.forEach((element: any) => {
+    value.push(Number(element.nombre_signal))
+  })
   const data = {
     labels: [
       'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
@@ -9,8 +22,8 @@ const GroupedBarChart = () => {
     ],
     datasets: [
       {
-        label: 'Infraction',
-        data: [3, 4, 2, 0, 3, 2, 4, 3, 5, 6, 2, 4], // Remplacez par vos données
+        label: 'Evolution signalment',
+        data: value, // Remplacez par vos données
         backgroundColor: '#e74c3c',
       }
     ]
@@ -28,7 +41,7 @@ const GroupedBarChart = () => {
   return (
     <div>
       <div className='flex'>
-        <span className='font-sans font-bold'>Visualisation du Nombre de Signalements par Mois</span>
+        <span className='font-sans font-bold text-red-500'>Visualisation du Nombre de Signalements par Mois</span>
       </div>
       <Bar data={data} options={options} />
     </div>

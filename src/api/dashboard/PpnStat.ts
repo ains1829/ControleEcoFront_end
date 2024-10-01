@@ -60,6 +60,26 @@ export function useRegionProvincebydirecteur(idproduct: number, mois: number, an
   })
 }
 
+const DistrictByregion = async (idregion: number, idproduct: number, mois: number, annee: number) => {
+   try {    
+    const reponse = (await instanceAxios.get(`statistique_ppn/districtdetailbyregion?idregion=${idregion}&product=${idproduct}&mois=${mois}&annee=${annee}`, {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+    return reponse.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function useDistrictByregion(idregion: number, idproduct: number, mois: number, annee: number){
+  return useQuery({
+    queryKey: ["districtdetailbyregion", idregion, idproduct, mois, annee],
+    queryFn: () => DistrictByregion(idregion, idproduct, mois, annee) 
+  })
+}
+
 
 
 

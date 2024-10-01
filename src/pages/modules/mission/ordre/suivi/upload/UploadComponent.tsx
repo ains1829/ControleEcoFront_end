@@ -44,7 +44,7 @@ function UploadComponent({idordermission} : {idordermission : number} ) {
       <Upload {...props}>
         <div className='flex items-center' style={{cursor:'pointer'}}>
           <span className='font-sans'>Fichier en pdf  : </span>  
-          <Button className='ml-2' icon={<UploadOutlined />}>Fiche Technique</Button>
+          <Button className='ml-2 text-xs font-sans' type="dashed"  icon={<UploadOutlined />}>Fiche Technique</Button>
         </div>
       </Upload>
       <Button
@@ -52,10 +52,10 @@ function UploadComponent({idordermission} : {idordermission : number} ) {
         onClick={handleUpload}
         disabled={file === null || ispdf == false}
         loading={uploading}
-        style={{ marginTop: 16, marginLeft:'auto'}}
+        style={{ marginTop: 5, marginLeft:'auto'}}
         className='flex font-sans  w-1/4'
       >
-        {uploading ? 'Uploading' : 'Envoyer'}
+        Envoyer
       </Button>
     </>
   );

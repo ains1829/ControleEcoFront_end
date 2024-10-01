@@ -1,4 +1,4 @@
-import { Breadcrumb, Table, TableColumnsType, theme } from "antd";
+import { Breadcrumb, Table, TableColumnsType, Tag, theme } from "antd";
 import { usegetMissionnaire } from "../../../api/administration/Apiadmin";
 import { Administration, TransformDataAdministration } from "../../../types/administration/Administration";
 import ContentEquipe from "./ContentEquipe";
@@ -43,7 +43,7 @@ function AdministrationPage() {
       title: <span className="font-sans">Nom</span>,
       dataIndex: 'name',
       key: 'name',
-      width:'35%',
+      width: '35%',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
@@ -52,7 +52,7 @@ function AdministrationPage() {
     {
       title: <span className="font-sans">Matricule</span>,
       dataIndex: 'matricule',
-      key:'matricule',
+      key: 'matricule',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
@@ -61,7 +61,7 @@ function AdministrationPage() {
     {
       title: <span className="font-sans">Email</span>,
       dataIndex: 'email',
-      key:'email',
+      key: 'email',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
@@ -93,6 +93,24 @@ function AdministrationPage() {
         style: { backgroundColor: 'transparent' },
       }),
       render: (text) => <span className='font-sans'>{text}</span>
+    },
+    {
+      title: <span className="font-sans">Ne(e) le</span>,
+      dataIndex: 'date_naissance',
+      key: 'date_naissance',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+      render: (text) => <span className='font-sans'>{text}</span>
+    },
+    {
+      title: <span className="font-sans">Status</span>,
+      dataIndex: 'age',
+      key:'age',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+      render: (text) => <> {text >= 60 ? <Tag color="red" className="font-sans">Retraite(e)</Tag> : <Tag color="green" className="font-sans">En activite</Tag>} </>
     }
   ]
   const data_missionnaire = TransformDataAdministration(data.data.data)

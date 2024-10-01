@@ -15,11 +15,13 @@ import { useCollecteFinished } from "../../../../../api/mission/Apiordremission"
 import { Jsoncollecte } from "../../../../../api/json/mission/jsoncollecte";
 import Tableppn from "./Tableppn";
 import Feedback from "./Feedback";
+import { UserInstance } from "../../../../../types/administration/Userconnected";
 export interface InputGroup {
   id: number;
   nameproduct: string;
   unite: string;
   inputs: string[];
+  observations:string[]
 }
 function CollecteMission() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
@@ -28,6 +30,7 @@ function CollecteMission() {
   const { id } = useParams();
   const collect = useCollecteMissionByEquipe(Number(id));
   const finished_collect = useCollecteFinished();
+  const role = UserInstance().getRole;
   useEffect(() => {
     if (product.isSuccess) {
       const data_product = TransformDataProduct(product?.data);
@@ -36,19 +39,23 @@ function CollecteMission() {
         nameproduct: item.nameproduct,
         unite: item.unite,
         inputs: [""],
+        observations: [""],
       }));
       setInputGroups(donne);
     }
   }, [product.isSuccess, product.data]);
-  let collecte_object = null;
-  if (collect.isSuccess) {
-    collecte_object = TransformdataCollecte(collect.data);
+  if (collect.isPending) {
+    return <>loading...</>
   }
+  if (collect.isError) {
+    return <>error...</>
+  }
+  let collecte_object = TransformdataCollecte(collect.data);
   const handleAddInput = (groupId: number) => {
     setInputGroups(
       inputGroups.map(group =>
         group.id === groupId
-          ? { ...group, inputs: [...group.inputs, ''] }
+          ? { ...group, inputs: [...group.inputs, ''] , observations: [...group.observations, '']  }
           : group
       )
     );
@@ -58,21 +65,20 @@ function CollecteMission() {
     setInputGroups(
       inputGroups.map(group =>
         group.id === groupId
-          ? { ...group, inputs: group.inputs.filter((_, i) => i !== index) }
+          ? { ...group, inputs: group.inputs.filter((_, i) => i !== index) , 
+              observations: group.observations.filter((_, i) => i !== index) }
           : group
       )
     );
   };
 
-  const handleInputChange = (groupId: number, index: number, value: string) => {
+    const handleInputChange = (groupId: number, index: number, value: string, field: 'inputs' | 'observations') => {
     setInputGroups(
       inputGroups.map(group =>
         group.id === groupId
           ? {
               ...group,
-              inputs: group.inputs.map((input, i) =>
-                i === index ? value : input
-              ),
+              [field]: group[field].map((input, i) => i === index ? value : input),
             }
           : group
       )
@@ -82,7 +88,8 @@ function CollecteMission() {
     event.preventDefault();
    const dataToSend : Jsoncollecte[] =  inputGroups.map(group => ({
       id: group.id,
-      prix: group.inputs
+      prix: group.inputs,
+      observations: group.observations
    }));
     let idordermission = collecte_object?.ordermission.idordermission;
     if (idordermission !== undefined) {
@@ -93,7 +100,6 @@ function CollecteMission() {
       console.log('idordermission undefined');
     }
   }
-  const role = localStorage.getItem('role');
   let url = "";
   if (role === 'DR' || role == 'DT') {
     url = "/suivimission_dr_dt"
@@ -156,7 +162,12 @@ function CollecteMission() {
             </div>
             <Divider dashed />
             {
-              collecte_object?.statu === 200 ? <Tableppn /> :
+              collecte_object?.statu === 200 ? 
+              <>
+                <strong>PPN collecté</strong>
+                <Tableppn idcollecte={collecte_object.idcollecte} />
+              </> 
+                :
                 (role === 'DR' || role === 'DT') ? <>
                   <strong>Ppn en cours de collecte</strong>
                   <Empty />
@@ -171,13 +182,21 @@ function CollecteMission() {
                             <Input
                               id="prix"
                               type="text"
-                              size="large"
                               placeholder={`prix en ${group.unite}`}
                               className="font-sans"
                               value={input}
                               onChange={(e) =>
-                                handleInputChange(group.id, index, e.target.value)
+                                handleInputChange(group.id, index, e.target.value,'inputs')
                               }
+                              required
+                            />
+                            <Input
+                              id="observation"
+                              type="text"
+                              placeholder="Lieu du collecte"
+                              className="font-sans"
+                              value={group.observations[index]}
+                              onChange={(e) => handleInputChange(group.id, index, e.target.value, 'observations')}
                               required
                             />
                             <Button
@@ -201,7 +220,7 @@ function CollecteMission() {
                       </div>
                     ))}
                     <div>
-                      <Button loading={finished_collect.isPending} htmlType="submit" type="dashed" className="font-sans bg-secondary text-white text-xs p-4">Valider</Button>
+                      <Button loading={finished_collect.isPending} htmlType="submit" type="dashed" className="font-sans  p-4">Valider</Button>
                     </div>
                 </div>
               </form>

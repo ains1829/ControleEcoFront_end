@@ -38,7 +38,25 @@ export function useStatbyregionbytypemission(typemission:number , annee:number) 
     queryFn : ()=>statbyregionbytypemission(typemission ,annee) 
   })
 }
+const OMvalidationbyregion = async () => {
+  try {    
+    const reponse = (await instanceAxios.get(`statistique/ombyregion`, {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+    return reponse.data?.object;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
+export function useOMvalidationbyregion() {
+  return useQuery({
+    queryKey: ['ombyregion'],
+    queryFn : OMvalidationbyregion
+  })
+}
 const OMvalidation = async () => {
   try {    
     const reponse = (await instanceAxios.get(`statistique/om_stat`, {

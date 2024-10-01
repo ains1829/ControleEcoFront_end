@@ -9,6 +9,7 @@ export interface Societedata{
   responsable: string;
   district: string;
   addresse: string;
+  logo: string;
 }
 export const TransformdataSociete = (data: any[]) : Societedata [] => {
   return data.map(item => ({
@@ -21,6 +22,7 @@ export const TransformdataSociete = (data: any[]) : Societedata [] => {
     telephone: item.telephone,
     responsable: item.responsable,
     district: item.district.nameville,
-    addresse:item.addresse
+    addresse: item.addresse,
+    logo:item.url_logo
   }))
 }

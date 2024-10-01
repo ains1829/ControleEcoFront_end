@@ -1,15 +1,24 @@
-import { Table, TableColumnsType, theme } from "antd";
+import { Avatar, Button, Modal, Select, Table, TableColumnsType, Tag, theme } from "antd";
 import { usegetDirecteur } from "../../../../api/mission/Apipublic";
 import { useState } from "react";
 import { Administration, TransformDataAdministration } from "../../../../types/administration/Administration";
 import {
   LeftOutlined,
-  RightOutlined
+  RightOutlined,EditOutlined,DeleteOutlined
 } from '@ant-design/icons';
+import { usegetRegions } from "../../../../api/mission/Api";
+import Search, { SearchProps } from "antd/es/input/Search";
+import FormModifiedAdmin from "./FormModifiedAdmin";
 function AdminRegional() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
-  const [page , setPage] = useState(0)
-  const Directeur = usegetDirecteur(page);
+  const [page, setPage] = useState(0);
+  const [search, setSearch] = useState('');
+  const [open, setOpen] = useState(false);
+  const [regionChoice, setRegion] = useState(1);
+  const [region_view, setRegionview] = useState('Analamanga');
+  const [data_detail, setDetail] = useState<Administration>();
+  const Directeur = usegetDirecteur(search,regionChoice, page);
+  const region = usegetRegions();
   if (Directeur.isPending) {
     return <>loading...</>
   }
@@ -17,12 +26,53 @@ function AdminRegional() {
     return <>Erreur...</>
   }
   const directeur_data = TransformDataAdministration(Directeur.data.data);
+  const handleOk = () => {
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
+  const handleClick = (data: Administration) => {
+    setOpen(true);
+    setDetail(data);
+  }
+  const options_region: any[] = [];
+  if (region.isSuccess) {
+    region.data.forEach((item : any) => (
+     options_region.push({value:item.idregion , label : <span className="font-sans">{item.nameregion}</span>})
+   ))
+  }
+  const handleChange = (value: number, option: any) => {
+    setPage(0)
+    setSearch('')
+    setRegion(value)
+    setRegionview(option.label)
+  };
+  const onSearch: SearchProps['onSearch'] = (value, _e) => {
+    if (value.trim().length === 0) {
+      setSearch('')
+    }
+    else {
+      setPage(0)
+      setSearch(value)
+    }
+  };
   const columns: TableColumnsType<Administration> = [
+    {
+      title: <span className="font-sans">Photo</span>,
+      dataIndex: 'photo',
+      key: 'photo',
+      onHeaderCell: () => ({
+        style:{background:'transparent'}
+      }),
+      render:(text) => <Avatar src={text} />
+    },
     {
       title: <span className="font-sans">Nom</span>,
       dataIndex: 'name',
       key: 'name',
-      width:'25%',
+      width:'15%',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
@@ -65,22 +115,35 @@ function AdminRegional() {
       render: (text) => <span className='font-sans'>{text}</span>
     },
     {
-      title: <span className="font-sans">Region</span>,
-      dataIndex: 'region',
-      key:'region',
+      title: <span className="font-sans">Ne(e) le</span>,
+      dataIndex: 'date_naissance',
+      key: 'date_naissance',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
       render: (text) => <span className='font-sans'>{text}</span>
     },
     {
-      title: <span className="font-sans">Addresse</span>,
-      dataIndex: 'addresse',
-      key: 'addresse',
+      title: <span className="font-sans">Status</span>,
+      dataIndex: 'age',
+      key:'age',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      render: (text) => <span className='font-sans'>{text}</span>
+      render: (text) => <> {text >= 60 ? <Tag color="red" className="font-sans">Retraite(e)</Tag> : <Tag color="green" className="font-sans">En activite</Tag>} </>
+    },
+    {
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+      key: 'action',
+      render: (_, record) => 
+        <>
+          <div className="flex gap-2">
+            <Button icon={<EditOutlined />} type="dashed" className="font-sans text-xs" onClick={() => handleClick(record)} >Modifier</Button>
+            <Button icon={<DeleteOutlined />} type="dashed" className="font-sans text-xs" danger>Retirer</Button>
+          </div>
+        </>
     }
   ]
   const handleNext = () => {
@@ -113,8 +176,20 @@ function AdminRegional() {
         }}
       >
         <div className="flex justify-between items-center">
-            <span className="text-xl font-bold" >Regional.</span>
-          </div>
+            <div className="flex flex-col">           
+              <span className="text-xl font-bold" >Regional.</span>
+              <span className="text-xs">({region_view})</span>
+            </div>
+            <div className="flex w-1/2 gap-2">
+                <div className="flex items-center gap-2">
+                  <span>Region:</span>
+                  <Select className="w-full font-sans" options={options_region} style={{width:'200px'}} placeholder="select region" onChange={handleChange} />
+                </div>
+                <div className="w-full">
+                  <Search placeholder="Recherche" allowClear onSearch={onSearch} className="font-sans" />
+                </div>
+            </div>
+      </div>
         <Table columns={columns} dataSource={directeur_data} pagination={false} />
         <div className="flex justify-between items-center">
             <div className="flex gap-2">
@@ -136,6 +211,12 @@ function AdminRegional() {
             </div>
           </div>
       </div>
+      <Modal key={data_detail?.key!} className="font-sans" title={<span className="font-bold font-sans">Modification.</span>} onOk={handleOk} onCancel={handleCancel} open={open}
+        footer={(_  , {})=>(
+          <></>
+        )}>
+          <FormModifiedAdmin  search={search} idregion={regionChoice} page={page} isregional={true}  data_detail={data_detail!} closed_modal={handleCancel} />
+      </Modal>
     </>
   )
 }

@@ -1,18 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
-const Directeur = async (page : number) => {
+const Directeur = async (search:string, idregion:number ,  page : number) => {
   try {
-    const reponse = (await instanceAxios.get(`data/list-directeur?page=${page}`));
+    const reponse = (await instanceAxios.get(`data/list-directeur?page=${page}&region=${idregion}&search=${search}`));
     return reponse.data;
   } catch (error) {
     console.log(error);
   }
 }
 
-export function usegetDirecteur(page: number) {
+export function usegetDirecteur(search:string, idregion:number, page: number) {
   return useQuery({
-    queryKey: ["list-directeur", page],
-    queryFn:()=> Directeur(page)
+    queryKey: ["list-directeur", search, idregion ,  page],
+    queryFn:()=> Directeur(search,idregion,page)
   })
 }
 

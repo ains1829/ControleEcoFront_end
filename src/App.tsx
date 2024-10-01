@@ -18,7 +18,10 @@ import Societeglobal from "./pages/modules/pmter/Societeglobal"
 import Administration from "./pages/modules/administration/Adminpage"
 import Ppnboardregional from "./pages/modules/dashboard/Ppnboardregional"
 import Autresuivi from "./pages/modules/mission/ordre/suivi/Autresuivi"
-import Signalement from "./pages/modules/dashboard/stat/Signalement"
+import Signalement from "./pages/modules/dashboard/stat/Signalementboard"
+import Signaladmin from "./pages/modules/signal/Signaladmin"
+import SignalmentRegion from "./pages/modules/dashboard/stat/SignalmentRegion"
+import Account from "./pages/modules/account/Account"
 function App() {
   return (
     <>
@@ -41,6 +44,9 @@ function App() {
           <Route path="/autresuivi/:id" element={<Autresuivi />} />
           <Route path="/collecteeconomique/:id" element={<CollecteMission />} />
           <Route path="/administration" element={<Administration />} />
+          <Route path="/signal/:id/:date" element={<Signaladmin />} />
+          <Route path="/signalementregion" element={<SignalmentRegion />} />
+          <Route path="/account" element={<Account/>} />
         </Route>
       </Routes>
     </>

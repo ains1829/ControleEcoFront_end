@@ -41,7 +41,7 @@ function Ppnboard() {
   if (product.isSuccess) {
     console.log(product.data)
     product.data.map((item:any) => (
-      option_product.push({ value: item.idproduct, label: <span className="font-sans">{ item.nameproduct }</span>})
+      option_product.push({ value: item.idproduct, label: <span className="font-sans">{ item.nameproduct } / ({item.typeproduct.unite.nameunite}) </span>})
     ))
   }
   const handleSegmentedChange = (value:number) => {
@@ -60,9 +60,9 @@ function Ppnboard() {
         }}
       > 
         <div className="flex justify-between items-center">
-          <div className="flex flex-col gap-y-2">
-            <span className="text-3xl font-bold" >{label_province}.</span>
-            <span className="font-bold text-sm text-gray-500">({mois} {anne})</span>
+          <div className="flex flex-col gap-y-1">
+            <span className="text-xl font-bold" >{label_province}.</span>
+            <span className="font-bold text-xs text-gray-500">({mois} {anne})</span>
           </div>
           <div className="font-sans flex flex-col">
             <div className="flex gap-4">

@@ -1,8 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios"
 
+const getMyEquipe = async () => {
+  try {
+    const reponse = (await instanceAxios.get('statistique/detailequipe', {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }))
+    return reponse.data?.object;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export function usegetMyEquipe() {
+  return useQuery({
+    queryKey: ["detailequipe"],
+    queryFn:getMyEquipe
+  })
+}
 const missionBytype = async () => {
-   try {
+  try {
     const reponse = (await instanceAxios.get('statistique/stat_typemissionbyequipe', {
       headers: {
         "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
@@ -97,9 +115,9 @@ export function useEnqueteMissionByEquipe (id : number) {
   })
 }
 
-const OrdremissionByEquipe = async () => {
+const OrdremissionByEquipe = async (page:number , filter:number) => {
   try {
-    const reponse = (await instanceAxios.get("mission/suivi_mission" , {
+    const reponse = (await instanceAxios.get(`mission/suivi_mission?page=${page}&filter=${filter}` , {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
@@ -109,10 +127,10 @@ const OrdremissionByEquipe = async () => {
     console.log(error)
   }
 }
-export function usegetOrdermissionByEquipe() {
+export function usegetOrdermissionByEquipe(page:number , filter:number) {
   return useQuery({
-    queryKey: ["ordermissionbyequipe"],
-    queryFn : OrdremissionByEquipe ,
+    queryKey: ["ordermissionbyequipe" , page , filter],
+    queryFn : ()=>OrdremissionByEquipe(page , filter) ,
   })
 }
 const getEquipeByRegion = async () => {

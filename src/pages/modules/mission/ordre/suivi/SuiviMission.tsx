@@ -1,7 +1,5 @@
 import { Avatar, Button, Tag, Tooltip } from "antd"
 import {
-  UserOutlined,
-  AntDesignOutlined,
   CalendarOutlined,
   SyncOutlined,
   ArrowRightOutlined,
@@ -11,39 +9,36 @@ import { Link } from "react-router-dom";
 import { Ordredemission } from "../../../../../types/mission/Ordredemission";
 function SuiviMission({ data }: { data: Ordredemission }) {
   let url = `/enquete/${data.idordermission}`;
-  let bg = 'bg-green-200'
+  let bg = 'bg-white'
   if (data.typemission === 2) {
     url = `/collecteeconomique/${data.idordermission}`
-    bg='bg-blue-200'
   } else if (data.typemission === 3) {
     url = `/autresuivi/${data.idordermission}`
-    bg = 'bg-yellow-200'
   }
   return (
     <>
-      <div className={`flex flex-col card ${bg} p-5 font-sans gap-y-3 rounded-2xl `}>
+      <div className={`flex flex-col card ${bg} p-5 font-sans gap-y-3 shadow-md rounded-md`}>
         <div className="flex justify-between header-card">
           <div className="avatar">
-            <Avatar.Group  shape="circle">
-              <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-              <a href="https://ant.design">
-                <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
-              </a>
-              <Tooltip title="Ant User" placement="top">
-                <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
-              </Tooltip>
-              <Avatar style={{ backgroundColor: '#1677ff' }} icon={<AntDesignOutlined />} />
+            <Avatar.Group shape="circle"> 
+              {
+                data.detailequipe.map((item) => (
+                  <Tooltip key={item.matricule} title={<span className="font-sans text-xs">{ item.matricule}</span>} placement="top">
+                    <Avatar src={item.photo} size={'large'}/>
+                  </Tooltip>
+                ))
+              }
             </Avatar.Group>
           </div>
           <div className="status">
             {
               data.fin !== null ?
               <Tag icon={<CheckCircleOutlined />} className="font-sans text-xs p-1" color="success">
-                Terminer
+                Mission terminer
                 </Tag> :
                 <>
                 <Tag icon={<SyncOutlined spin />} className="font-sans text-xs p-1" color="processing">
-                En cours
+                Mission en cours
                 </Tag> </>
             }
           </div>
@@ -65,7 +60,7 @@ function SuiviMission({ data }: { data: Ordredemission }) {
             
           </div>
         </div>
-        <div className="flex items-center date text-gray-400 font-bold">
+        <div className="flex items-center text-gray-400">
           <span><CalendarOutlined /></span>
           <span className="text-xs ml-1">Debut mission : { data.debut.toString() }</span>
         </div>

@@ -19,9 +19,9 @@ export function usegetFeedback(idorderdemission : number) {
   })
 }
 
-const getOrdermissionByUser = async () => {
+const getOrdermissionByUser = async (page:number,filtre:number,text:string) => {
   try {
-    const reponse = (await instanceAxios.get("mission/OrderMissionAllbydrdt", {
+    const reponse = (await instanceAxios.get(`mission/OrderMissionAllbydrdt?pagenumber=${page}&filter=${filtre}&text=${text}`, {
       headers: {
         "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
@@ -31,10 +31,10 @@ const getOrdermissionByUser = async () => {
     console.log('ERROR FETCHING ORDER MISSION:' , error)
   }
 }
-export function usegetOrdermissionByUser() {
+export function usegetOrdermissionByUser(page:number , filter:number,text:string) {
   return useQuery({
-    queryKey: ["order-missions-user"],
-    queryFn: getOrdermissionByUser,
+    queryKey: ["order-missions-user", page,filter,text],
+    queryFn: ()=>getOrdermissionByUser(page,filter,text),
     // staleTime: Infinity,
     // gcTime: Infinity,
     // refetchOnWindowFocus: false,
@@ -115,9 +115,9 @@ export function usegetSocietebyregion(page:number , search : string) {
 }
 
 
-const getSocieteglobal = async (page : number , search : string, idregion :number) => {
+const getSocieteglobal = async (page : number , search : string, idregion :number , filtresocieteom:boolean , date_begin:string , date_end : string) => {
   try {
-    const reponse = (await instanceAxios.get(`scomadminstration/getSocieteglobalpagination?page=${page}&search=${search}&idregion=${idregion}`, {
+    const reponse = (await instanceAxios.get(`scomadminstration/getSocieteglobalpagination?page=${page}&search=${search}&idregion=${idregion}&filter=${filtresocieteom}&date_begin=${date_begin}&date_end=${date_end}`, {
       headers: {
         "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
@@ -128,15 +128,34 @@ const getSocieteglobal = async (page : number , search : string, idregion :numbe
   }
 }
 
-export function usegetSocieteglobal(idregion : number ,  page:number , search : string) {
+export function usegetSocieteglobal(idregion : number ,  page:number , search : string , filtresocieteom:boolean , date_begin:string , date_end : string) {
   return useQuery({
-    queryKey: ["societeglobalpagination" , page , search , idregion],
-    queryFn: () => getSocieteglobal(page , search , idregion),
+    queryKey: ["societeglobalpagination" , page , search , idregion , filtresocieteom , date_begin , date_end ],
+    queryFn: () => getSocieteglobal(page , search , idregion , filtresocieteom , date_begin , date_end),
     // staleTime: Infinity,
     // gcTime: Infinity,
     // refetchOnWindowFocus: false,
     // refetchOnMount: false,
     // refetchOnReconnect: true,
+  })
+}getSocieteglobal
+const getProfil = async () => {
+  try {
+    const respone = (await instanceAxios.get("data/profil"));
+    return respone.data;
+  } catch (error) {
+    console.log(error)
+  }
+}
+export function usegetProfils() {
+  return useQuery({
+    queryKey: ["profil"],
+    queryFn: getProfil,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 const getRegions = async () => {
@@ -172,6 +191,75 @@ export function usegetDistrict(idregion : number) {
   return useQuery({
     queryKey: ["district" , idregion],
     queryFn:()=> getDistrict(idregion),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  })
+}
+const getRole = async () => {
+  try {
+    const respone = (await instanceAxios.get(`scomadminstration/getrole`, {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }));
+    return respone.data;
+  } catch (error) {
+    console.log(error)
+  }
+}
+export function usegetRole() {
+  return useQuery({
+    queryKey: ["getrole",localStorage.getItem('token-user')],
+    queryFn: getRole,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  })
+}
+const getAdministrationValidate = async (page:number) => {
+  try {
+    const respone = (await instanceAxios.get(`scomadminstration/account_validate?page=${page}`, {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }));
+    return respone.data.object;
+  } catch (error) {
+    console.log(error)
+  }
+}
+export function usegetAdministrationValidate(page:number) {
+  return useQuery({
+    queryKey: ["account_validate",page],
+    queryFn:()=> getAdministrationValidate(page),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  })
+}
+const getAdministrationNoValidate = async (page:number) => {
+  try {
+    const respone = (await instanceAxios.get(`scomadminstration/account_Novalidate?page=${page}`, {
+      headers: {
+        "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+      }
+    }));
+    return respone.data.object;
+  } catch (error) {
+    console.log(error)
+  }
+}
+export function usegetAdministrationNoValidate(page:number) {
+  return useQuery({
+    queryKey: ["account_Novalidate",page],
+    queryFn:()=> getAdministrationNoValidate(page),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,

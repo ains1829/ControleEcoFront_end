@@ -14,13 +14,14 @@ import Uploadaudition from "./upload/Uploadaudition";
 import Uploadinfraction from "./upload/Uploadinfraction";
 import { useEnqueteFinished } from "../../../../../api/mission/Apiordremission";
 import Feedback from "./Feedback";
+import { UserInstance } from "../../../../../types/administration/Userconnected";
 function EnqueteMission() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const { id } = useParams();
   const enquete = useEnqueteMissionByEquipe(Number(id));
   const enquete_finish = useEnqueteFinished();
   const [open, setOpen] = useState(false);
-  const role = localStorage.getItem('role');
+  const role = UserInstance().getRole;
   let url = "";
   if (role === 'DR' || role == 'DT') {
     url = "/suivimission_dr_dt"
@@ -121,15 +122,15 @@ function EnqueteMission() {
                 },
                 {
                   title: <span className="text-sm">Convocation</span>,
-                  description:  enquete_object.statu < 20 ? 'En Attente'  : enquete_object.statu === 20 ? 'en cours' :  <span>Terminer le :  { enquete_object.dateconvocation.toString()}</span>
+                  description:  enquete_object.statu < 20 ? 'en attente'  : enquete_object.statu === 20 ? 'en cours' :  <span>Terminer le :  { enquete_object.dateconvocation.toString()}</span>
                 },
                 {
                   title: <span className="text-sm">PV Audition</span>,
-                  description : enquete_object.statu < 30 ? 'En Attente'  : enquete_object.statu === 30 ? 'en cours' :  <span>Terminer le :  { enquete_object.datepvaudition.toString()}</span>,
+                  description : enquete_object.statu < 30 ? 'en attente'  : enquete_object.statu === 30 ? 'en cours' :  <span>Terminer le :  { enquete_object.datepvaudition.toString()}</span>,
                 },
                 {
                   title: <span className="text-sm">PV Infraction</span>,
-                  description : enquete_object.statu < 200 ? 'En Attente'  : enquete_object.statu === 200 ? 'en cours' : enquete_object.statu === 210 ? ' Clean ' : <span>Terminer le :  { enquete_object.dateinfraction.toString()}</span>,
+                  description : enquete_object.statu < 200 ? 'en attente'  : enquete_object.statu === 200 ? 'en cours' : enquete_object.statu === 210 ? ' Clean ' : <span>Terminer le :  { enquete_object.dateinfraction.toString()}</span>,
                 },
               ]}
           />
@@ -161,79 +162,128 @@ function EnqueteMission() {
           ''
         }
       >
-          <div className="flex flex-col gap-y-2">
-          <div>
-            <strong>NB : </strong>
-            <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure quae deserunt repudiandae non mollitia lor</span>
-          </div>
-          <div className="flex flex-col gap-y-1 border-dotted border-2 border-gray-200 p-3 rounded-lg">
-            <span className="font-bold mb-1">Fiche technique</span>
-              <div className="flex flex-col gap-y-1">
-                <span><CalendarOutlined /> Date : {enquete_object.statu === 10 ? 'en cours' : '  ' + enquete_object.datefichetechnique.toString() }</span> 
-                <span>
-                <FileDoneOutlined />
-                  Fichier : {
+          <div className="flex flex-col gap-y-3">
+            <div className="flex gap-2">
+              <span className="font-bold text-blue-500">Etape 1 : </span>
+              <span>Fiche technique </span>
+            </div>
+            <div className="flex flex-col gap-y-3">
+              <div className="flex gap-2">
+                <div className="flex gap-2">
+                  <span><CalendarOutlined /></span>
+                  <span>Date : </span>
+                </div>
+                <div>
+                  {enquete_object.statu === 10 ? 'en cours' : '  ' + enquete_object.datefichetechnique.toString() }
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <div className="flex gap-2">
+                  <span><FileDoneOutlined /></span>
+                  <span>Fichier : </span>
+                </div>
+                <div>
+                  {
                     enquete_object.statu === 10 ? 'en cours' : <a href="https://chatgpt.com" className="ml-2" style={{ color: 'blue' }}>{ enquete_object.url_fichetechnique }</a>
                   } 
-                </span>
-                {
-                  role === 'CH' ?
-                    <UploadComponent idordermission={enquete_object.ordermission.idordermission} />
-                  :''
-                }
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-y-1 border-dotted border-2 border-gray-200 p-3 rounded-lg">
-            <span className="font-bold mb-1">Convocation</span>
-            <div className="flex flex-col gap-y-2">
-              <span><CalendarOutlined /> Date :  {enquete_object.statu < 20 ? 'En attente' : enquete_object.statu === 20 ? 'en cours' : enquete_object.dateconvocation.toString()}</span></div>
-              <span>
-                <FileDoneOutlined />
-                Fichier : {enquete_object.statu < 20 ? 'En attente' : enquete_object.statu === 20 ? 'en cours' : <a className="ml-2" style={{color:'blue'}}>{ enquete_object.url_convocation.toString()}</a>}
-              </span>
               {
-                role === 'CH' ?
-                <UploadConvocation idordermission={enquete_object.ordermission.idordermission}/>
+                (role === 'CH' && enquete_object.ordermission.fin === null)   ?
+                  <UploadComponent idordermission={enquete_object.ordermission.idordermission} />
                 :''
               }
             </div>
-            <div className="flex flex-col gap-y-2 border-dotted border-2 border-gray-200 p-3 rounded-lg">
-            <span className="font-bold mb-1">PV Audition</span>
-              <div className="">
-                <span><CalendarOutlined /> Date :
-                  {enquete_object.statu < 30 ? 'En Attente' : enquete_object.statu === 30 ? 'en cours' : enquete_object.datepvaudition.toString()}
-                </span>
+          </div>
+          <Divider dashed />
+          <div className="flex flex-col gap-y-3">
+            <div className="flex gap-2">
+              <span className="font-bold text-blue-500">Etape 2 : </span>
+              <span>Convocation</span>
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <div className="flex gap-2">
+                <div className="flex gap-2">
+                  <span><CalendarOutlined /> </span>
+                  <span>Date : </span>
+                </div>
+                <div>
+                  {enquete_object.statu < 20 ? 'en attente' : enquete_object.statu === 20 ? 'en cours' : enquete_object.dateconvocation.toString()}
+                </div>
               </div>
-              <span>
-                <FileDoneOutlined />
-                 Fichier :
-                  {enquete_object.statu < 30 ? 'En Attente'  : enquete_object.statu === 30 ? 'en cours' : <a className="ml-2" style={{color:'blue'}}>{ enquete_object.urlpvaudition.toString()}</a>}
-              </span>
+            </div>
+            <div className="flex gap-2">
+              <div className="flex gap-2">
+                <span><FileDoneOutlined /></span>
+                <span>Fichier : </span>
+              </div>
+              <div>
+                {enquete_object.statu < 20 ? 'en attente' : enquete_object.statu === 20 ? 'en cours' : <a className="ml-2" style={{color:'blue'}}>{ enquete_object.url_convocation.toString()}</a>}
+              </div>
+            </div>
+            {
+              (role === 'CH' && enquete_object.ordermission.fin === null)  ?
+              <UploadConvocation idordermission={enquete_object.ordermission.idordermission}/>
+              :''
+            }
+          </div>
+          <Divider dashed />
+          <div className="flex flex-col gap-y-3">
+            <div className="flex gap-2">
+              <span className="font-bold text-blue-500">Etape 3 : </span>
+              <span>Pv audition</span>
+            </div>
+              <div className="flex gap-2">
+                <div className="flex gap-2">
+                  <span><CalendarOutlined /> </span>
+                  <span>Date : </span>
+                </div>
+                <div>
+                  {enquete_object.statu < 30 ? 'en attente' : enquete_object.statu === 30 ? 'en cours' : enquete_object.datepvaudition.toString()}
+                </div>
+            </div>
+            <div className="flex gap-2">
+              <div className="flex gap-2">
+                <span><FileDoneOutlined /></span>
+                <span>Fichier : </span>
+              </div>
+              <div>
+                {enquete_object.statu < 30 ? 'en attente'  : enquete_object.statu === 30 ? 'en cours' : <a className="ml-2" style={{color:'blue'}}>{ enquete_object.urlpvaudition.toString()}</a>}
+              </div>
+            </div>
               {
-                role === 'CH' ?
+                (role === 'CH' && enquete_object.ordermission.fin === null)  ?
                   <Uploadaudition idordermission={enquete_object.ordermission.idordermission} />
                 :''
               }
+          </div>
+          <Divider dashed />
+          <div className="flex flex-col gap-y-3">
+            <div className="flex gap-2">
+              <span className="font-bold text-blue-500">Etape 4 : </span>
+              <span>Pv infraction</span>
             </div>
-            <div className="flex flex-col gap-y-2 border-dotted border-2 border-gray-200 p-3 rounded-lg">
-            <span className="font-bold mb-1">PV Infraction</span>
-              <div className="">
-                <span>
-                  <CalendarOutlined /> Date :
-                  {enquete_object.statu < 200 ? 'En Attente' : enquete_object.statu === 200 ? ' en cours' : enquete_object.statu === 210 ? ' Clean ' : enquete_object.dateinfraction.toString() }
-                </span>
+            <div className="flex gap-2">
+              <div className="flex gap-2">
+                <span><CalendarOutlined /> </span>
+                <span>Date : </span>
               </div>
-              <span>
-                <FileDoneOutlined />
-                Fichier :
-                {enquete_object.statu < 200 ? 'En Attente' : enquete_object.statu === 200 ? 'en cours' : enquete_object.statu === 210 ? ' Clean ' :  <a className="ml-2" style={{ color: 'blue' }}>{enquete_object.url_pvinfraction.toString()}</a>}
-              </span>
+              <div> {enquete_object.statu < 200 ? 'en attente' : enquete_object.statu === 200 ? ' en cours' : enquete_object.statu === 210 ? ' Clean ' : enquete_object.dateinfraction.toString() }</div>
+            </div>
+            <div className="flex gap-2">
+              <div className="flex gap-2">
+                <span><FileDoneOutlined /></span>
+                <span>Fichier : </span>
+              </div>
+              <div>
+                {enquete_object.statu < 200 ? 'en attente' : enquete_object.statu === 200 ? 'en cours' : enquete_object.statu === 210 ? ' Clean ' :  <a className="ml-2" style={{ color: 'blue' }}>{enquete_object.url_pvinfraction.toString()}</a>}
+              </div>
+            </div>
               {
-                role === 'CH' ?
+                (role === 'CH' && enquete_object.ordermission.fin === null)  ?
                   <Uploadinfraction idordermission={enquete_object.ordermission.idordermission}/> :''
               }
           </div>
-        </div>
       </Drawer>
       </div>
     </>

@@ -67,10 +67,7 @@ function ContentEquipe() {
     <>
       <div className="font-sans flex justify-between">
         <span className="text-xl font-bold mb-2" >Equipe.</span>
-        <div className="border-dotted border-2 items-center flex p-1  text-xs font-bold cursor-pointer" onClick={showModal}>
-          <PlusCircleOutlined style={{fontSize:'16px'}}/>
-          <span className="ml-1"> Nouveau equipe</span>
-        </div>
+        <Button icon={<PlusCircleOutlined />} className="font-sans text-xs" type="dashed" onClick={showModal}>Nouveau equipe</Button>
       </div>
       <div className="grid grid-cols-4 gap-5">
         {

@@ -1,24 +1,49 @@
-import { Table, TableColumnsType, theme } from "antd";
+import { Avatar, Button,Modal,Table, TableColumnsType, Tag, theme } from "antd";
 import { usegetAdministrator } from "../../../../api/mission/Apipublic";
 import { Administration, TransformDataAdministration } from "../../../../types/administration/Administration";
-
+import {
+  EditOutlined,DeleteOutlined
+} from '@ant-design/icons';
+import { useState } from "react";
+import FormModifiedAdmin from "./FormModifiedAdmin";
 function AdminSg() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const administrator = usegetAdministrator();
+  const [data_detail, setDetail] = useState<Administration>();
+  const [open, setOpen] = useState(false);
   if (administrator.isPending) {
     return <>loading...</>
   }
   if (administrator.isError) {
     return <>error...</>
   }
+  const data_admin = TransformDataAdministration(administrator.data);
+  const handleClick = (data: Administration) => {
+    setOpen(true);
+    setDetail(data);
+  }
+  const handleOk = () => {
+    setOpen(false);
+  };
 
-  const data_admin = TransformDataAdministration(administrator.data)
+  const handleCancel = () => {
+    setOpen(false);
+  };
   const columns: TableColumnsType<Administration> = [
+    {
+      title: <span className="font-sans">Photo</span>,
+      dataIndex: 'photo',
+      key: 'photo',
+      onHeaderCell: () => ({
+        style:{background:'transparent'}
+      }),
+      render:(text) => <Avatar src={text} />
+    },
     {
       title: <span className="font-sans">Nom</span>,
       dataIndex: 'name',
       key: 'name',
-      width:'25%',
+      width:'15%',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
@@ -61,31 +86,58 @@ function AdminSg() {
       render: (text) => <span className='font-sans'>{text}</span>
     },
     {
-      title: <span className="font-sans">Addresse</span>,
-      dataIndex: 'addresse',
-      key: 'addresse',
+      title: <span className="font-sans">Ne(e) le</span>,
+      dataIndex: 'date_naissance',
+      key: 'date_naissance',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
       render: (text) => <span className='font-sans'>{text}</span>
+    },
+    {
+      title: <span className="font-sans">Status</span>,
+      dataIndex: 'age',
+      key:'age',
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+      render: (text) => <> {text >= 60 ? <Tag color="red" className="font-sans">Retraite(e)</Tag> : <Tag color="green" className="font-sans">En activite</Tag>} </>
+    },
+    {
+      onHeaderCell: () => ({
+        style: { backgroundColor: 'transparent' },
+      }),
+      key: 'action',
+      render: (_, record) => 
+        <>
+          <div className="flex gap-2">
+            <Button icon={<EditOutlined />} type="dashed" className="font-sans text-xs" onClick={()=>handleClick(record)}>Modifier</Button>
+            <Button icon={<DeleteOutlined />} type="dashed" className="font-sans text-xs" danger>Retirer</Button>
+          </div>
+        </>
     }
   ]
   return (
       <>
-      <div
-        className="flex flex-col gap-y-2 font-sans"
-        style={{
-          padding: 24,
-          minHeight: 360,
-          background: colorBgContainer,
-          borderRadius: borderRadiusLG,
-        }}
-      > 
+        <div
+          className="flex flex-col gap-y-2 font-sans"
+          style={{
+            padding: 24,
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
+        > 
           <div className="flex justify-between items-center">
             <span className="text-xl font-bold" >Administrateur.</span>
           </div>
           <Table columns={columns} dataSource={data_admin} pagination={false} />
         </div>
+        <Modal key={data_detail?.key!} className="font-sans" title={<span className="font-bold font-sans">Modification.</span>} onOk={handleOk} onCancel={handleCancel} open={open}
+          footer={(_  , {})=>(
+            <></>
+          )}>
+            <FormModifiedAdmin search="" idregion={0} page={0} isregional={false} data_detail={data_detail!} closed_modal={handleCancel} />
+        </Modal>
       </>
     )
 }

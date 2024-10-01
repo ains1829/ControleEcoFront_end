@@ -9,7 +9,7 @@ dayjs.locale('fr');
 function Signalement() {
   const [date_actuelle, setDate] = useState(Number(dayjs().format('YYYY')));
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
-    const onChange: DatePickerProps['onChange'] = (date, _) => {
+  const onChange: DatePickerProps['onChange'] = (date, _) => {
     if (date) {
       const year = date.format('YYYY');  
       setDate(Number(year))
@@ -28,30 +28,26 @@ function Signalement() {
       > 
         <div className="flex justify-between">
           <div className="flex flex-col gap-y-1">
-            <span className="text-sm font-bold">Signalment</span>
-            <span className="text-xs text-gray-500">(annee : {date_actuelle })</span>
+            <span className="text-xl font-bold">Signalment.</span>
+            <span className="text-xs">(annee : {date_actuelle })</span>
           </div>
           <div className="flex gap-4 items-center">
             <span className="font-bold">Date:</span>
             <DatePicker onChange={onChange} picker="year" />
           </div>
         </div>
-        <div className="flex justify-between text-3xl items-center border-b-2 border-dotted mt-5">
-          <span>Total</span>
-          <span>500</span>
-        </div>
       </div>
-      <div className="flex gap-2 mt-3">
+      <div className="flex gap-2 mt-2">
         <div className="w-1/4 p-5 bg-white rounded-lg">
-          <PieChart />
+          <PieChart date={date_actuelle}/>
         </div>
         <div className="w-3/4  p-5 bg-white rounded-lg">
-          <GroupedBarChart />
+          <GroupedBarChart date={date_actuelle} />
         </div>
       </div>
       <div className="flex flex-col gap-y-3 mt-3 p-5 bg-white rounded-lg">
-        <span className="font-sans font-bold">Tableau des Signalements Totaux par Région</span>
-        <Signalementbyregion />
+        <span className="font-sans font-bold text-red-500">Tableau des Signalements Totaux par Région</span>
+        <Signalementbyregion date={date_actuelle}/>
       </div>
     </div>
   )

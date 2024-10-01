@@ -1,6 +1,5 @@
 import { Avatar, Button, Divider, message, Popconfirm, Tooltip } from "antd";
 import {
-  UserOutlined,
   DeleteOutlined
 } from '@ant-design/icons';
 import { M_Equipe } from "../../../../types/mission/M_Equipe";
@@ -26,7 +25,7 @@ function Equipe({ data }: { data: M_Equipe }) {
       <div className="flex flex-col p-3 shadow-lg rounded-lg">
         <div className="flex flex-col gap-y-4">
           <div className="flex justify-between">
-            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" size={"large"} />
+            <Avatar src={data.photo_chef} size={"large"} />
             <div className="flex  items-center cursor-pointer font-sans text-red-500">
                <Popconfirm
                   title={<span className="font-sans text-xs">Suppression</span>}
@@ -69,7 +68,7 @@ function Equipe({ data }: { data: M_Equipe }) {
               {
                 data.membres.map((item) => (
                   <Tooltip key={item.matricule} title={<span className="font-sans text-xs">{ item.matricule}</span>} placement="top">
-                    <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+                    <Avatar src={item.photo} size={'large'}/>
                   </Tooltip>
                 ))
               }
