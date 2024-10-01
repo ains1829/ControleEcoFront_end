@@ -45,7 +45,7 @@ function Societe() {
   return (
     <>
     <Breadcrumb className="font-sans p-2" items={[{ title: 'Liste' } , {title:'Societe'}]} />
-   <div
+    <div
       className="flex flex-col gap-y-2 font-sans"
       style={{
         padding: 24,

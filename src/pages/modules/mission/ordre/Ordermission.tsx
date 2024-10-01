@@ -110,7 +110,7 @@ function Ordermission() {
               <span className="text-gray-400">Non valider </span> 
               <span className="font-bold text-2xl">{data_om.non_valider}</span>
             </div>
-             <div className="flex justify-between items-center border-b-2 border-gray-100">
+            <div className="flex justify-between items-center border-b-2 border-gray-100">
               <span className="text-gray-400">En Attente Dg</span> 
               <span className="font-bold text-2xl">{data_om.attente_dg}</span>
             </div>
@@ -134,7 +134,6 @@ function Ordermission() {
             ))}
           </>
         }
-
           <div className="flex justify-between items-center">
           <div className="flex gap-2">
             <div className={`${ClassNamePrevious} p-2 text-xs items-center text-white rounded-xl font-bold flex gap-2`} onClick={handlePrevious}>

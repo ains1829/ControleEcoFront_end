@@ -39,7 +39,7 @@ function Mission({ data }: { data: Ordredemission }) {
         }
       } else {
         const reponse = await validation_dg.mutateAsync({ idordermission: id,validate });
-         if (reponse.status === 200) {
+        if (reponse.status === 200) {
           if (validate == true) {
             message.success('Demande OK');
           } else {
@@ -161,12 +161,13 @@ function Mission({ data }: { data: Ordredemission }) {
                   icon={<CheckCircleOutlined style={{color:"green"}} /> }
                 >
                   <Button className="font-sans text-xs" type="dashed">Valider</Button>
-              </Popconfirm>
-              <Popconfirm title={<span className="font-sans text-xs">Supprimer L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir de supprimer L'OM ?</span>}
-              onConfirm={()=>confirms_ordermission(data.idordermission , false)}
-               onCancel={cancel}
+                </Popconfirm>
+              <Popconfirm
+                title={<span className="font-sans text-xs">Supprimer L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir de supprimer L'OM ?</span>}
+                onConfirm={()=>confirms_ordermission(data.idordermission , false)}
+                onCancel={cancel}
                 okText={<span className="font-sans text-xs">Oui</span>}
-              cancelText={<span className="font-sans text-xs">Non</span>}
+                cancelText={<span className="font-sans text-xs">Non</span>}
               >
                 <Button type="dashed" className="font-sans text-xs" danger>Supprimer</Button>
               </Popconfirm>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import {
-  DesktopOutlined,
+  DashboardOutlined,
   UserOutlined,
+  AuditOutlined,
   ScheduleOutlined,CalendarOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
@@ -29,41 +30,41 @@ function ContentPage() {
   }
   let item_menu = Array()
   if (role === "SG" || role === "DG") {
-    item_menu.push(getItem('Dashboard', 'sub1', <DesktopOutlined />, [
+    item_menu.push(getItem('Dashboard', 'sub1', <DashboardOutlined />, [
       getItem(<Link to="/dashboardsg">Ordre</Link>, '1'),
       getItem(<Link to="/ppnglobal">PPN</Link>, '2'),
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
-    item_menu.push(getItem(<Link to='/ordredemission'>Ordre de mission</Link>, '3', <UserOutlined />))
+    item_menu.push(getItem(<Link to='/ordredemission'>Ordre de mission</Link>, '3', <AuditOutlined />))
     item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '4', <ScheduleOutlined />))
   }
   if (role === "DSI") {
-    item_menu.push(getItem('Dashboard', 'sub1', <DesktopOutlined />, [
+    item_menu.push(getItem('Dashboard', 'sub1', <DashboardOutlined />, [
       getItem(<Link to="/dashboardsg">Ordre</Link>, '1'),
       getItem(<Link to="/ppnglobal">PPN</Link>, '5'),
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
     item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '2', <ScheduleOutlined />))
-    item_menu.push(getItem(<Link to="/administration">Administration</Link> , '3' , <ScheduleOutlined />))
+    item_menu.push(getItem(<Link to="/administration">Administration</Link> , '3' , <UserOutlined />))
     item_menu.push(getItem(<Link to="/account">Account</Link> , '4' , <ScheduleOutlined />))
   }
   if (role === "DR" || role === "DT") {
-    item_menu.push(getItem('Dashboard', 'sub2', <DesktopOutlined />, [
+    item_menu.push(getItem('Dashboard', 'sub2', <DashboardOutlined />, [
       getItem(<Link to="/ppnregion">PPN</Link>, '6'),
       getItem(<Link to="/signalementregion">Signalement</Link>, '7')
     ]))
     item_menu.push(
-      getItem('Mission', 'sub1', <UserOutlined />, [
+      getItem('Mission', 'sub1', <AuditOutlined />, [
         getItem(<Link to="/ordredemissiondr">Ordre de mission</Link>, '1'),
         getItem(<Link to="/suivimission_dr_dt" >Suivi Mission </Link> ,'2')
     ]))
-    item_menu.push(getItem(<Link to="/missionnaire">Membres</Link> , '5' , <CalendarOutlined />))
+    item_menu.push(getItem(<Link to="/missionnaire">Membres</Link> , '5' , <UserOutlined />))
     item_menu.push(getItem(<Link to="/calendar">Calendrier</Link> , '4' , <CalendarOutlined />))
     item_menu.push(getItem(<Link to="/societe">Societe</Link>, '3', <ScheduleOutlined />))
   }
   if (role === "CH") {
     item_menu.push(
-      getItem('Mission', 'sub1', <UserOutlined />, [
+      getItem('Mission', 'sub1', <AuditOutlined />, [
       getItem(<Link to='/suivimission'>Suivi de mission</Link>, '1')
     ]))
   }

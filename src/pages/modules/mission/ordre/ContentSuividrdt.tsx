@@ -9,7 +9,6 @@ function ContentSuividrdt() {
   const [date_actuelle, setDate] = useState(Number(dayjs().format('YYYY')));
   const progressing = useStatbyprogressiongbyregion(date_actuelle);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
-
   if (progressing.isPending) {
     return <>loading...</>
   }
@@ -17,7 +16,6 @@ function ContentSuividrdt() {
     return <>error...</>
   }
   const data_progressing = progressing.data
- 
   const onChange: DatePickerProps['onChange'] = (date, _) => {
     if (date) {
       const year = date.format('YYYY');  

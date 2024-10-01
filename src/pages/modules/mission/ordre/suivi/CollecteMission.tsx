@@ -86,11 +86,11 @@ function CollecteMission() {
   };
   const handleSumbit = async (event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-   const dataToSend : Jsoncollecte[] =  inputGroups.map(group => ({
+    const dataToSend : Jsoncollecte[] =  inputGroups.map(group => ({
       id: group.id,
       prix: group.inputs,
       observations: group.observations
-   }));
+    }));
     let idordermission = collecte_object?.ordermission.idordermission;
     if (idordermission !== undefined) {
       console.log(dataToSend)

@@ -1,4 +1,4 @@
-import { Avatar, Button, Drawer, Empty, Space, Table, TableColumnsType } from 'antd';
+import { Avatar, Button, Divider, Drawer, Empty, Image, Space, Table, TableColumnsType, Tag } from 'antd';
 import { useState } from 'react';
 import { Societedata } from '../../../types/societe/SocieteData';
 import { useSocieteRef } from '../../../api/mission/Apiordremission';
@@ -88,7 +88,7 @@ const C_societe = ({data} : {data : Societedata[]}) => {
       }),
       render: (_, record) => (
         <Space size="middle">
-          <Button className="text-xs font-sans p-4" onClick={()=>handleClick(record)} >Detail</Button>
+          <Button type="dashed" className="text-xs font-sans p-4" onClick={()=>handleClick(record)} >Detail</Button>
         </Space>
       ),
     }
@@ -100,63 +100,68 @@ const C_societe = ({data} : {data : Societedata[]}) => {
     <>
       <Table columns={columns} dataSource={data} pagination={false} />
       <Drawer
-        title={
-          <div className='flex items-center gap-2'>
-            <Avatar src={data_societe?.logo} size={'large'}/>
-            <span className='font-sans'>{data_societe?.namesociete}</span>
-          </div>
-        }
         placement="right"
-        size={"large"}
         onClose={onClose}
         open={open}
+        width={520}
       >
-        <div className='flex flex-col gap-y-10'>
-          <div className='font-sans flex flex-col gap-y-2'>
-          <span className='text-xs font-bold font-sans'>Detail</span>
-          <div className='font-sans grid grid-cols-2 gap-4'>
-            <div className='flex flex-col gap-y-4'>
-              <div className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
-                <span>Responsable</span>
-                  <span className='text-xs font-bold'>{data_societe?.responsable }</span>
-              </div>
-              <div className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
-                <span>Telephone</span>
-                  <span className='text-xs'>{ data_societe?.telephone}</span>
-              </div>
-              <div className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
-                <span>Addresse</span>
-                  <span className='text-xs'>{ data_societe?.addresse}</span>
-              </div>
-              <div className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
-                <span>District</span>
-                  <span className='text-xs'>{ data_societe?.district}</span>
-              </div>
+        <div className='flex flex-col'>
+          <div>
+            <div className='flex flex-col gap-y-2'>
+              <Image src={data_societe?.logo} alt='...' width={100} height={100}/>
+              <span className='font-sans font-bold'>{data_societe?.namesociete}</span>
             </div>
-            <div className='flex flex-col gap-y-4'>
-              <div className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
-                <span>NIF</span>
-                  <span className='text-xs'>{ data_societe?.nif}</span>
-              </div>
-              <div className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
-                <span>STAT</span>
-                  <span className='text-xs'>{ data_societe?.stat}</span>
-              </div>
-              <div className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
-                <span>Numero Fiscal</span>
-                  <span className='text-xs'>{ data_societe?.numerofiscal}</span>
+          </div>  
+          <Divider />
+          <div className='font-sans flex flex-col gap-y-2'>
+            <span className='font-bold font-sans'>Detail Societe</span>
+            <div className='font-sans gap-4 mt-3 di'>
+              <div className='flex flex-col gap-y-5'>
+                <div className='flex justify-between items-center'>
+                  <span className='text-gray-400 font-bold'>Responsable</span>
+                  <span className=' font-bold'>{data_societe?.responsable }</span>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <span className='text-gray-400 font-bold'>Telephone</span>
+                  <span className=''>{ data_societe?.telephone}</span>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <span className='text-gray-400 font-bold'>Addresse</span>
+                  <span className=''>{ data_societe?.addresse}</span>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <span className='text-gray-400 font-bold'>District</span>
+                  <span className=''>{ data_societe?.district}</span>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <span className='text-gray-400 font-bold'>NIF</span>
+                  <span className=''>{ data_societe?.nif}</span>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <span className='text-gray-400 font-bold'>STAT</span>
+                  <span className=''>{ data_societe?.stat}</span>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <span className='text-gray-400 font-bold'>Numero Fiscal</span>
+                  <span className=''>{ data_societe?.numerofiscal}</span>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <span className='text-gray-400 font-bold'>Status</span>
+                  <Tag className='font-sans' color='green'>Active</Tag>
+                </div>
               </div>
             </div>
           </div>
-          </div>
+          <Divider />
           <div className='font-sans flex flex-col gap-y-2'>
-            <span className='font-bold text-xs'>Description</span>
+            <span className='font-bold text-sm'>Description</span>
             <span>
               {data_societe?.description}
             </span>
           </div>
+          <Divider />
           <div className='font-sans flex flex-col gap-y-2'>
-            <span className='font-bold text-xs'>Reference OM</span>
+            <span className='font-bold'>Reference OM</span>
               <div className='flex flex-col gap-y-4'>
                 {
                   data_ref.isPending ? <>loading....</> :

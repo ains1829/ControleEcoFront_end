@@ -15,7 +15,8 @@ import { useSaveMission } from "../../../../api/mission/Apiordremission";
 import Search, { SearchProps } from "antd/es/input/Search";
 import {
   LeftOutlined,
-  RightOutlined
+  RightOutlined,
+  SendOutlined
 } from '@ant-design/icons';
 import { useOMvalidationbyregion } from "../../../../api/dashboard/Statistique";
 export function OrdermissionUser() {
@@ -206,7 +207,7 @@ export function OrdermissionUser() {
         </div>
       </div>
       <FloatButton type="primary" shape="circle" tooltip={<div className="font-sans">Nouveaux demande ?</div>} style={{fontSize:'20px'}}  onClick={() => setOpen(true)}/>
-       <Modal
+      <Modal
         title={
           <div className="w-5/6 font-sans flex flex-col gap-y-2 p-4">
             <span className="text-xl">Demande</span>
@@ -223,7 +224,7 @@ export function OrdermissionUser() {
         width={1000}
         footer={(_, { }) => (
           <>
-            <Button loading={mutationSavemission.isPending} form="myform" htmlType="submit" type="dashed" className="bg-secondary font-sans text-white text-xs">Envoyer</Button>
+            <Button loading={mutationSavemission.isPending} form="myform" htmlType="submit" type="dashed" className="bg-secondary font-sans text-white text-xs" icon={<SendOutlined />} > Envoyer</Button>
           </>
         )}
       >
@@ -232,7 +233,7 @@ export function OrdermissionUser() {
             <div className="grid grid-cols-2 p-4 justify-between items-center">
                 <div className="flex flex-col font-sans">
                   <label className="font-sans font-bold">Type de mission</label>
-                  <span className="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</span>
+                  <span className="text-xs">Sélectionnez le type de mission</span>
                 </div>
                 <Controller
                   control={control}
@@ -259,7 +260,7 @@ export function OrdermissionUser() {
               <div className="items-center font-sans grid grid-cols-2 p-4">
                 <div className="flex flex-col">
                   <label className="font-sans font-bold">Equipe</label>
-                  <span className="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</span>
+                  <span className="text-xs">Choisissez l'équipe responsable</span>
                 </div>
                   <Controller control={control} name="idequipe" render={({field}) =>
                   <Select {...field} className="font-sans"  placeholder={"Equipe"}
@@ -273,7 +274,7 @@ export function OrdermissionUser() {
                 <div key={1} className="grid grid-cols-2 items-center font-sans p-4">
                   <div className="flex flex-col">
                     <label className="font-sans font-bold">Societe</label>
-                    <span className="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</span>
+                    <span className="text-xs">Indiquez la société concernée</span>
                   </div>
                   <div className="flex flex-col gap-y-2">
                     <Controller control={control} name="societe" render={({ field }) => 
@@ -309,7 +310,7 @@ export function OrdermissionUser() {
             <div className="grid grid-cols-2 items-center p-4 gap-y-1">
               <div className="flex flex-col font-sans">
                 <label className="font-sans font-bold">Date mission</label>
-                <span className="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</span>
+                <span className="text-xs">Sélectionnez la date de la mission</span>
               </div>
               <Controller
                 control={control}
@@ -329,7 +330,7 @@ export function OrdermissionUser() {
             <div className="grid grid-cols-2 p-4">
               <div className="font-sans flex flex-col">
                 <label className="font-sans font-bold">Motif</label>
-                <span className="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</span>
+                <span className="text-xs">Précisez le motif de la mission</span>
               </div>
               <Controller control={control} name="motifs" render={({ field }) => 
                 <TextArea {...field} rows={2} className="font-sans" required placeholder="Motif du demande"/>
@@ -338,7 +339,7 @@ export function OrdermissionUser() {
             <div className="grid grid-cols-2 p-4">
               <div className="font-sans flex flex-col">
                 <label className="font-sans font-bold">Context</label>
-                <span className="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</span>
+                <span className="text-xs">Décrivez le contexte de la mission</span>
               </div>
               <Controller control={control} name="context" render={({ field }) => 
                 <TextArea {...field} rows={4} className="font-sans" required placeholder="contexte du demande"/>

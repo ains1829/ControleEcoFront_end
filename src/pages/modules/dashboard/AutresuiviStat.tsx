@@ -1,6 +1,6 @@
 import Tableregionstat from "./Tableregionstat";
 function AutresuiviStat({date,data} : {date:number,data : any}) {
-   return (
+  return (
     <div className="flex flex-col gap-y-7 font-sans">
       <div className="grid grid-cols-2 gap-8" >
         <div className="flex justify-between items-center border-b-2 ">

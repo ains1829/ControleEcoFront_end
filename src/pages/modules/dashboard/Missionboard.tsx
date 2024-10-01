@@ -139,7 +139,9 @@ export function Missionboard() {
         </div>
         {
           choix_component === '0' ?
-          <EnqueteStat date={date_actuelle} data={data_typemission[0]} infraction={enquete_global_Stat.enquete_infraction} conforme={enquete_global_Stat.enquete_clean}/> : choix_component === '1' ? <CollecteStat date={date_actuelle} data={data_typemission[1]}/> : <AutresuiviStat date={date_actuelle} data={data_typemission[2]}/>
+            <EnqueteStat date={date_actuelle} data={data_typemission[0]} infraction={enquete_global_Stat.enquete_infraction} conforme={enquete_global_Stat.enquete_clean} /> :
+              choix_component === '1' ? <CollecteStat date={date_actuelle} data={data_typemission[1]} /> :
+                <AutresuiviStat date={date_actuelle} data={data_typemission[2]} />
         }
       </div>
     </>

@@ -37,7 +37,7 @@ function ResulFilter({ region, search, isfilter, datebegin, date_end }: { region
   return (
     <>
       <C_societe data={data_societe} />
-       <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center">
           <div className="flex gap-2">
             <div className={`${ClassNamePrevious} p-2 text-xs items-center text-white rounded-xl font-bold flex gap-2`} onClick={handlePrevious}>
               <LeftOutlined />

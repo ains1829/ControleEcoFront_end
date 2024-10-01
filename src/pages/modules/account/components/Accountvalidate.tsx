@@ -68,7 +68,7 @@ function Accountvalidate() {
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      render:()=> <Tag color={"green-inverse"} className="font-sans font-bold text-white">Valider</Tag>
+      render:()=> <Tag color={"green"} className="font-sans">Valider</Tag>
     },
     {
       title: <span className="font-sans">Date validation</span>,
