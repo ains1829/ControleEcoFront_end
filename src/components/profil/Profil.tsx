@@ -17,25 +17,27 @@ function Profil() {
   }
   const items: MenuProps['items'] = [
     {
-      label: <span className='font-sans'>andyRakotonavalona0@gmail.com</span>,
-      key: '0',
-    },
-    {
-      type: 'divider',
-    },
-    {
-      label: <Button danger icon={<LogoutOutlined />} className='font-sans' onClick={handleLogout}>Deconnexion</Button>,
-      key: '3',
+      label: <div className='font-sans text-red-500 flex items-center gap-3' onClick={handleLogout}>
+        <LogoutOutlined />
+        <span>
+          Deconnexion
+        </span>
+            </div>,
+      key: '1',
     },
   ];
   return (
     <>
-      <Dropdown  menu={{ items }} trigger={['click']}>
-        <a onClick={(e) => e.preventDefault()}>
-          <Space>
-            <Avatar style={{ backgroundColor: '#f56a00', marginLeft: '-50px' }}>{role}</Avatar>
-          </Space>
-        </a>
+      <Dropdown  menu={{ items }} trigger={['click']} arrow placement='bottomLeft'>
+        <div className='flex items-center gap-2 cursor-pointer p-2'>
+          <Avatar style={{ backgroundColor: '#f56a00' }}>{role}</Avatar>
+          <div className='flex flex-col text-xs font-sans gap-y-1'>
+            <span className='font-bold'>
+              ANDY RAKOTONAVALONA
+            </span>
+            <span className='text-gray-500'>Direction Systeme Informatique</span>
+          </div>
+        </div>
       </Dropdown>
     </>
   );

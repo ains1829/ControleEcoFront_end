@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Authuser } from "../../json/Authuser";
 import { instanceAxios } from "../../axios/Theaxios";
-
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
 const Authentification = async (data: Authuser) => {
   return await instanceAxios.post("auth/authentification", data);
 }
-
 export function useAuthentification() {
   return useMutation({
     mutationFn: (data: Authuser) => Authentification(data),
@@ -27,13 +27,14 @@ const ValidateAccount = async (idaccount: number) => {
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 export function useValidateAccount() {
   const queryclient = useQueryClient();
-   return useMutation({
+  return useMutation({
     mutationFn: ({id} : {id:number}) => ValidateAccount(id),
-     onSettled: async(_,error)=> {
+    onSettled: async(_,error)=> {
       if (error) {
         console.log(error)
       } else {

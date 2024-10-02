@@ -80,7 +80,7 @@ function ContentPage() {
         <Menu  className='font-sans mt-5 text-sm'  theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
       </Sider>
       <Layout>
-        <Header className='flex justify-end' style={{ padding: 0, background: colorBgContainer }} >
+        <Header className='flex items-center justify-end' style={{ padding: 0, background: colorBgContainer }} >
           <Profil />
         </Header>
         <Content  style={{ margin: '0 16px' }} className='text-wrap'>

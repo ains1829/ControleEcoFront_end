@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { instanceAxios } from "../axios/Theaxios";
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
 const getFeedback = async (idorderdemission:number) => {
   try {
     const reponse = (await instanceAxios.get(`mission/feedback_content?idordermission=${idorderdemission} `, {
@@ -9,13 +11,18 @@ const getFeedback = async (idorderdemission:number) => {
     })).data?.object;
     return reponse;
   } catch (error) {
-    
+    navigate('/');
   }
 }
 export function usegetFeedback(idorderdemission : number) {
   return useQuery({
     queryKey: ["feedback"], 
-    queryFn:()=>getFeedback(idorderdemission)
+    queryFn: () => getFeedback(idorderdemission),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -28,18 +35,19 @@ const getOrdermissionByUser = async (page:number,filtre:number,text:string) => {
     })).data?.object;
     return reponse
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:' , error)
+    console.log('ERROR FETCHING ORDER MISSION:', error);
+    navigate('/');
   }
 }
 export function usegetOrdermissionByUser(page:number , filter:number,text:string) {
   return useQuery({
     queryKey: ["order-missions-user", page,filter,text],
     queryFn: ()=>getOrdermissionByUser(page,filter,text),
-    // staleTime: Infinity,
-    // gcTime: Infinity,
-    // refetchOnWindowFocus: false,
-    // refetchOnMount: false,
-    // refetchOnReconnect: false,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 const getOrdermission = async (page:number,filtre:number,text:string) => {
@@ -51,18 +59,19 @@ const getOrdermission = async (page:number,filtre:number,text:string) => {
     })).data?.object;
     return reponse
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:' , error)
+    console.log('ERROR FETCHING ORDER MISSION:', error);
+    navigate('/');
   }
 }
 export function usegetOrdermission(page:number , filter:number,text:string) {
   return useQuery({
     queryKey: ["order-missions" , page,filter,text],
     queryFn: ()=>getOrdermission(page,filter,text),
-    // staleTime: Infinity,
-    // gcTime: Infinity,
-    // refetchOnWindowFocus: false,
-    // refetchOnMount: false,
-    // refetchOnReconnect: false,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 export const getOrdermissionAttente = async () => {
@@ -74,18 +83,19 @@ export const getOrdermissionAttente = async () => {
     })).data?.object;
     return reponse
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:' , error)
+    console.log('ERROR FETCHING ORDER MISSION:', error);
+    navigate('/');
   }
 }
 export function usegetOrdermissionAttente() {
   return useQuery({
     queryKey: ["order-missions-Attente"],
     queryFn: getOrdermissionAttente,
-    // staleTime: Infinity,
-    // gcTime: Infinity,
-    // refetchOnWindowFocus: false,
-    // refetchOnMount: false,
-    // refetchOnReconnect: false,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -98,7 +108,8 @@ export const getSocieteByregion = async (page : number , search : string) => {
     })).data?.object;
     return reponse;
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:' , error)
+    console.log('ERROR FETCHING ORDER MISSION:', error);
+    navigate('/');
   }
 }
 
@@ -106,11 +117,11 @@ export function usegetSocietebyregion(page:number , search : string) {
   return useQuery({
     queryKey: ["societebyregion" , page , search],
     queryFn: () => getSocieteByregion(page , search),
-    // staleTime: Infinity,
-    // gcTime: Infinity,
-    // refetchOnWindowFocus: false,
-    // refetchOnMount: false,
-    // refetchOnReconnect: false,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -124,7 +135,8 @@ const getSocieteglobal = async (page : number , search : string, idregion :numbe
     })).data?.object;
     return reponse;
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:' , error)
+    console.log('ERROR FETCHING ORDER MISSION:', error);
+    navigate('/');
   }
 }
 
@@ -132,11 +144,11 @@ export function usegetSocieteglobal(idregion : number ,  page:number , search : 
   return useQuery({
     queryKey: ["societeglobalpagination" , page , search , idregion , filtresocieteom , date_begin , date_end ],
     queryFn: () => getSocieteglobal(page , search , idregion , filtresocieteom , date_begin , date_end),
-    // staleTime: Infinity,
-    // gcTime: Infinity,
-    // refetchOnWindowFocus: false,
-    // refetchOnMount: false,
-    // refetchOnReconnect: true,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }getSocieteglobal
 const getProfil = async () => {
@@ -144,7 +156,8 @@ const getProfil = async () => {
     const respone = (await instanceAxios.get("data/profil"));
     return respone.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function usegetProfils() {
@@ -163,7 +176,8 @@ const getRegions = async () => {
     const respone = (await instanceAxios.get("data/regions"));
     return respone.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function usegetRegions() {
@@ -183,7 +197,8 @@ const getDistrict = async (idregion : number) => {
     const respone = (await instanceAxios.get(`data/district?idregion=${idregion}`));
     return respone.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 
@@ -207,7 +222,8 @@ const getRole = async () => {
     }));
     return respone.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function usegetRole() {
@@ -230,7 +246,8 @@ const getAdministrationValidate = async (page:number) => {
     }));
     return respone.data.object;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function usegetAdministrationValidate(page:number) {
@@ -253,7 +270,8 @@ const getAdministrationNoValidate = async (page:number) => {
     }));
     return respone.data.object;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function usegetAdministrationNoValidate(page:number) {

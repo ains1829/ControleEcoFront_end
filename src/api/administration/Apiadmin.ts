@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 import { Formadministration } from "../../types/administration/Formadministration";
-
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
 const Missionnaire = async (page: number, search: string) => {
   try {
     const reponse = (await instanceAxios.get(`scomadminstration/getmissionnairebyregion?page=${page}&text=${search}` , {
@@ -12,12 +13,18 @@ const Missionnaire = async (page: number, search: string) => {
     return reponse.data?.object
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 export function usegetMissionnaire(page:number , search:string) {
   return useQuery({
     queryKey: ["getmissionnairebyregion" , page,search],
-    queryFn:()=>Missionnaire(page,search)
+    queryFn: () => Missionnaire(page, search),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 const UpdateAdmin = async (data: Formadministration) => {
@@ -42,6 +49,7 @@ const UpdateAdmin = async (data: Formadministration) => {
     return reponse.data
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 export function useUpdateAdmin(search:string , region:number , page:number , isregional:boolean) {
@@ -83,6 +91,7 @@ const newAdmin = async (data: Formadministration) => {
     return reponse.data
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 

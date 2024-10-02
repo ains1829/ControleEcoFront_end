@@ -3,6 +3,8 @@ import { instanceAxios } from "../axios/Theaxios";
 import { Jsonmission } from "../json/mission/Jsonmission";
 import { Jsoncollecte } from "../json/mission/jsoncollecte";
 import { SocieteForm } from "../../types/societe/SocieteForm";
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
 const DetailCollecte = async (idcollecte: number) => {
   try {
     const reponse = (await instanceAxios.get(`mission/detail_collecte?idcollecte=${idcollecte}`, {
@@ -14,13 +16,19 @@ const DetailCollecte = async (idcollecte: number) => {
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/')
   }
 }
 
 export function useDetailCollecte(idcollecte: number){
   return useQuery({
     queryKey: ["detail_collecte", idcollecte],
-    queryFn:()=>DetailCollecte(idcollecte)
+    queryFn: () => DetailCollecte(idcollecte),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -31,12 +39,18 @@ const SocieteRef = async (idsociete: number) => {
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/')
   }
 }
 export function useSocieteRef(idsociete : number){
   return useQuery({
     queryKey: ["societeref", idsociete],
-    queryFn:()=> SocieteRef(idsociete) 
+    queryFn: () => SocieteRef(idsociete),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -51,6 +65,7 @@ const CollecteFinished = async (idordermission : number, data: Jsoncollecte[]) =
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/')
   }
 }
 
@@ -79,6 +94,7 @@ const EnqueteFinished = async (idorderdemission : number) => {
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/')
   }
 }
 
@@ -95,8 +111,9 @@ export function useEnqueteFinished() {
     }
   })
 }
+
 const EnvoyeRapport = async (idordermission: number, file: File) => {
-   try {
+  try {
     const formData = new FormData();
     formData.append('idordermission', idordermission.toString());
     formData.append('rapport', file);
@@ -111,6 +128,7 @@ const EnvoyeRapport = async (idordermission: number, file: File) => {
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/')
   }
 }
 export function useEnvoyeRapport() {
@@ -142,6 +160,7 @@ const EnvoyePvinfraction = async (idorderdemission : number , file : File) => {
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/')
   }
 }
 
@@ -174,6 +193,7 @@ const EnvoyePvaudition = async (idorderdemission : number , file : File) => {
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/')
   }
 }
 export function useEnquetePvaudition() {
@@ -206,6 +226,7 @@ const EnvoyeConvocation = async (idorderdemission : number , file : File) => {
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/')
   }
 }
 export function useEnqueteConvocation() {
@@ -238,6 +259,7 @@ const EnvoyeFicheTechnique = async (idorderdemission : number , file : File) => 
     return reponse;
   } catch (error) {
     console.log(error);
+    navigate('/')
   }
 }
 export function useEnqueteFicheTechnique() {
@@ -263,7 +285,8 @@ const OrdermissionBasculed = async (idordermission: number) => {
       .data?.object;
     return reponse;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function useOrdermissionBasculed() {
@@ -294,7 +317,8 @@ const OrdermissionValidate = async (idordermission:number , validate:boolean) =>
       .data;
     return reponse;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 
@@ -327,7 +351,8 @@ const OrdermissionValidateDgdmt = async (idordermission:number, validate:boolean
       .data?.object;
     return reponse;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 
@@ -347,14 +372,15 @@ export function useValidateOrdermissionDgdmt() {
 
 const OrdremissionSave = async (data: Jsonmission) => {
   try {
-     const reponse = (await instanceAxios.post("mission/demandeordre", data , {
+    const reponse = (await instanceAxios.post("mission/demandeordre", data , {
       headers: {
         "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
       }
-     }));
+    }));
     return reponse;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 
@@ -377,15 +403,16 @@ const SaveSociete = async (logo:File ,data: SocieteForm) => {
     const formData = new FormData();
     formData.append("photo", logo);
     formData.append("data", new Blob([JSON.stringify(data)], { type:'application/json'}));
-     const reponse = (await instanceAxios.post("scomadminstration/newSociete", formData , {
+    const reponse = (await instanceAxios.post("scomadminstration/newSociete", formData , {
       headers: {
         "Content-Type": "multipart/form-data",
-         "Authorization": `Bearer ${localStorage.getItem('token-user')}`,
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`,
         }
-     }));
+    }));
     return reponse;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
-
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
 const statbyprogressiongbyregion = async (anne:number) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique/missionprogressingbyregion?annee=${anne}`, {
@@ -11,12 +12,18 @@ const statbyprogressiongbyregion = async (anne:number) => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 export function useStatbyprogressiongbyregion(annee:number) {
   return useQuery({
     queryKey: ['missionprogressingbyregion' ,annee],
-    queryFn : ()=>statbyprogressiongbyregion(annee) 
+    queryFn: () => statbyprogressiongbyregion(annee),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -30,12 +37,18 @@ const statbyregionbytypemission = async (typemission:number , anne:number) => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 export function useStatbyregionbytypemission(typemission:number , annee:number) {
   return useQuery({
     queryKey: ['missionbyregionbytypemission' , typemission , annee],
-    queryFn : ()=>statbyregionbytypemission(typemission ,annee) 
+    queryFn: () => statbyregionbytypemission(typemission, annee),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 const OMvalidationbyregion = async () => {
@@ -48,13 +61,19 @@ const OMvalidationbyregion = async () => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 
 export function useOMvalidationbyregion() {
   return useQuery({
     queryKey: ['ombyregion'],
-    queryFn : OMvalidationbyregion
+    queryFn: OMvalidationbyregion,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 const OMvalidation = async () => {
@@ -67,12 +86,18 @@ const OMvalidation = async () => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 export function useOMvalidation() {
   return useQuery({
     queryKey: ['om_stat'],
-    queryFn : OMvalidation
+    queryFn: OMvalidation,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -86,13 +111,19 @@ const Enqueteregionglobal = async (date: number) => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 
 export function useEnqueteregionglobal(date : number) {
   return useQuery({
     queryKey: ["enquetestatglobalbyregion", date],
-    queryFn : () => Enqueteregionglobal(date)
+    queryFn: () => Enqueteregionglobal(date),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -106,12 +137,19 @@ const Enqueteglobal = async (date: number) => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
+
 export function useEnqueteglobal(date : number) {
   return useQuery({
     queryKey: ["enquetestatglobal", date],
-    queryFn : () => Enqueteglobal(date)
+    queryFn: () => Enqueteglobal(date),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -131,7 +169,12 @@ const MissionTypeglobal = async (date: number) => {
 export function useTypeMissionglobal(date : number) {
   return useQuery({
     queryKey: ["missiontypeglobal" , date],
-    queryFn :  () => MissionTypeglobal(date)
+    queryFn: () => MissionTypeglobal(date),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -145,11 +188,18 @@ const Statmissionglobal = async (date : number) => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
+
 export function useStatMissionglobal(date : number) {
   return useQuery({
     queryKey: ["statmissionglobal" , date],
-    queryFn :  () => Statmissionglobal(date)
+    queryFn: () => Statmissionglobal(date),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }

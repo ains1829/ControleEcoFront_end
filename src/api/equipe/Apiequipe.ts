@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios"
-
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
 const getMyEquipe = async () => {
   try {
     const reponse = (await instanceAxios.get('statistique/detailequipe', {
@@ -11,12 +12,18 @@ const getMyEquipe = async () => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 export function usegetMyEquipe() {
   return useQuery({
     queryKey: ["detailequipe"],
-    queryFn:getMyEquipe
+    queryFn: getMyEquipe,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 const missionBytype = async () => {
@@ -29,12 +36,18 @@ const missionBytype = async () => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
 export function useStatTypeMissionByEquipe() {
   return useQuery({
     queryKey: ["stattypemissionbyequipe"],
-    queryFn : missionBytype 
+    queryFn: missionBytype,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -48,12 +61,19 @@ const StatMission = async () => {
     return reponse.data?.object;
   } catch (error) {
     console.log(error);
+    navigate('/');
   }
 }
+
 export function useStatMissionByEquipe() {
   return useQuery({
     queryKey: ["statmissionbyequipe"],
-    queryFn : StatMission 
+    queryFn: StatMission,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -66,14 +86,20 @@ const Autresuivibyordermission = async (idmission: number) => {
     }));
     return reponse.data?.object;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function useAutresuivibyordermission(idmission : number) {
   return useQuery({
     queryKey: ["autresuivibyordermission", idmission],
-    queryFn:() => Autresuivibyordermission(idmission)
- }) 
+    queryFn: () => Autresuivibyordermission(idmission),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  }) 
 }
 const CollecteMissionByEquipe = async (idmission : number) => {
   try {
@@ -84,14 +110,20 @@ const CollecteMissionByEquipe = async (idmission : number) => {
     }));
     return reponse.data?.object;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 
 export function useCollecteMissionByEquipe (id : number) {
   return useQuery({
     queryKey: ["collectemissionbyequipe", id],
-    queryFn : () => CollecteMissionByEquipe(id) 
+    queryFn: () => CollecteMissionByEquipe(id),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -104,14 +136,20 @@ const EnqueteMissionByEquipe = async (idmission : number) => {
     }));
     return reponse.data?.object;
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 
 export function useEnqueteMissionByEquipe (id : number) {
   return useQuery({
     queryKey: ["enquetemissionbyequipe", id],
-    queryFn : () => EnqueteMissionByEquipe(id) 
+    queryFn: () => EnqueteMissionByEquipe(id),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 
@@ -124,13 +162,19 @@ const OrdremissionByEquipe = async (page:number , filter:number) => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function usegetOrdermissionByEquipe(page:number , filter:number) {
   return useQuery({
     queryKey: ["ordermissionbyequipe" , page , filter],
-    queryFn : ()=>OrdremissionByEquipe(page , filter) ,
+    queryFn: () => OrdremissionByEquipe(page, filter),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 const getEquipeByRegion = async () => {
@@ -142,13 +186,19 @@ const getEquipeByRegion = async () => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function usegetEquipeByregion() {
   return useQuery({
     queryKey: ['equipebyregion'],
-    queryFn:getEquipeByRegion
+    queryFn: getEquipeByRegion,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 const getDistrict = async () => {
@@ -160,13 +210,19 @@ const getDistrict = async () => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function usegetDistrictByregion() {
   return useQuery({
     queryKey: ['districtbyregion'],
-    queryFn:getDistrict
+    queryFn: getDistrict,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }
 const getSociete = async () => {
@@ -178,12 +234,18 @@ const getSociete = async () => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    navigate('/');
   }
 }
 export function usegetSocieteByregion() {
   return useQuery({
     queryKey: ['Societebyregion'],
-    queryFn:getSociete
+    queryFn: getSociete,
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   })
 }

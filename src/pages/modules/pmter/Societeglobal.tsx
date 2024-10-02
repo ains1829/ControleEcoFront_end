@@ -148,8 +148,8 @@ function Societeglobal() {
           }
         </div>
       </div>
-        <div className="flex flex-col gap-2 mt-5">
-          <span className="text-gray-500">Historique descente </span>
+        <div className="flex flex-col gap-2">
+          <span className="text-gray-500">Historique descente</span>
           <RangePicker style={{ width: '200px' }} picker="month" placeholder={['Date 1', 'Date 2']} onChange={onYearRangeChange}/>
         </div>
         <ResulFilter region={region_choice}  search={search} isfilter={filterOm_mission} datebegin={date_begin} date_end={date_end} />
