@@ -2,7 +2,8 @@ import { Button, Popconfirm, PopconfirmProps, Space, message , Modal, Divider, T
 import { useState } from "react";
 import {
   CheckCircleOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
+  CloseCircleOutlined
 } from '@ant-design/icons';
 import DetailMission from "./DetailMission";
 import { Ordredemission } from "../../../../types/mission/Ordredemission";
@@ -79,8 +80,8 @@ function Mission({ data }: { data: Ordredemission }) {
                 data.status === 100 || data.status === 500 || (data.status === 0 && role !== "SG") || (data.status === 10 && role !== "DG")
               ) ? '' : 
               <Space>
-                  <Button className="font-sans text-xs" type="dashed" onClick={() => confirms_ordermission(data.idordermission, true)} >Valider</Button>
-                  <Button className="font-sans text-xs" type="dashed" danger onClick={()=>confirms_ordermission(data.idordermission , false)} >Supprimer</Button>
+                <Button icon={<CheckCircleOutlined />} className="font-sans text-xs" type="dashed" onClick={() => confirms_ordermission(data.idordermission, true)} >Approuver</Button>
+                <Button icon={<CloseCircleOutlined />} className="font-sans text-xs" type="dashed" danger onClick={()=>confirms_ordermission(data.idordermission , false)} >Rejeter</Button>
               </Space>
             }
           </>
@@ -141,35 +142,35 @@ function Mission({ data }: { data: Ordredemission }) {
         </div>
         <div className="flex-none w-1/4">
           {
-            data.status === 100 ? <Tag color="success" className="font-sans p-1">valider</Tag> :
-              data.status === 500 ? <Tag color="error">Supprimer</Tag> : 
-              (data.status === 0 && role === 'SG') ? <Tag color="error" className="font-sans p-1">non valider</Tag> : 
-                (data.status === 10 && role === 'SG') ? <Tag color="warning" className="font-sans p-1">En attente DG</Tag> :
+            data.status === 100 ? <Tag color="success" className="font-sans p-1">Approuver</Tag> :
+              data.status === 500 ? <Tag color="error" className="font-sans p-1">Rejeter</Tag> : 
+              (data.status === 0 && role === 'SG') ? <Tag color="error" className="font-sans p-1">Validation requise</Tag> : 
+                (data.status === 10 && role === 'SG') ? <Tag color="warning" className="font-sans p-1">Validation DG requise</Tag> :
                   (data.status === 10 && role === 'DG') ?
-                    <Tag color="error" className="font-sans p-1">non valider</Tag> :
+                    <Tag color="yellow" className="font-sans p-1">Validation requise</Tag> :
                       <Tag color="warning" className="font-sans p-1">En attente</Tag>
           }
         </div>
         <div className="flex flex-none w-1/4 gap-5 items-center">
           {
             ((data.status === 0 && role === 'SG') || (data.status === 10 && role === 'DG')) ? <>
-                <Popconfirm title={<span className="font-sans text-xs">Valider L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir valider L'OM ?</span>}
+                <Popconfirm title={<span className="font-sans text-xs">Approuver L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir approuver cette demande d'OM ?</span>}
                   onConfirm={()=>confirms_ordermission(data.idordermission , true)}
                   onCancel={cancel}
                   okText={<span className="font-sans text-xs">Oui</span>}
                   cancelText={<span className="font-sans text-xs">Non</span>}
                   icon={<CheckCircleOutlined style={{color:"green"}} /> }
                 >
-                  <Button className="font-sans text-xs" type="dashed">Valider</Button>
+                  <Button className="font-sans text-xs" type="dashed" icon={<CheckCircleOutlined />}>Approuver</Button>
                 </Popconfirm>
               <Popconfirm
-                title={<span className="font-sans text-xs">Supprimer L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir de supprimer L'OM ?</span>}
+                title={<span className="font-sans text-xs">Rejeter L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir de rejeter cette demande d'OM ?</span>}
                 onConfirm={()=>confirms_ordermission(data.idordermission , false)}
                 onCancel={cancel}
                 okText={<span className="font-sans text-xs">Oui</span>}
                 cancelText={<span className="font-sans text-xs">Non</span>}
               >
-                <Button type="dashed" className="font-sans text-xs" danger>Supprimer</Button>
+                <Button  type="dashed" className="font-sans text-xs"  icon={<CloseCircleOutlined />} danger>Rejeter</Button>
               </Popconfirm>
             </>
               :

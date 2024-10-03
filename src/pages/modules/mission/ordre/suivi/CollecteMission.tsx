@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { usegetProduct } from "../../../../../api/mission/Apipublic";
 import { TransformDataProduct } from "../../../../../types/mission/suivi/Product";
 import { useCollecteMissionByEquipe } from "../../../../../api/equipe/Apiequipe";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { TransformdataCollecte } from "../../../../../types/mission/suivi/Collecte";
 import { useCollecteFinished } from "../../../../../api/mission/Apiordremission";
 import { Jsoncollecte } from "../../../../../api/json/mission/jsoncollecte";
@@ -25,10 +25,11 @@ export interface InputGroup {
 }
 function CollecteMission() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
+  const navigate = useNavigate();
   const product = usegetProduct();
   const [inputGroups, setInputGroups] = useState<InputGroup[]>([]);
   const { id } = useParams();
-  const collect = useCollecteMissionByEquipe(Number(id));
+  const collect = useCollecteMissionByEquipe(Number(id),navigate);
   const finished_collect = useCollecteFinished();
   const role = UserInstance().getRole;
   useEffect(() => {
@@ -94,7 +95,7 @@ function CollecteMission() {
     let idordermission = collecte_object?.ordermission.idordermission;
     if (idordermission !== undefined) {
       console.log(dataToSend)
-      var reponse = await finished_collect.mutateAsync({ idordermission, data: dataToSend });
+      var reponse = await finished_collect.mutateAsync({ idordermission, data: dataToSend , navigate});
       console.log(reponse);
     } else {
       console.log('idordermission undefined');

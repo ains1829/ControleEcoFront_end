@@ -1,4 +1,4 @@
-import { Breadcrumb, theme } from "antd";
+import {theme } from "antd";
 import { usegetSocietebyregion } from "../../../api/mission/Api";
 import C_societe from "./C_societe";
 import Search, { SearchProps } from "antd/es/input/Search";
@@ -8,11 +8,13 @@ import {
   LeftOutlined,
   RightOutlined
 } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 function Societe() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
+  const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
-  const societe = usegetSocietebyregion(page , search);
+  const societe = usegetSocietebyregion(page , search,navigate);
   if (societe.isPending) {
     return <>loading....</>
   }
@@ -44,7 +46,6 @@ function Societe() {
   }
   return (
     <>
-    <Breadcrumb className="font-sans p-2" items={[{ title: 'Liste' } , {title:'Societe'}]} />
     <div
       className="flex flex-col gap-y-2 font-sans"
       style={{
@@ -52,6 +53,7 @@ function Societe() {
         minHeight: 360,
         background: colorBgContainer,
         borderRadius: borderRadiusLG,
+        marginTop:10
       }}
       > 
         <div className="flex justify-between items-center">

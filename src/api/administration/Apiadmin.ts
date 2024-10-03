@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 import { Formadministration } from "../../types/administration/Formadministration";
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
-const Missionnaire = async (page: number, search: string) => {
+
+
+const Missionnaire = async (page: number, search: string , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`scomadminstration/getmissionnairebyregion?page=${page}&text=${search}` , {
       headers: {
@@ -12,14 +12,13 @@ const Missionnaire = async (page: number, search: string) => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usegetMissionnaire(page:number , search:string) {
+export function usegetMissionnaire(page:number , search:string , navigate:any) {
   return useQuery({
     queryKey: ["getmissionnairebyregion" , page,search],
-    queryFn: () => Missionnaire(page, search),
+    queryFn: () => Missionnaire(page, search,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -27,7 +26,7 @@ export function usegetMissionnaire(page:number , search:string) {
     refetchOnReconnect: false,
   })
 }
-const UpdateAdmin = async (data: Formadministration) => {
+const UpdateAdmin = async (data: Formadministration , navigate:any) => {
   try {
     const formData = new FormData();
     formData.append("photo", data.photo);
@@ -48,14 +47,13 @@ const UpdateAdmin = async (data: Formadministration) => {
     }));
     return reponse.data
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 export function useUpdateAdmin(search:string , region:number , page:number , isregional:boolean) {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ data }: { data: Formadministration }) => UpdateAdmin(data),
+    mutationFn: ({ data , navigate }: { data: Formadministration , navigate:any }) => UpdateAdmin(data,navigate),
     onSettled: async (_, error) => {
       if (error) {
         console.log(error)
@@ -70,7 +68,7 @@ export function useUpdateAdmin(search:string , region:number , page:number , isr
   })
 }
 
-const newAdmin = async (data: Formadministration) => {
+const newAdmin = async (data: Formadministration , navigate:any) => {
   try {
     const formData = new FormData();
     formData.append("photo", data.photo);
@@ -90,7 +88,6 @@ const newAdmin = async (data: Formadministration) => {
     }));
     return reponse.data
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
@@ -98,7 +95,7 @@ const newAdmin = async (data: Formadministration) => {
 export function useNewAdmin() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ data }: { data: Formadministration }) => newAdmin(data),
+    mutationFn: ({ data , navigate }: { data: Formadministration , navigate:any }) => newAdmin(data,navigate),
     onSettled: async (_, error,variable) => {
       if (error) {
         console.log(error)

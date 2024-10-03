@@ -1,11 +1,13 @@
-import { Button, Modal, Table, TableColumnsType, TableProps, theme } from "antd";
+import { Button, Divider, Modal, Table, TableColumnsType, TableProps, theme } from "antd";
 import { useRegionProvince } from "../../../../api/dashboard/PpnStat";
 import { Statppn, TransFormPpnRegion } from "../../../../types/stat/Statppn";
 import Tabledistrict from "./Tabledistrict";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Provinceregion({province , product,mois , annee} : {province:number , product:number , mois:number, annee:number}) {
-  const ppnregion = useRegionProvince(province, product, mois, annee);
+function Provinceregion({ province, product, mois, annee }: { province: number, product: number, mois: number, annee: number }) {
+  const navigate = useNavigate();
+  const ppnregion = useRegionProvince(province, product, mois, annee,navigate);
   const [region_click, setRegion] = useState(0);
   const [name_region , setNameregion] = useState('')
   const [open, setOpen] = useState(false)
@@ -83,12 +85,13 @@ function Provinceregion({province , product,mois , annee} : {province:number , p
           borderRadius: borderRadiusLG,
         }}
     > 
-      <div className="flex justify-between mb-5 items-center">
+      <div className="flex justify-between items-center">
         <span className="text-bold text-sm font-bold ">Detail par region</span>
       </div>
+      <Divider/>
       <Table  columns={columns} dataSource={data} onChange={onChange} pagination={false} />
       <Modal
-        title={<span className="font-sans">Detail du region {name_region}</span>}
+        title={<span className="font-sans">{name_region}</span>}
         centered
         width={1000}
         open={open}

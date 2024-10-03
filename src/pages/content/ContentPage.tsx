@@ -40,7 +40,7 @@ function ContentPage() {
   }
   if (role === "DSI") {
     item_menu.push(getItem('Dashboard', 'sub1', <DashboardOutlined />, [
-      getItem(<Link to="/dashboardsg">Ordre</Link>, '1'),
+      getItem(<Link to="/dashboardsg">Suivi</Link>, '1'),
       getItem(<Link to="/ppnglobal">PPN</Link>, '5'),
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))

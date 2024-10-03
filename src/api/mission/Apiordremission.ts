@@ -4,8 +4,8 @@ import { Jsonmission } from "../json/mission/Jsonmission";
 import { Jsoncollecte } from "../json/mission/jsoncollecte";
 import { SocieteForm } from "../../types/societe/SocieteForm";
 import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
-const DetailCollecte = async (idcollecte: number) => {
+
+const DetailCollecte = async (idcollecte: number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`mission/detail_collecte?idcollecte=${idcollecte}`, {
       headers: {
@@ -15,15 +15,14 @@ const DetailCollecte = async (idcollecte: number) => {
       .data.object;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/')
   }
 }
 
-export function useDetailCollecte(idcollecte: number){
+export function useDetailCollecte(idcollecte: number,navigate:any){
   return useQuery({
     queryKey: ["detail_collecte", idcollecte],
-    queryFn: () => DetailCollecte(idcollecte),
+    queryFn: () => DetailCollecte(idcollecte,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -32,20 +31,19 @@ export function useDetailCollecte(idcollecte: number){
   })
 }
 
-const SocieteRef = async (idsociete: number) => {
+const SocieteRef = async (idsociete: number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`data/ref_societe?idsociete=${idsociete}`))
       .data.object;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/')
   }
 }
-export function useSocieteRef(idsociete : number){
+export function useSocieteRef(idsociete : number , navigate:any){
   return useQuery({
     queryKey: ["societeref", idsociete],
-    queryFn: () => SocieteRef(idsociete),
+    queryFn: () => SocieteRef(idsociete , navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -54,7 +52,7 @@ export function useSocieteRef(idsociete : number){
   })
 }
 
-const CollecteFinished = async (idordermission : number, data: Jsoncollecte[]) => {
+const CollecteFinished = async (idordermission : number, data: Jsoncollecte[] , navigate:any) => {
   try {
     const reponse = (await instanceAxios.post(`mission/collecte_missionFinished?id=${idordermission}`, data , {
       headers: {
@@ -64,7 +62,6 @@ const CollecteFinished = async (idordermission : number, data: Jsoncollecte[]) =
       .data;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/')
   }
 }
@@ -72,7 +69,7 @@ const CollecteFinished = async (idordermission : number, data: Jsoncollecte[]) =
 export function useCollecteFinished() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({idordermission,data}: { idordermission: number , data : Jsoncollecte[]}) => CollecteFinished(idordermission , data),
+    mutationFn: ({idordermission,data,navigate}: { idordermission: number , data : Jsoncollecte[] , navigate:any}) => CollecteFinished(idordermission , data , navigate),
     onSettled: async (_, error , variables) => {
       if (error) {
         console.log(error);
@@ -83,7 +80,7 @@ export function useCollecteFinished() {
   })
 }
 
-const EnqueteFinished = async (idorderdemission : number) => {
+const EnqueteFinished = async (idorderdemission : number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.post(`mission/enquete_missionFinished?idordermission=${idorderdemission}`, {} , {
       headers: {
@@ -93,7 +90,6 @@ const EnqueteFinished = async (idorderdemission : number) => {
       .data;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/')
   }
 }
@@ -101,7 +97,7 @@ const EnqueteFinished = async (idorderdemission : number) => {
 export function useEnqueteFinished() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission}: { idordermission: number}) => EnqueteFinished(idordermission),
+    mutationFn: ({ idordermission , navigate}: { idordermission: number , navigate:any}) => EnqueteFinished(idordermission , navigate),
     onSettled: async (_, error , variables) => {
       if (error) {
         console.log(error);
@@ -112,7 +108,7 @@ export function useEnqueteFinished() {
   })
 }
 
-const EnvoyeRapport = async (idordermission: number, file: File) => {
+const EnvoyeRapport = async (idordermission: number, file: File , navigate:any) => {
   try {
     const formData = new FormData();
     formData.append('idordermission', idordermission.toString());
@@ -127,14 +123,13 @@ const EnvoyeRapport = async (idordermission: number, file: File) => {
       .data;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/')
   }
 }
 export function useEnvoyeRapport() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission, rapport }: { idordermission: number, rapport: File }) => EnvoyeRapport(idordermission, rapport),
+    mutationFn: ({ idordermission, rapport , navigate }: { idordermission: number, rapport: File , navigate:any }) => EnvoyeRapport(idordermission, rapport , navigate),
     onSettled: async (_, error,variables) => {
       if (error) {
         console.log(error)
@@ -144,7 +139,7 @@ export function useEnvoyeRapport() {
     }
   })
 }
-const EnvoyePvinfraction = async (idorderdemission : number , file : File) => {
+const EnvoyePvinfraction = async (idorderdemission : number , file : File , navigate:any) => {
   try {
     const formData = new FormData();
     formData.append('idordermission', idorderdemission.toString());
@@ -159,7 +154,6 @@ const EnvoyePvinfraction = async (idorderdemission : number , file : File) => {
       .data;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/')
   }
 }
@@ -167,7 +161,7 @@ const EnvoyePvinfraction = async (idorderdemission : number , file : File) => {
 export function useEnquetePvinfraction() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission, fiche }: { idordermission: number, fiche: File }) => EnvoyePvinfraction(idordermission, fiche),
+    mutationFn: ({ idordermission, fiche , navigate}: { idordermission: number, fiche: File , navigate:any }) => EnvoyePvinfraction(idordermission, fiche , navigate),
     onSettled: async (_, error , variables) => {
       if (error) {
         console.log(error);
@@ -177,7 +171,7 @@ export function useEnquetePvinfraction() {
     }
   })
 }
-const EnvoyePvaudition = async (idorderdemission : number , file : File) => {
+const EnvoyePvaudition = async (idorderdemission : number , file : File , navigate:any) => {
   try {
     const formData = new FormData();
     formData.append('idordermission', idorderdemission.toString());
@@ -192,14 +186,13 @@ const EnvoyePvaudition = async (idorderdemission : number , file : File) => {
       .data;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/')
   }
 }
 export function useEnquetePvaudition() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission, fiche }: { idordermission: number, fiche: File }) => EnvoyePvaudition(idordermission, fiche),
+    mutationFn: ({ idordermission, fiche , navigate}: { idordermission: number, fiche: File , navigate:any }) => EnvoyePvaudition(idordermission, fiche , navigate),
     onSettled: async (_, error , variables) => {
       if (error) {
         console.log(error);
@@ -210,7 +203,7 @@ export function useEnquetePvaudition() {
   })
 }
 
-const EnvoyeConvocation = async (idorderdemission : number , file : File) => {
+const EnvoyeConvocation = async (idorderdemission : number , file : File , navigate:any) => {
   try {
     const formData = new FormData();
     formData.append('idordermission', idorderdemission.toString());
@@ -225,14 +218,13 @@ const EnvoyeConvocation = async (idorderdemission : number , file : File) => {
       .data;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/')
   }
 }
 export function useEnqueteConvocation() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission, fiche }: { idordermission: number, fiche: File }) => EnvoyeConvocation(idordermission, fiche),
+    mutationFn: ({ idordermission, fiche , navigate }: { idordermission: number, fiche: File , navigate:any }) => EnvoyeConvocation(idordermission, fiche , navigate),
     onSettled: async (_, error , variables) => {
       if (error) {
         console.log(error);
@@ -243,7 +235,7 @@ export function useEnqueteConvocation() {
   })
 }
 
-const EnvoyeFicheTechnique = async (idorderdemission : number , file : File) => {
+const EnvoyeFicheTechnique = async (idorderdemission : number , file : File , navigate:any) => {
   try {
     const formData = new FormData();
     formData.append('idordermission', idorderdemission.toString());
@@ -258,14 +250,13 @@ const EnvoyeFicheTechnique = async (idorderdemission : number , file : File) => 
       .data;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/')
   }
 }
 export function useEnqueteFicheTechnique() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission, fiche }: { idordermission: number, fiche: File }) => EnvoyeFicheTechnique(idordermission, fiche),
+    mutationFn: ({ idordermission, fiche , navigate}: { idordermission: number, fiche: File , navigate:any }) => EnvoyeFicheTechnique(idordermission, fiche,navigate),
     onSettled: async (_, error , variables) => {
       if (error) {
         console.log(error);
@@ -275,7 +266,7 @@ export function useEnqueteFicheTechnique() {
     }
   })
 }
-const OrdermissionBasculed = async (idordermission: number) => {
+const OrdermissionBasculed = async (idordermission: number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.post(`mission/basculed_ordre_mission?idorderdemission=${idordermission}}`, {
       headers: {
@@ -285,14 +276,13 @@ const OrdermissionBasculed = async (idordermission: number) => {
       .data?.object;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 export function useOrdermissionBasculed() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission }: { idordermission: number }) => OrdermissionBasculed(idordermission),
+    mutationFn: ({ idordermission , navigate}: { idordermission: number , navigate:any }) => OrdermissionBasculed(idordermission , navigate),
     onSettled: async (_, error)=>{
       if (error) {
         console.log(error);
@@ -303,7 +293,7 @@ export function useOrdermissionBasculed() {
   })
 }
 
-const OrdermissionValidate = async (idordermission:number , validate:boolean) => {
+const OrdermissionValidate = async (idordermission:number , validate:boolean , navigate:any) => {
   try {
     let booleans_validate = 1;
     if (validate == false) {
@@ -317,7 +307,6 @@ const OrdermissionValidate = async (idordermission:number , validate:boolean) =>
       .data;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
@@ -325,7 +314,7 @@ const OrdermissionValidate = async (idordermission:number , validate:boolean) =>
 export function useValidateOrdermission() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission, validate }: { idordermission: number; validate: boolean }) =>  OrdermissionValidate(idordermission, validate),
+    mutationFn: ({ idordermission, validate , navigate }: { idordermission: number; validate: boolean , navigate:any }) =>  OrdermissionValidate(idordermission, validate , navigate),
     onSettled: async (_, error) => {
       if (error) {
         console.log(error)
@@ -337,7 +326,7 @@ export function useValidateOrdermission() {
   })
 }
 
-const OrdermissionValidateDgdmt = async (idordermission:number, validate:boolean ) => {
+const OrdermissionValidateDgdmt = async (idordermission:number, validate:boolean , navigate:any) => {
   try {
     let booleans_validate = 1;
     if (validate == false) {
@@ -351,7 +340,6 @@ const OrdermissionValidateDgdmt = async (idordermission:number, validate:boolean
       .data?.object;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
@@ -359,7 +347,7 @@ const OrdermissionValidateDgdmt = async (idordermission:number, validate:boolean
 export function useValidateOrdermissionDgdmt() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({ idordermission,validate }: { idordermission: number , validate:boolean}) =>  OrdermissionValidateDgdmt(idordermission,validate),
+    mutationFn: ({ idordermission,validate,navigate }: { idordermission: number , validate:boolean , navigate:any}) =>  OrdermissionValidateDgdmt(idordermission,validate , navigate),
     onSettled: async (_, error) => {
       if (error) {
         console.log(error)
@@ -370,7 +358,7 @@ export function useValidateOrdermissionDgdmt() {
   })
 }
 
-const OrdremissionSave = async (data: Jsonmission) => {
+const OrdremissionSave = async (data: Jsonmission , navigate:any) => {
   try {
     const reponse = (await instanceAxios.post("mission/demandeordre", data , {
       headers: {
@@ -379,7 +367,6 @@ const OrdremissionSave = async (data: Jsonmission) => {
     }));
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
@@ -387,7 +374,7 @@ const OrdremissionSave = async (data: Jsonmission) => {
 export function useSaveMission() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: (data: Jsonmission) => OrdremissionSave(data),
+    mutationFn: ({data , navigate}: {data:Jsonmission , navigate:any}) => OrdremissionSave(data , navigate),
     onSettled : async (_, error) => {
       if (error) {
         console.log(error)
@@ -398,7 +385,7 @@ export function useSaveMission() {
   })
 }
 
-const SaveSociete = async (logo:File ,data: SocieteForm) => {
+const SaveSociete = async (logo:File ,data: SocieteForm , navigate:any) => {
   try {
     const formData = new FormData();
     formData.append("photo", logo);
@@ -411,7 +398,6 @@ const SaveSociete = async (logo:File ,data: SocieteForm) => {
     }));
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
@@ -419,7 +405,7 @@ const SaveSociete = async (logo:File ,data: SocieteForm) => {
 export function useSaveSociete() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({logo , data} : {logo:File , data:SocieteForm}) => SaveSociete(logo,data),
+    mutationFn: ({logo , data , navigate} : {logo:File , data:SocieteForm , navigate:any}) => SaveSociete(logo,data , navigate),
     onSettled: async (_, error) => {
       if (error) {
         console.log(error)

@@ -1,6 +1,7 @@
 import type { TableColumnsType, TableProps } from 'antd';
 import { Table } from 'antd';
 import { useDistrictByregion } from '../../../../api/dashboard/PpnStat';
+import { useNavigate } from 'react-router-dom';
 interface DataType {
   key: number;
   district: string;
@@ -19,7 +20,8 @@ const TransFormPpnDistrict = (data: any[]): DataType[] => {
 }
 
 function Tabledistrict({ idregion, idproduct, mois, annee }: { idregion: number, idproduct: number, mois: number, annee: number }) {
-  const data_district = useDistrictByregion(idregion, idproduct, mois, annee);
+  const navigate = useNavigate();
+  const data_district = useDistrictByregion(idregion, idproduct, mois, annee,navigate);
   if (data_district.isPending) {
     return <>loading...</>
   } 
@@ -51,7 +53,6 @@ function Tabledistrict({ idregion, idproduct, mois, annee }: { idregion: number,
       }),
       sorter: (a, b) => a.prixMoyenne - b.prixMoyenne, render: (text) =>
       <span className='font-sans'>{text} Ariary</span>
-     
     },
     {
       title: <span className='font-sans'>Prix Max</span> ,

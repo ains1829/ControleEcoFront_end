@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
+
 const Directeur = async (search:string, idregion:number ,  page : number) => {
   try {
     const reponse = (await instanceAxios.get(`data/list-directeur?page=${page}&region=${idregion}&search=${search}`));

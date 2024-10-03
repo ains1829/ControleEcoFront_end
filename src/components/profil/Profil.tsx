@@ -1,6 +1,5 @@
-import {Avatar, Button} from 'antd'
+import {Avatar , Dropdown} from 'antd'
 import type { MenuProps } from 'antd';
-import { Dropdown, Space } from 'antd';
 import {
 LogoutOutlined
 } from '@ant-design/icons';
@@ -9,7 +8,7 @@ import { UserInstance } from '../../types/administration/Userconnected';
 
 function Profil() {
   const navigate = useNavigate();
-  const role = UserInstance().getRole;
+  const role = UserInstance();
   const handleLogout = () => {
     localStorage.removeItem('role');
     localStorage.removeItem('token-user');
@@ -17,7 +16,7 @@ function Profil() {
   }
   const items: MenuProps['items'] = [
     {
-      label: <div className='font-sans text-red-500 flex items-center gap-3' onClick={handleLogout}>
+      label: <div className='font-sans  flex items-center gap-2' onClick={handleLogout}>
         <LogoutOutlined />
         <span>
           Deconnexion
@@ -30,12 +29,12 @@ function Profil() {
     <>
       <Dropdown  menu={{ items }} trigger={['click']} arrow placement='bottomLeft'>
         <div className='flex items-center gap-2 cursor-pointer p-2'>
-          <Avatar style={{ backgroundColor: '#f56a00' }}>{role}</Avatar>
+          <Avatar src={role.getPhoto} />
           <div className='flex flex-col text-xs font-sans gap-y-1'>
             <span className='font-bold'>
-              ANDY RAKOTONAVALONA
+              {role.getName}
             </span>
-            <span className='text-gray-500'>Direction Systeme Informatique</span>
+            <span className='text-gray-500'>{role.getProfile }</span>
           </div>
         </div>
       </Dropdown>

@@ -7,14 +7,16 @@ import CollecteStat from "./CollecteStat";
 import AutresuiviStat from "./AutresuiviStat";
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr'; // Importer la locale française
+import { useNavigate } from "react-router-dom";
 dayjs.locale('fr');
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 export function Missionboard() {
+  const navigate = useNavigate();
   const [date_actuelle, setDate] = useState(Number(dayjs().format('YYYY')));
   const [choix_component, setComponent] = useState('0');
-  const statmission_global = useStatMissionglobal(date_actuelle);
-  const stat_typemission = useTypeMissionglobal(date_actuelle);
-  const enquete_stat_global = useEnqueteglobal(date_actuelle);
+  const statmission_global = useStatMissionglobal(date_actuelle,navigate);
+  const stat_typemission = useTypeMissionglobal(date_actuelle,navigate);
+  const enquete_stat_global = useEnqueteglobal(date_actuelle,navigate);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const onChange: DatePickerProps['onChange'] = (date, _) => {
     if (date) {
@@ -62,7 +64,7 @@ export function Missionboard() {
       > 
         <div className="flex justify-between">
           <div className="flex flex-col gap-y-1">
-            <span className="text-sm font-bold">DASHBOARD</span>
+            <span className="text-xl font-bold">Progression des missions.</span>
             <span className="text-xs text-gray-500">(annee : {date_actuelle })</span>
           </div>
           <div className="flex gap-4 items-center">
@@ -118,7 +120,7 @@ export function Missionboard() {
               marginTop:10
         }}
       >
-        <span className="font-sans font-bold">Detail par region</span>
+        <span className="font-sans font-bold">Progression par region</span>
         <Divider dashed />
         <div className="mb-4 w-1/4">
           <Segmented

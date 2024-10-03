@@ -1,4 +1,4 @@
-import { Breadcrumb, Table, TableColumnsType, Tag, theme } from "antd";
+import { Table, TableColumnsType, Tag, theme } from "antd";
 import { usegetMissionnaire } from "../../../api/administration/Apiadmin";
 import { Administration, TransformDataAdministration } from "../../../types/administration/Administration";
 import ContentEquipe from "./ContentEquipe";
@@ -8,11 +8,13 @@ import {
 } from '@ant-design/icons';
 import { useState } from "react";
 import Search, { SearchProps } from "antd/es/input/Search";
+import { useNavigate } from "react-router-dom";
 function AdministrationPage() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
+  const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
-  const data = usegetMissionnaire(page,search);
+  const data = usegetMissionnaire(page,search,navigate);
   if (data.isPending) {
     return <>loading...</>
   }
@@ -124,7 +126,6 @@ function AdministrationPage() {
   }
   return (
     <>
-      <Breadcrumb className="font-sans p-2" items={[{ title: 'Liste' }, { title: 'Membre' }]} />
       <div className="flex flex-col gap-y-3">
         <div
         className="flex flex-col gap-y-2 font-sans"
@@ -133,6 +134,7 @@ function AdministrationPage() {
           minHeight: 360,
           background: colorBgContainer,
           borderRadius: borderRadiusLG,
+          marginTop:10
         }}
         > 
           <div className="flex justify-between items-center">

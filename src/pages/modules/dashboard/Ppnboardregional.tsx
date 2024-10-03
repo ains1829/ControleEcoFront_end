@@ -78,8 +78,8 @@ function Ppnboardregional() {
           </div>
           <Priceglobalbyregion product={product_choice} mois={moisNumber} annee={anne}/>
         </div>
-        <Evoluationbyregion  product={product_choice} annee={anne}/>
         <Provinceregional  product={product_choice} mois={moisNumber} annee={anne}/>
+        <Evoluationbyregion  product={product_choice} annee={anne}/>
       </div>
   )
 }

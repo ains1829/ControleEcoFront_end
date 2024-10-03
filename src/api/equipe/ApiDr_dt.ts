@@ -1,9 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 import { EquipeForm } from "../../types/mission/EquipeForm";
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
-const DesactivateEquipe = async (idequipe: number) => {
+const DesactivateEquipe = async (idequipe: number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`scomadminstration/supprime_equipe?idequipe=${idequipe}` , {
       headers: {
@@ -12,25 +10,23 @@ const DesactivateEquipe = async (idequipe: number) => {
     }));
   return reponse.data;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 } 
 export function UseDesactivateEquipe(){
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => DesactivateEquipe(id),
+    mutationFn: ({id , navigate}:{id:number , navigate:any}) => DesactivateEquipe(id ,navigate),
     onSettled: async (_, error) => {
       if (error) {
         console.log(error);
-        navigate('/');
       } else {
         await queryclient.invalidateQueries({queryKey:["equipebyregion"]})
       }
     }
   })
 }
-const NewEquipe = async (data : EquipeForm) => {
+const NewEquipe = async (data : EquipeForm , navigate:any) => {
   try {
     const reponse = (await instanceAxios.post("scomadminstration/createEquipe" , data , {
       headers: {
@@ -39,18 +35,16 @@ const NewEquipe = async (data : EquipeForm) => {
     }));
   return reponse.data;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 export function useSaveNewEquipe() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: (data: EquipeForm) => NewEquipe(data),
+    mutationFn: ({data,navigate}: {data:EquipeForm , navigate:any}) => NewEquipe(data,navigate),
     onSettled: async (_, error) => {
       if (error) {
         console.log(error);
-        navigate('/');
       } else {
         await queryclient.invalidateQueries({queryKey:["equipebyregion"]})
       }
@@ -58,7 +52,7 @@ export function useSaveNewEquipe() {
   })
 }
 
-const AdministrationNoEquipe = async () => {
+const AdministrationNoEquipe = async (navigate:any) => {
   try {
     const reponse = (await instanceAxios.get("scomadminstration/administration_no_H_equipe" , {
       headers: {
@@ -67,15 +61,14 @@ const AdministrationNoEquipe = async () => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 
-export function UseAdministrationNoequipe() {
+export function UseAdministrationNoequipe(navigate:any) {
   return useQuery({
     queryKey: ["administration_no_H_equipe"],
-    queryFn: AdministrationNoEquipe,
+    queryFn: ()=>AdministrationNoEquipe(navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -84,7 +77,7 @@ export function UseAdministrationNoequipe() {
   })
 }
 
-const OrdremissionByDrDt = async (page:number , annee:number , filter:number) => {
+const OrdremissionByDrDt = async (page:number , annee:number , filter:number,navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`mission/suivi_mission_sender?page=${page}&annee=${annee}&filter=${filter}` , {
       headers: {
@@ -93,14 +86,13 @@ const OrdremissionByDrDt = async (page:number , annee:number , filter:number) =>
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usegetOrdremissionByDrDt(page:number , annee:number , filter:number) {
+export function usegetOrdremissionByDrDt(page:number , annee:number , filter:number,navigate:any) {
   return useQuery({
     queryKey: ["suivi_mission_sender" , page , annee,filter],
-    queryFn: () => OrdremissionByDrDt(page, annee, filter),
+    queryFn: () => OrdremissionByDrDt(page, annee, filter,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -109,7 +101,7 @@ export function usegetOrdremissionByDrDt(page:number , annee:number , filter:num
   })
 }
 
-const CalendarByDrDt = async (annee:number) => {
+const CalendarByDrDt = async (annee:number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`mission/calendar?annee=${annee}` , {
       headers: {
@@ -118,15 +110,14 @@ const CalendarByDrDt = async (annee:number) => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 
-export function usegetCalendar(annee:number) {
+export function usegetCalendar(annee:number , navigate:any) {
   return useQuery({
     queryKey: ["calendar" , annee],
-    queryFn: () => CalendarByDrDt(annee),
+    queryFn: () => CalendarByDrDt(annee , navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,

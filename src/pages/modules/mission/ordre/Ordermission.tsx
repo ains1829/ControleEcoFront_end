@@ -1,4 +1,4 @@
-import { Breadcrumb, Empty, Segmented, theme } from "antd"
+import {Empty, Segmented, theme } from "antd"
 import Mission from "./Mission";
 import { usegetOrdermission} from "../../../../api/mission/Api";
 import {TransformDataContent } from "../../../../types/mission/Contentdata";
@@ -9,12 +9,14 @@ import {
   RightOutlined
 } from '@ant-design/icons';
 import Search, { SearchProps } from "antd/es/input/Search";
+import { useNavigate } from "react-router-dom";
 function Ordermission() {
+  const navigate = useNavigate();
   const [selectedButton, selectedFetch] = useState('0');
-  const om_validation = useOMvalidation();
+  const om_validation = useOMvalidation(navigate);
   const [page, setPage] = useState(0);
   const [search,setSearch] = useState('')
-  let mission_all = usegetOrdermission(page , Number(selectedButton),search);
+  let mission_all = usegetOrdermission(page , Number(selectedButton),search,navigate);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (mission_all?.isPending) {
     return<>loading...</>
@@ -63,7 +65,6 @@ function Ordermission() {
   }
   return (
     <>
-      <Breadcrumb className="font-sans p-2" items={[{ title: 'Mission' }, { title: 'Ordre de mission' }]} />
       <div
         className="flex flex-col gap-y-2 font-sans"
         style={{
@@ -71,26 +72,24 @@ function Ordermission() {
           minHeight: 360,
           background: colorBgContainer,
           borderRadius: borderRadiusLG,
+          marginTop:10
         }}
       >
-        <div className="flex justify-between font-sans items-center mb-2">
-          <div className="flex flex-col gap-x-2">
-              <span className="text-xl font-bold" >Demande OM.</span>
-            <span>({data_om.total} total)</span>
-          </div>
+        <div className="flex justify-between items-center">
+          <span className="text-xl font-bold">Ordre de mission.</span>
           <div className="w-1/3">
             <Search placeholder="Rechercher dans les demandes" allowClear onSearch={onSearch} style={{ fontFamily:'font-sans'}} className="font-sans"/>
           </div>
         </div>
-        <div className="flex gap-10 justify-between">
-          <div className="w-1/4">
+        <div className="flex justify-between items-center gap-5 mt-5">
+          <div className="w-full">
             <Segmented
-              className="font-sans p-1"
+              className="font-sans p-1 custom-segmented"
               options={[
-                { label: <span className="text-xs">All</span>, value: '0' },
-                { label: <span className="text-xs">Valider</span>, value: '1' },
-                { label: <span className="text-xs">Non Valider</span>, value: '2' },
-                { label: <span className="text-xs">Supprimer</span>, value: '3' },
+                { label: <span>Tous ({data_om.total})</span> , value: '0' },
+                { label: <span>Approuvés ({data_om.valider})</span>, value: '1' },
+                { label: <span>En attente ({data_om.non_valider})</span>, value: '2' },
+                { label: <span>Rejetés({data_om.supprimer}) </span>, value: '3' },
               ]}
               value={selectedButton}
               onChange={handleClick}
@@ -98,41 +97,26 @@ function Ordermission() {
               style={{
                 display: 'flex',
                 gap: '1rem',
+                background: 'transparent',
+                
               }}
+              
             />
-          </div>
-          <div className="w-3/4 grid grid-cols-4 gap-5">
-            <div className="flex justify-between items-center border-b-2 border-gray-100">
-              <span className="text-gray-400">Valider</span> 
-              <span className="font-bold text-2xl">{data_om.valider}</span>
-            </div>
-            <div className="flex justify-between items-center border-b-2 border-gray-100">
-              <span className="text-gray-400">Non valider </span> 
-              <span className="font-bold text-2xl">{data_om.non_valider}</span>
-            </div>
-            <div className="flex justify-between items-center border-b-2 border-gray-100">
-              <span className="text-gray-400">En Attente Dg</span> 
-              <span className="font-bold text-2xl">{data_om.attente_dg}</span>
-            </div>
-            <div className="flex justify-between items-center border-b-2 border-gray-100">
-              <span className="text-gray-400">Supprimer</span> 
-              <span className="font-bold text-2xl">{data_om.supprimer}</span>
-            </div>
           </div>
         </div>
         {
           contendata.mission.length === 0 ? <Empty /> :
-          <>
-            <div className="flex gap-4 p-5">
-              <div className="flex-none w-1/4 text-xs font-bold">Demande</div>
-              <div className="flex-none w-1/4 text-xs font-bold">Date</div>
-              <div className="flex-none w-1/4 text-xs font-bold">Status</div>
-              <div className="flex-none w-1/4 text-xs font-bold">Action</div>
+          <div className="mt-3">
+            <div className="flex mb-2 p-3 gap-4">
+              <div className="flex-none w-1/4 text-gray-500 font-bold">Demande</div>
+              <div className="flex-none w-1/4 text-gray-500 font-bold">Date</div>
+              <div className="flex-none w-1/4 text-gray-500 font-bold">Status</div>
+              <div className="flex-none w-1/4 text-gray-500 font-bold">Action</div>
             </div>
             {contendata.mission.map((item, index) => (
               <Mission key={index} data={item} />
             ))}
-          </>
+          </div>
         }
           <div className="flex justify-between items-center">
           <div className="flex gap-2">

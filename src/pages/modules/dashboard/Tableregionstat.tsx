@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Progress, Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import {useStatbyregionbytypemission } from '../../../api/dashboard/Statistique';
 import { Statregiontype, TransFormStatRegion } from '../../../types/stat/Statregiontype';
@@ -69,6 +69,11 @@ const columns: TableColumnsType<Statregiontype> = [
     sorter: (a, b) => a.fini - b.fini,
     render: (text) =>
       <span className='font-sans'>{text}</span>
+  },
+  {
+    title: <span className='font-sans'>Progression</span>,
+    key: 'progression',
+    render:(_,record) => <Progress className='font-sans' type='line' percent={parseFloat(((record.fini * 100) / record.t_mission).toFixed(2))} />
   }
 ];
 

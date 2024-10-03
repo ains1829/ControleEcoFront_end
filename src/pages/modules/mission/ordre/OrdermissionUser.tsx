@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { usegetOrdermissionByUser } from "../../../../api/mission/Api";
-import { Breadcrumb, Button, DatePicker, Empty, FloatButton, Input, message, Modal, Segmented, Select, theme } from "antd";
+import {Button, DatePicker, Empty, FloatButton, Input, message, Modal, Segmented, Select, theme } from "antd";
 import { TransformDataContent } from "../../../../types/mission/Contentdata";
 import Mission from "./Mission";
 import TextArea from "antd/es/input/TextArea";
@@ -19,28 +19,30 @@ import {
   SendOutlined
 } from '@ant-design/icons';
 import { useOMvalidationbyregion } from "../../../../api/dashboard/Statistique";
+import { useNavigate } from "react-router-dom";
 export function OrdermissionUser() {
+  const navigate = useNavigate();
   const [selectedButton, selectedFetch] = useState('0');
   const [Typemission, setTypemission] = useState('1');
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
   const [messageApi, contextHolder] = message.useMessage();
-  const mission_all = usegetOrdermissionByUser(page,Number(selectedButton),search);
-  const test_equipe = usegetEquipeByregion();
+  const mission_all = usegetOrdermissionByUser(page,Number(selectedButton),search,navigate);
+  const test_equipe = usegetEquipeByregion(navigate);
   const mutationSavemission = useSaveMission();
-  const district_object = usegetDistrictByregion();
-  const soicete_object = usegetSocieteByregion();
+  const district_object = usegetDistrictByregion(navigate);
+  const soicete_object = usegetSocieteByregion(navigate);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const { control, handleSubmit } = useForm<Jsonmission>()
   const [open, setOpen] = useState(false);
-  const om_validation = useOMvalidationbyregion();
+  const om_validation = useOMvalidationbyregion(navigate);
   if (mission_all.isPending) {
     return<>loading...</>
   }
   if (mission_all.isError) {
     return<>Error</>
   }
-   if (om_validation.isPending) {
+  if (om_validation.isPending) {
     return <>loading...</>
   }
   if (om_validation.isError) {
@@ -65,7 +67,7 @@ export function OrdermissionUser() {
     equipe = TransfData(test_equipe.data)
   }
   const HandleDemandeOrdermission: SubmitHandler<Jsonmission> = async (data) => {
-    const reponse_saving = await mutationSavemission.mutateAsync(data);
+    const reponse_saving = await mutationSavemission.mutateAsync({data , navigate});
     if (reponse_saving?.data?.status === 200) {
       messageApi.open({
         type: 'success',
@@ -119,7 +121,6 @@ export function OrdermissionUser() {
   return (
     <>
       {contextHolder}
-      <Breadcrumb className="font-sans p-2" items={[{ title: 'Mission' }, { title: 'Ordre de mission' }]} />
       <div
         className="flex flex-col gap-y-2 font-sans"
         style={{
@@ -127,26 +128,24 @@ export function OrdermissionUser() {
           minHeight: 360,
           background: colorBgContainer,
           borderRadius: borderRadiusLG,
+          marginTop:10
         }}
       >
-        <div className="flex justify-between">
-          <div className="flex flex-col gap-y-2">
-            <span className="text-xl font-bold" >Demande OM.</span>
-            <span className="font-bold text-xs">({data_om.total} total)</span>
-          </div>
-          <div className="w-1/3">
+        <div className="flex justify-between items-center">
+          <span className="text-xl font-bold" >Ordre de mission.</span>
+          <div className="w-1/2">
             <Search placeholder="Rechercher dans les demandes" allowClear onSearch={onSearch} style={{ fontFamily:'font-sans'}} className="font-sans"/>
           </div>
         </div>
-        <div className="flex justify-between items-center gap-10">
-          <div className="w-1/4">
+        <div className="flex justify-between items-center gap-5 mt-5">
+          <div className="w-full">
             <Segmented
-              className="font-sans p-1"
+              className="font-sans p-1 custom-segmented"
               options={[
-                { label: <span className="text-xs">All</span> , value: '0' },
-                { label: <span className="text-xs">Valider</span> , value: '1' },
-                { label: <span className="text-xs">En attente</span> , value: '2' },
-                { label: <span className="text-xs">Supprimer</span> , value: '3' }
+                { label: <span>Tous ({data_om.total})</span> , value: '0' },
+                { label: <span>Approuvés ({data_om.valider})</span> , value: '1' },
+                { label: <span>En attente ({data_om.non_valider + data_om.attente_dg} )</span> , value: '2' },
+                { label: <span>Rejetés ({data_om.supprimer})</span> , value: '3' }
               ]}
               value={selectedButton}
               onChange={handleClick}
@@ -154,25 +153,12 @@ export function OrdermissionUser() {
               style={{
                 display: 'flex',
                 gap: '1rem',
+                background: 'transparent',
               }}
             />
           </div>
-          <div className="w-3/4 grid grid-cols-3 gap-5">
-            <div className="flex justify-between items-center border-b-2 border-gray-100">
-              <span className="text-gray-400">valider</span> 
-              <span className="font-bold text-2xl">{data_om.valider}</span>
-            </div>
-            <div className="flex justify-between items-center border-b-2 border-gray-100">
-              <span className="text-gray-400">En attente </span> 
-              <span className="font-bold text-2xl">{data_om.non_valider + data_om.attente_dg} </span>
-            </div>
-            <div className="flex justify-between items-center border-b-2 border-gray-100">
-              <span className="text-gray-400">Supprimer </span> 
-              <span className="font-bold text-2xl">{data_om.supprimer} </span>
-            </div>
-          </div>
         </div>
-         {
+        {
           contendata.mission.length === 0 ? <Empty /> :
           <>
             <div className="flex gap-4 p-5">
@@ -208,15 +194,6 @@ export function OrdermissionUser() {
       </div>
       <FloatButton type="primary" shape="circle" tooltip={<div className="font-sans">Nouveaux demande ?</div>} style={{fontSize:'20px'}}  onClick={() => setOpen(true)}/>
       <Modal
-        title={
-          <div className="w-5/6 font-sans flex flex-col gap-y-2 p-4">
-            <span className="text-xl">Demande</span>
-            <span className="text-xs font-simple text-gray-600 ">
-              Veuillez compléter ce formulaire pour soumettre une demande d'ordre de mission.
-              Assurez-vous que toutes les informations sont exactes et complètes avant de valider.
-            </span>
-            </div>
-        }
         centered
         open={open}
         onOk={() => setOpen(false)}
@@ -230,10 +207,23 @@ export function OrdermissionUser() {
       >
         <form id="myform" onSubmit={handleSubmit(HandleDemandeOrdermission)}>
           <div className="flex flex-col gap-y-5 divide-y">
+            <div className="w-5/6 font-sans flex flex-col p-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 9v.906a2.25 2.25 0 0 1-1.183 1.981l-6.478 3.488M2.25 9v.906a2.25 2.25 0 0 0 1.183 1.981l6.478 3.488m8.839 2.51-4.66-2.51m0 0-1.023-.55a2.25 2.25 0 0 0-2.134 0l-1.022.55m0 0-4.661 2.51m16.5 1.615a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V8.844a2.25 2.25 0 0 1 1.183-1.981l7.5-4.039a2.25 2.25 0 0 1 2.134 0l7.5 4.039a2.25 2.25 0 0 1 1.183 1.98V19.5Z" />
+            </svg>
+
+              <div className="mt-2 flex flex-col gap-y-1">
+                <span className="font-bold text-secondary">Demande d'Ordre de Mission</span>
+                <span className="text-xs text-gray-600 ">
+                  Veuillez compléter ce formulaire pour soumettre une demande d'ordre de mission.
+                  Assurez-vous que toutes les informations sont exactes et complètes avant de valider.
+                </span>
+              </div>
+            </div>
             <div className="grid grid-cols-2 p-4 justify-between items-center">
                 <div className="flex flex-col font-sans">
-                  <label className="font-sans font-bold">Type de mission</label>
-                  <span className="text-xs">Sélectionnez le type de mission</span>
+                  <label className="font-sans font-bold text-secondary">Type de mission</label>
+                  <span className="text-xs f">Sélectionnez le type de mission</span>
                 </div>
                 <Controller
                   control={control}
@@ -259,7 +249,7 @@ export function OrdermissionUser() {
             <div>
               <div className="items-center font-sans grid grid-cols-2 p-4">
                 <div className="flex flex-col">
-                  <label className="font-sans font-bold">Equipe</label>
+                  <label className="font-sans font-bold text-secondary">Equipe</label>
                   <span className="text-xs">Choisissez l'équipe responsable</span>
                 </div>
                   <Controller control={control} name="idequipe" render={({field}) =>
@@ -273,7 +263,7 @@ export function OrdermissionUser() {
               Typemission === '1' ? <>
                 <div key={1} className="grid grid-cols-2 items-center font-sans p-4">
                   <div className="flex flex-col">
-                    <label className="font-sans font-bold">Societe</label>
+                    <label className="font-sans font-bold text-secondary">Societe</label>
                     <span className="text-xs">Indiquez la société concernée</span>
                   </div>
                   <div className="flex flex-col gap-y-2">
@@ -291,7 +281,7 @@ export function OrdermissionUser() {
                 <>
                   <div key={2} className="grid grid-cols-2 items-center font-sans p-4">
                     <div className="flex flex-col">
-                      <label className="font-sans font-bold">District</label>
+                      <label className="font-sans font-bold text-secondary">District</label>
                       <span className="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit.</span>
                     </div>
                     <div className="flex flex-col gap-y-2">
@@ -309,7 +299,7 @@ export function OrdermissionUser() {
             }
             <div className="grid grid-cols-2 items-center p-4 gap-y-1">
               <div className="flex flex-col font-sans">
-                <label className="font-sans font-bold">Date mission</label>
+                <label className="font-sans font-bold text-secondary">Date mission</label>
                 <span className="text-xs">Sélectionnez la date de la mission</span>
               </div>
               <Controller
@@ -329,7 +319,7 @@ export function OrdermissionUser() {
             </div>
             <div className="grid grid-cols-2 p-4">
               <div className="font-sans flex flex-col">
-                <label className="font-sans font-bold">Motif</label>
+                <label className="font-sans font-bold text-secondary">Motif</label>
                 <span className="text-xs">Précisez le motif de la mission</span>
               </div>
               <Controller control={control} name="motifs" render={({ field }) => 
@@ -338,7 +328,7 @@ export function OrdermissionUser() {
             </div>
             <div className="grid grid-cols-2 p-4">
               <div className="font-sans flex flex-col">
-                <label className="font-sans font-bold">Context</label>
+                <label className="font-sans font-bold text-secondary">Context</label>
                 <span className="text-xs">Décrivez le contexte de la mission</span>
               </div>
               <Controller control={control} name="context" render={({ field }) => 

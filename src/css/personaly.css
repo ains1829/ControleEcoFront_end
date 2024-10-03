@@ -20,3 +20,15 @@ body{
   border-color: inherit !important;
   box-shadow: none !important;
 }
+.custom-segmented .ant-segmented-item-selected {
+  border-bottom: 1px solid var(--blue);
+  background: transparent;
+  color: var(--blue) !important;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.custom-segmented .ant-segmented-item {
+  background: transparent;
+  color: gray;
+}

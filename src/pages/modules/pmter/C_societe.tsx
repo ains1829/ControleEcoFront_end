@@ -2,11 +2,13 @@ import { Avatar, Button, Divider, Drawer, Empty, Image, Space, Table, TableColum
 import { useState } from 'react';
 import { Societedata } from '../../../types/societe/SocieteData';
 import { useSocieteRef } from '../../../api/mission/Apiordremission';
-const C_societe = ({data} : {data : Societedata[]}) => {
+import { useNavigate } from 'react-router-dom';
+const C_societe = ({ data }: { data: Societedata[] }) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [data_societe, setdatasociete] = useState<Societedata>();
   const [idsociete, setSociete] = useState(0);
-  const data_ref = useSocieteRef(idsociete);
+  const data_ref = useSocieteRef(idsociete,navigate);
   const handleClick = async (data: Societedata) => {
     setdatasociete(data);
     setSociete(Number(data.key))
@@ -24,7 +26,7 @@ const C_societe = ({data} : {data : Societedata[]}) => {
       onHeaderCell: () => ({
         style:{backgroundColor:'transparent'}
       }),
-      render:(text)=><Avatar src={text} size="large" />
+      render:(text)=><Avatar src={text} size="large" shape="square" />
     },
     {
       title: <span className='font-sans'>Nom Société</span>,

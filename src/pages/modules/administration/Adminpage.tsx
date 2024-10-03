@@ -1,4 +1,4 @@
-import { Breadcrumb, FloatButton, Modal} from "antd";
+import {FloatButton, Modal} from "antd";
 import AdminRegional from "./components/AdminRegional";
 import AdminSg from "./components/AdminSg";
 import {
@@ -16,8 +16,7 @@ function Adminpage() {
   };
   return (
     <>
-      <Breadcrumb className="font-sans p-2" items={[{ title: 'Liste' }, { title: 'Administrateur' }]} />
-      <div className="flex flex-col gap-y-2">
+      <div className="flex flex-col gap-y-2 mt-3">
         <AdminSg/>
         <AdminRegional />
       </div>

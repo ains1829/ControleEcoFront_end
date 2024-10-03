@@ -1,12 +1,13 @@
-import { Table } from 'antd';
+import { Progress, Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import { useEnqueteregionglobal } from '../../../api/dashboard/Statistique';
 import { Statregion, TransFormDataStat } from '../../../types/stat/Statregion';
 
 const columns: TableColumnsType<Statregion> = [
   {
-    title:<span className='font-sans'>Region</span>,
+    title: <span className='font-sans'>Region</span>,
     dataIndex: 'nameregion',
+    key:'nameregion',
     render: (text) =>
       <span className='font-sans'>{text}</span>
   },
@@ -45,7 +46,7 @@ const columns: TableColumnsType<Statregion> = [
       return recordValue.startsWith(filterValue);
     },
     filterSearch: true,
-    width: '25%',
+    width: '15%',
     render: (text) =>
       <span className='font-sans'>{text}</span>
   },
@@ -71,6 +72,11 @@ const columns: TableColumnsType<Statregion> = [
       <span className='font-sans'>{text}</span>
   },
   {
+    title: <span className='font-sans'>Progression</span>,
+    key:'progression',
+    render:(_,record) =><Progress type='line'  percent={parseFloat(((record.fini * 100) / record.t_enquete).toFixed(2))} className='font-sans'/>
+  },
+  {
     title: <span className='font-sans'>En regle</span>,
     dataIndex: 'clean',
     sorter: (a, b) => a.clean - b.clean,
@@ -83,7 +89,7 @@ const columns: TableColumnsType<Statregion> = [
     sorter: (a, b) => a.infraction - b.infraction,
     render: (text) =>
       <span className='font-sans'>{text}</span>
-  },
+  }
 ];
 
 const onChange: TableProps<Statregion>['onChange'] = (pagination, filters, sorter, extra) => {

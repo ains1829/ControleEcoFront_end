@@ -1,5 +1,5 @@
 import { Breadcrumb, Divider, Tag, theme } from "antd";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAutresuivibyordermission } from "../../../../../api/equipe/Apiequipe";
 import { TransFormDataAutresuivi } from "../../../../../types/mission/suivi/Autresuivi";
 import {
@@ -10,10 +10,11 @@ import Feedback from "./Feedback";
 import Uploadrapport from "./upload/Uploadrapport";
 import { UserInstance } from "../../../../../types/administration/Userconnected";
 function Autresuivi() {
+  const navigate = useNavigate();
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const { id } = useParams();
   const role = UserInstance().getRole;
-  const autreSuivi = useAutresuivibyordermission(Number(id));
+  const autreSuivi = useAutresuivibyordermission(Number(id),navigate);
   if (autreSuivi.isPending) {
     return <>loading...</>
   }
@@ -30,7 +31,7 @@ function Autresuivi() {
   }
   return (
     <>
-       <Breadcrumb className="font-sans p-2" items={[{ title: 'Mission' }, { title: <Link to={`${url}`}>Suivi de mission</Link>  } , {title:'Descente'}]} />
+      <Breadcrumb className="font-sans p-2" items={[{ title: 'Mission' }, { title: <Link to={`${url}`}>Suivi de mission</Link>  } , {title:'Descente'}]} />
         <div
           className="flex flex-col gap-y-2 font-sans"
           style={{

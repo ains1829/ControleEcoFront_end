@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
-const Ppnglobalprovincebydirecteur = async (idproduct:number , mois:number , annee:number) => {
+const Ppnglobalprovincebydirecteur = async (idproduct:number , mois:number , annee:number , navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique_ppn/pricebyregionbyprovincebyproduct?product=${idproduct}&mois=${mois}&annee=${annee}`, {
       headers: {
@@ -11,15 +9,14 @@ const Ppnglobalprovincebydirecteur = async (idproduct:number , mois:number , ann
     }))
     return reponse.data;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 
-export function usePpnglobalprovincebydirecteur(idproduct:number , mois:number , annee:number) {
+export function usePpnglobalprovincebydirecteur(idproduct:number , mois:number , annee:number , navigate:any) {
   return useQuery({
     queryKey: ['pricebyregionbyprovincebyproduct', idproduct , mois , annee],
-    queryFn: () => Ppnglobalprovincebydirecteur(idproduct, mois, annee),
+    queryFn: () => Ppnglobalprovincebydirecteur(idproduct, mois, annee,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -28,7 +25,7 @@ export function usePpnglobalprovincebydirecteur(idproduct:number , mois:number ,
   })
 }
 
-const PpnAnnebydirecteur = async (idproduct:number , isthreeyears:boolean , annee:number , annee2:number) => {
+const PpnAnnebydirecteur = async (idproduct:number , isthreeyears:boolean , annee:number , annee2:number,navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique_ppn/Yearsglobalbyprovincebydirecteur?product=${idproduct}&choix=${isthreeyears}&annee=${annee}&anne2=${annee2}`, {
       headers: {
@@ -37,15 +34,14 @@ const PpnAnnebydirecteur = async (idproduct:number , isthreeyears:boolean , anne
     }))
     return reponse.data;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 
-export function usePpnAnnebydirecteur(idproduct: number, isthreeyears: boolean, annee: number, anne2: number) {
+export function usePpnAnnebydirecteur(idproduct: number, isthreeyears: boolean, annee: number, anne2: number,navigate:any) {
   return useQuery({
     queryKey: ['Yearsglobalbyprovincebydirecteur', idproduct, isthreeyears, annee, anne2],
-    queryFn: () => PpnAnnebydirecteur(idproduct, isthreeyears, annee, anne2),
+    queryFn: () => PpnAnnebydirecteur(idproduct, isthreeyears, annee, anne2,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -54,7 +50,7 @@ export function usePpnAnnebydirecteur(idproduct: number, isthreeyears: boolean, 
   })
 }
 
-const RegionProvincebydirecteur = async (idproduct: number, mois: number, annee: number) => {
+const RegionProvincebydirecteur = async (idproduct: number, mois: number, annee: number,navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique_ppn/detailregionbydirecteur?product=${idproduct}&mois=${mois}&annee=${annee}`, {
       headers: {
@@ -63,15 +59,14 @@ const RegionProvincebydirecteur = async (idproduct: number, mois: number, annee:
     }))
     return reponse.data;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 
-export function useRegionProvincebydirecteur(idproduct: number, mois: number, annee: number){
+export function useRegionProvincebydirecteur(idproduct: number, mois: number, annee: number,navigate:any){
   return useQuery({
     queryKey: ["detailregionbydirecteur", idproduct, mois, annee],
-    queryFn: () => RegionProvincebydirecteur(idproduct, mois, annee),
+    queryFn: () => RegionProvincebydirecteur(idproduct, mois, annee,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -80,7 +75,7 @@ export function useRegionProvincebydirecteur(idproduct: number, mois: number, an
   })
 }
 
-const DistrictByregion = async (idregion: number, idproduct: number, mois: number, annee: number) => {
+const DistrictByregion = async (idregion: number, idproduct: number, mois: number, annee: number,navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique_ppn/districtdetailbyregion?idregion=${idregion}&product=${idproduct}&mois=${mois}&annee=${annee}`, {
       headers: {
@@ -89,15 +84,14 @@ const DistrictByregion = async (idregion: number, idproduct: number, mois: numbe
     }))
     return reponse.data;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 
-export function useDistrictByregion(idregion: number, idproduct: number, mois: number, annee: number){
+export function useDistrictByregion(idregion: number, idproduct: number, mois: number, annee: number,navigate:any){
   return useQuery({
     queryKey: ["districtdetailbyregion", idregion, idproduct, mois, annee],
-    queryFn: () => DistrictByregion(idregion, idproduct, mois, annee),
+    queryFn: () => DistrictByregion(idregion, idproduct, mois, annee,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -106,7 +100,7 @@ export function useDistrictByregion(idregion: number, idproduct: number, mois: n
   })
 }
 
-const RegionProvince = async (idprovince: number, idproduct: number, mois: number, annee: number) => {
+const RegionProvince = async (idprovince: number, idproduct: number, mois: number, annee: number,navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique_ppn/detailregionbyprovince?province=${idprovince}&product=${idproduct}&mois=${mois}&annee=${annee}`, {
       headers: {
@@ -115,14 +109,13 @@ const RegionProvince = async (idprovince: number, idproduct: number, mois: numbe
     }))
     return reponse.data;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function useRegionProvince(idprovince: number, idproduct: number, mois: number, annee: number){
+export function useRegionProvince(idprovince: number, idproduct: number, mois: number, annee: number,navigate:any){
   return useQuery({
     queryKey: ["detailregionbyprovince", idprovince, idproduct, mois, annee],
-    queryFn: () => RegionProvince(idprovince, idproduct, mois, annee),
+    queryFn: () => RegionProvince(idprovince, idproduct, mois, annee,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -131,7 +124,7 @@ export function useRegionProvince(idprovince: number, idproduct: number, mois: n
   })
 }
 
-const PpnAnne = async (idprovince : number , idproduct:number , isthreeyears:boolean , annee:number , annee2:number) => {
+const PpnAnne = async (idprovince : number , idproduct:number , isthreeyears:boolean , annee:number , annee2:number , navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique_ppn/Yearsglobalbyprovincebyproduct?province=${idprovince}&product=${idproduct}&choix=${isthreeyears}&annee=${annee}&anne2=${annee2}`, {
       headers: {
@@ -140,14 +133,13 @@ const PpnAnne = async (idprovince : number , idproduct:number , isthreeyears:boo
     }))
     return reponse.data;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usePpnAnne(idprovince: number, idproduct: number, isthreeyears: boolean, annee: number, anne2: number) {
+export function usePpnAnne(idprovince: number, idproduct: number, isthreeyears: boolean, annee: number, anne2: number,navigate:any) {
   return useQuery({
     queryKey: ['Yearsglobalbyprovincebyproduct',idprovince, idproduct, isthreeyears, annee, anne2],
-    queryFn: () => PpnAnne(idprovince, idproduct, isthreeyears, annee, anne2),
+    queryFn: () => PpnAnne(idprovince, idproduct, isthreeyears, annee, anne2,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -157,7 +149,7 @@ export function usePpnAnne(idprovince: number, idproduct: number, isthreeyears: 
 }
 
 
-const Ppnglobalprovince = async (idprovince:number , idproduct:number , mois:number , annee:number) => {
+const Ppnglobalprovince = async (idprovince:number , idproduct:number , mois:number , annee:number,navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique_ppn/priceglobalbyprovincebyproduct?province=${idprovince}&product=${idproduct}&mois=${mois}&annee=${annee}`, {
       headers: {
@@ -166,15 +158,14 @@ const Ppnglobalprovince = async (idprovince:number , idproduct:number , mois:num
     }))
     return reponse.data;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 
-export function usePpnglobalprovince(idprovince:number , idproduct:number , mois:number , annee:number) {
+export function usePpnglobalprovince(idprovince:number , idproduct:number , mois:number , annee:number,navigate:any) {
   return useQuery({
     queryKey: ['priceglobalbyprovincebyproduct', idprovince , idproduct , mois , annee],
-    queryFn: () => Ppnglobalprovince(idprovince, idproduct, mois, annee),
+    queryFn: () => Ppnglobalprovince(idprovince, idproduct, mois, annee,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,

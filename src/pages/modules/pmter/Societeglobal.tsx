@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Input, message, Modal, Select, theme, Upload, UploadFile, UploadProps } from "antd";
+import {  Button, Input, message, Modal, Select, theme, Upload, UploadFile, UploadProps } from "antd";
 import Search, { SearchProps } from "antd/es/input/Search";
 import { useState } from "react";
 import {
@@ -13,10 +13,11 @@ import { useSaveSociete } from "../../../api/mission/Apiordremission";
 import { UserInstance } from "../../../types/administration/Userconnected";
 import { DatePicker } from "antd";
 import ResulFilter from "./components/ResulFilter";
+import { useNavigate } from "react-router-dom";
 const imageMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
 function Societeglobal() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
-
+  const navigate = useNavigate();
   const [file, setFile] = useState<UploadFile | null>(null);
   const [search, setSearch] = useState('');
   const [filterOm_mission, setFilterom] = useState(false);
@@ -37,6 +38,7 @@ function Societeglobal() {
   if (region.isError) {
     return <>error...</>
   }
+
   const options : any [] = [];
   const options_regions: any[] = [];
   const options_district: any[] = [];
@@ -76,7 +78,7 @@ function Societeglobal() {
 
   const handlenewsociete: SubmitHandler<SocieteForm> = async (data) => {
     const file_upload = file as unknown as File;
-    const reponse = await savesociete.mutateAsync({logo:file_upload , data:data});
+    const reponse = await savesociete.mutateAsync({logo:file_upload , data:data,navigate});
     if (reponse?.data?.status === 200) {
       message.open({
         type: 'success',
@@ -109,7 +111,6 @@ function Societeglobal() {
   };
   return (
     <>
-    <Breadcrumb className="font-sans p-2" items={[{ title: 'Liste' } , {title:'Societe'}]} />
     <div
       className="flex flex-col gap-y-2 font-sans"
       style={{
@@ -117,12 +118,17 @@ function Societeglobal() {
         minHeight: 360,
         background: colorBgContainer,
         borderRadius: borderRadiusLG,
+        marginTop:10
       }}
     > 
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
           <span className="text-xl font-bold" >Societe.</span>
           <span className="text-xs font-bold">({region_view })</span>
+        </div>
+        <div className="flex flex-c items-center gap-2">
+            <span className="text-xs font-bold">Historique des descentes</span>
+            <RangePicker style={{ width: '200px' }} picker="month" placeholder={['Date 1', 'Date 2']} onChange={onYearRangeChange}/>
         </div>
         <div className="flex gap-2">
           <div className="flex items-center gap-2">
@@ -135,11 +141,12 @@ function Societeglobal() {
               style={{ width: '200px' }}
               onChange={handleChange}
             />
-            </div>
-            <div >
-              <Search placeholder="Recherche" allowClear onSearch={onSearch} className="font-sans" 
-              style={{ width: '500px' }}/>
-            </div>
+          </div>
+          <div >
+            <Search placeholder="Recherche" allowClear onSearch={onSearch} className="font-sans" 
+              style={{ width: '500px' }}
+            />
+          </div>
           {
             role === "DSI" &&
             <div className="flex justify-end font-sans font-bold">
@@ -148,10 +155,6 @@ function Societeglobal() {
           }
         </div>
       </div>
-        <div className="flex flex-col gap-2">
-          <span className="text-gray-500">Historique descente</span>
-          <RangePicker style={{ width: '200px' }} picker="month" placeholder={['Date 1', 'Date 2']} onChange={onYearRangeChange}/>
-        </div>
         <ResulFilter region={region_choice}  search={search} isfilter={filterOm_mission} datebegin={date_begin} date_end={date_end} />
       </div>
       <Modal
@@ -167,18 +170,18 @@ function Societeglobal() {
         )}
       >
         <form id="newsociete" className="font-sans flex flex-col gap-y-2 divide-y" onSubmit={handleSubmit(handlenewsociete)}>
-          <div className="flex flex-col p-2 ">
+          <div className="flex flex-col p-4 ">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
             </svg>
-            <div className="mt-2 flex flex-col">
-              <span className="font-bold text-secondary text-sm">Company </span>
-              <span className="text-xs ">
+            <div className="mt-2 flex flex-col gap-y-1">
+              <span className="font-bold text-secondary text-sm">Nouveaux société</span>
+              <span className="text-xs text-gray-600">
                 Veuillez compléter ce formulaire . Assurez-vous que toutes les informations sont exactes et complètes avant de valider.
               </span>
             </div>
           </div>
-          <div className="grid grid-cols-2 p-2 items-center gap-4">
+          <div className="grid grid-cols-2 p-4 items-center gap-4">
             <div className="flex flex-col">
               <label className="font-bold text-secondary">Logo de la société </label>
               <span className="text-xs">Téléchargez le logo de la société</span>
@@ -189,7 +192,7 @@ function Societeglobal() {
               </Upload>
             </div>
           </div>
-          <div className="grid grid-cols-2 p-2 items-center gap-4">
+          <div className="grid grid-cols-2 p-4 items-center gap-4">
             <div className="flex flex-col">
               <label className="font-bold text-secondary">Nom de la société</label>
               <span className="text-xs">Indiquez le nom de la société</span>
@@ -198,7 +201,7 @@ function Societeglobal() {
               <Controller control={control} name="namesociete"  render={({field}) => <Input required {...field} className="font-sans"  placeholder={"Nom"} />}/>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 p-2 items-center">
+          <div className="grid grid-cols-2 gap-4 p-4 items-center">
             <div className="flex flex-col">
               <span className="font-bold text-secondary">Responsable et contact</span>
               <span className="text-xs">Entrez le nom du responsable et son numéro de téléphone</span>
@@ -208,7 +211,7 @@ function Societeglobal() {
               <Controller control={control} name="telephone"  render={({field}) => <Input required {...field} className="font-sans"  placeholder="telephone" />}/>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 p-2 items-center">
+          <div className="grid grid-cols-2 gap-4 p-4 items-center">
               <div className="flex flex-col">
                 <span className="font-bold text-secondary">Localisation</span> 
                 <span className="text-xs">Renseignez l'adresse, la région et le district de la société</span>
@@ -240,7 +243,7 @@ function Societeglobal() {
                 <Controller control={control} name="addresse" render={({ field }) => <Input required {...field} className="font-sans" placeholder="addresse" />} />
               </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 p-2 items-center">
+          <div className="grid grid-cols-2 gap-4 p-4 items-center">
             <div className="flex flex-col">
               <span className="font-bold text-secondary">Informations fiscales</span> 
               <span className="text-xs">Indiquez les numéros NIF, STAT et CIF de la société</span>
@@ -251,7 +254,7 @@ function Societeglobal() {
               <Controller control={control} name="numerofiscal"  render={({field}) => <Input required {...field} className="font-sans"  placeholder="fiscal" />}/>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4 p-2 items-center">
+          <div className="grid grid-cols-2 gap-4 p-4 items-center">
             <div className="flex flex-col">
               <span className="font-bold text-secondary">Description de la société</span>
               <span className="text-xs">Ajoutez une brève description de la société</span>

@@ -1,5 +1,4 @@
-import { WarningOutlined } from '@ant-design/icons';
-import { Divider, Empty, Modal } from 'antd';
+import { Empty, Modal } from 'antd';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
 import { useState } from 'react';
@@ -28,11 +27,6 @@ function SignalComponent({ data }: { data: any }) {
         </div>
       </div>
       <Modal
-        title={
-          <div className="font-sans flex flex-col gap-2 p-4">
-            <span className='text-xl'>Detail Signalment.</span> 
-          </div>
-        }
         centered
         open={open}
         onOk={() => setOpen(false)}
@@ -43,13 +37,22 @@ function SignalComponent({ data }: { data: any }) {
           </>
         )}
       >
-        <div className='flex flex-col gap-y-3 font-sans divide-y'>
+        <div className='flex flex-col font-sans divide-y'>
+          <div className="font-sans flex flex-col p-4">
+            <svg xmlns="http://www.w3.org/2000/svg" color="red" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+            </svg>
+            <div className='font-sans flex flex-col mt-1'>
+              <span className='text-xl font-bold'>Detail Signalment.</span> 
+              <span className='text-xs'>Veuillez bien vérifier attentivement le signalement reçu pour garantir une prise en charge</span>
+            </div>
+          </div>
           <div className='grid grid-cols-2 items-center p-4'>
             <div>
               <span className='font-bold'>Information du victime</span>
             </div>
               <div className='flex flex-col gap-y-3'>
-               <div className='flex gap-x-2 items-center'>
+                <div className='flex gap-x-2 items-center'>
                   <span>Date d'envoye : </span>
                   <span>{ dayjs(data.datesignal).format('DD MMMM YYYY') }</span>
                 </div>
@@ -69,7 +72,6 @@ function SignalComponent({ data }: { data: any }) {
           <div className='grid grid-cols-2 items-center gap-2 p-4'>
             <div className='flex flex-col gap-y-1'>
               <span className='font-bold'>Detail signalement</span>
-              <span className='text-xs'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error dolores aliquam nam rep</span>
             </div>
             <div className='flex flex-col gap-y-3'>
               <div className='flex gap-x-2 items-center'>
@@ -103,7 +105,7 @@ function SignalComponent({ data }: { data: any }) {
                 >
                   {
                     data.photo.map((elemet: any, index: number) => (
-                      <Image alt='Photo non pris en charge' key={index} width={100} src={elemet.url_photo} />
+                      <Image alt='...' key={index} width={100} height={100} src={elemet.url_photo} />
                     ))
                   }
                 </Image.PreviewGroup>

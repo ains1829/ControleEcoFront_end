@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
-const getSignalbyregion = async (annee: number, page: number) => {
+
+const getSignalbyregion = async (annee: number, page: number,navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`scomadminstration/getSignalbyregion?annee=${annee}&page=${page}`, {
       headers: {
@@ -11,14 +10,13 @@ const getSignalbyregion = async (annee: number, page: number) => {
     }))
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function useGetSignalbyregion(annee: number, page: number) {
+export function useGetSignalbyregion(annee: number, page: number,navigate:any) {
   return useQuery({
     queryKey: ['getSignalbyregion' ,annee,page],
-    queryFn: () => getSignalbyregion(annee, page),
+    queryFn: () => getSignalbyregion(annee, page,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -26,7 +24,7 @@ export function useGetSignalbyregion(annee: number, page: number) {
     refetchOnReconnect: false,
   })
 }
-const Repartitionanomalybyregion = async (anne:number) => {
+const Repartitionanomalybyregion = async (anne:number , navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique/repartitionanomalybyregion?annee=${anne}`, {
       headers: {
@@ -35,14 +33,13 @@ const Repartitionanomalybyregion = async (anne:number) => {
     }))
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function useRepartitionanomalybyregion(annee:number) {
+export function useRepartitionanomalybyregion(annee:number,navigate:any) {
   return useQuery({
     queryKey: ['repartitionanomalybyregion' ,annee],
-    queryFn: () => Repartitionanomalybyregion(annee),
+    queryFn: () => Repartitionanomalybyregion(annee,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -50,7 +47,7 @@ export function useRepartitionanomalybyregion(annee:number) {
     refetchOnReconnect: false,
   })
 }
-const evolutionSignalmentbyregion = async (anne:number) => {
+const evolutionSignalmentbyregion = async (anne:number,navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique/signalementbymonthbyregion?annee=${anne}`, {
       headers: {
@@ -59,14 +56,13 @@ const evolutionSignalmentbyregion = async (anne:number) => {
     }))
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function useEvolutionSignalmentbyregion(annee:number) {
+export function useEvolutionSignalmentbyregion(annee:number,navigate:any) {
   return useQuery({
     queryKey: ['signalementbymonthbyregion' ,annee],
-    queryFn: () => evolutionSignalmentbyregion(annee),
+    queryFn: () => evolutionSignalmentbyregion(annee,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -76,7 +72,7 @@ export function useEvolutionSignalmentbyregion(annee:number) {
 }
 
 
-const Repartitionanomaly = async (anne:number) => {
+const Repartitionanomaly = async (anne:number,navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique/repartitionanomalyglobal?annee=${anne}`, {
       headers: {
@@ -85,14 +81,13 @@ const Repartitionanomaly = async (anne:number) => {
     }))
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function useRepartitionanomaly(annee:number) {
+export function useRepartitionanomaly(annee:number , navigate:any) {
   return useQuery({
     queryKey: ['repartitionanomalyglobal' ,annee],
-    queryFn: () => Repartitionanomaly(annee),
+    queryFn: () => Repartitionanomaly(annee,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -100,7 +95,7 @@ export function useRepartitionanomaly(annee:number) {
     refetchOnReconnect: false,
   })
 }
-const evolutionSignalment = async (anne:number) => {
+const evolutionSignalment = async (anne:number,navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique/signalementbymonthglobal?annee=${anne}`, {
       headers: {
@@ -109,14 +104,13 @@ const evolutionSignalment = async (anne:number) => {
     }))
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function useEvolutionSignalment(annee:number) {
+export function useEvolutionSignalment(annee:number , navigate:any) {
   return useQuery({
     queryKey: ['signalementbymonthglobal' ,annee],
-    queryFn: () => evolutionSignalment(annee),
+    queryFn: () => evolutionSignalment(annee , navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -125,7 +119,7 @@ export function useEvolutionSignalment(annee:number) {
   })
 }
 
-const Statsignalementbyregion = async (anne:number) => {
+const Statsignalementbyregion = async (anne:number , navigate:any) => {
   try {    
     const reponse = (await instanceAxios.get(`statistique/signalementbyregion?annee=${anne}`, {
       headers: {
@@ -134,14 +128,13 @@ const Statsignalementbyregion = async (anne:number) => {
     }))
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function useStatsignalementbyregion(annee:number) {
+export function useStatsignalementbyregion(annee:number , navigate:any) {
   return useQuery({
     queryKey: ['signalementbyregion' ,annee],
-    queryFn: () => Statsignalementbyregion(annee),
+    queryFn: () => Statsignalementbyregion(annee,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,

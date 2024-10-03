@@ -10,9 +10,11 @@ import { UseAdministrationNoequipe, useSaveNewEquipe } from "../../../api/equipe
 import { TransformDataAdministration } from "../../../types/administration/Administration";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { EquipeForm } from "../../../types/mission/EquipeForm";
+import { useNavigate } from "react-router-dom";
 function ContentEquipe() {
-  const equipe = usegetEquipeByregion();
-  const personneAdmnin = UseAdministrationNoequipe();
+  const navigate = useNavigate();
+  const equipe = usegetEquipeByregion(navigate);
+  const personneAdmnin = UseAdministrationNoequipe(navigate);
   const newEquipe = useSaveNewEquipe();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { control, handleSubmit , reset } = useForm<EquipeForm>();
@@ -42,7 +44,7 @@ function ContentEquipe() {
   const data = TransfData(equipe.data);
   const HandleSubmitEquipe: SubmitHandler<EquipeForm> = async (data: EquipeForm) => {
     if (data.idadministration !== undefined && data.membres.length >= 2) {
-      const reponse = await newEquipe.mutateAsync(data);
+      const reponse = await newEquipe.mutateAsync({data , navigate});
       console.log(reponse);
       if (reponse.status === 200) {
         setIsModalOpen(false);
@@ -66,7 +68,7 @@ function ContentEquipe() {
   return (
     <>
       <div className="font-sans flex justify-between">
-        <span className="text-xl font-bold mb-2" >Equipe.</span>
+        <span className="text-xl font-bold mb-2" >Misionnaires.</span>
         <Button icon={<PlusCircleOutlined />} className="font-sans text-xs" type="dashed" onClick={showModal}>Nouveau equipe</Button>
       </div>
       <div className="grid grid-cols-4 gap-5">

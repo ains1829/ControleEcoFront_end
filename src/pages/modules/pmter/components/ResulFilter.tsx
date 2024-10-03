@@ -6,9 +6,11 @@ import {
   LeftOutlined,
   RightOutlined
 } from '@ant-design/icons'
+import { useNavigate } from "react-router-dom";
 function ResulFilter({ region, search, isfilter, datebegin, date_end }: { region: number,  search: string, isfilter: boolean, datebegin: string, date_end: string }) {
   const [page, setPage] = useState(0);
-  const societe = usegetSocieteglobal(region, page, search, isfilter, datebegin, date_end);
+  const navigate = useNavigate();
+  const societe = usegetSocieteglobal(region, page, search, isfilter, datebegin, date_end,navigate);
   if (societe.isPending) {
     return <>loading....</>
   }

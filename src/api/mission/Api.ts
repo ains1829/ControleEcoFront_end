@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { instanceAxios } from "../axios/Theaxios";
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
-const getFeedback = async (idorderdemission:number) => {
+const getFeedback = async (idorderdemission:number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`mission/feedback_content?idordermission=${idorderdemission} `, {
       headers: {
@@ -11,13 +9,14 @@ const getFeedback = async (idorderdemission:number) => {
     })).data?.object;
     return reponse;
   } catch (error) {
+    
     navigate('/');
   }
 }
-export function usegetFeedback(idorderdemission : number) {
+export function usegetFeedback(idorderdemission : number , navigate:any) {
   return useQuery({
     queryKey: ["feedback"], 
-    queryFn: () => getFeedback(idorderdemission),
+    queryFn: () => getFeedback(idorderdemission,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -26,7 +25,7 @@ export function usegetFeedback(idorderdemission : number) {
   })
 }
 
-const getOrdermissionByUser = async (page:number,filtre:number,text:string) => {
+const getOrdermissionByUser = async (page:number,filtre:number,text:string,navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`mission/OrderMissionAllbydrdt?pagenumber=${page}&filter=${filtre}&text=${text}`, {
       headers: {
@@ -35,14 +34,13 @@ const getOrdermissionByUser = async (page:number,filtre:number,text:string) => {
     })).data?.object;
     return reponse
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:', error);
     navigate('/');
   }
 }
-export function usegetOrdermissionByUser(page:number , filter:number,text:string) {
+export function usegetOrdermissionByUser(page:number , filter:number,text:string,navigate:any) {
   return useQuery({
     queryKey: ["order-missions-user", page,filter,text],
-    queryFn: ()=>getOrdermissionByUser(page,filter,text),
+    queryFn: ()=>getOrdermissionByUser(page,filter,text,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -50,7 +48,7 @@ export function usegetOrdermissionByUser(page:number , filter:number,text:string
     refetchOnReconnect: false,
   })
 }
-const getOrdermission = async (page:number,filtre:number,text:string) => {
+const getOrdermission = async (page:number,filtre:number,text:string ,navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`mission/OrderMissionAll?pagenumber=${page}&filter=${filtre}&text=${text}`, {
       headers: {
@@ -59,14 +57,13 @@ const getOrdermission = async (page:number,filtre:number,text:string) => {
     })).data?.object;
     return reponse
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:', error);
     navigate('/');
   }
 }
-export function usegetOrdermission(page:number , filter:number,text:string) {
+export function usegetOrdermission(page:number , filter:number,text:string,navigate:any) {
   return useQuery({
     queryKey: ["order-missions" , page,filter,text],
-    queryFn: ()=>getOrdermission(page,filter,text),
+    queryFn: ()=>getOrdermission(page,filter,text,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -74,7 +71,7 @@ export function usegetOrdermission(page:number , filter:number,text:string) {
     refetchOnReconnect: false,
   })
 }
-export const getOrdermissionAttente = async () => {
+export const getOrdermissionAttente = async (navigate:any) => {
   try {
     const reponse = (await instanceAxios.get("mission/OrderMissionenAttente", {
       headers: {
@@ -83,14 +80,13 @@ export const getOrdermissionAttente = async () => {
     })).data?.object;
     return reponse
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:', error);
     navigate('/');
   }
 }
-export function usegetOrdermissionAttente() {
+export function usegetOrdermissionAttente(navigate:any) {
   return useQuery({
     queryKey: ["order-missions-Attente"],
-    queryFn: getOrdermissionAttente,
+    queryFn: ()=>getOrdermissionAttente(navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -99,7 +95,7 @@ export function usegetOrdermissionAttente() {
   })
 }
 
-export const getSocieteByregion = async (page : number , search : string) => {
+export const getSocieteByregion = async (page : number , search : string,navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`scomadminstration/getSocietebyregionpagination?page=${page}&search=${search}`, {
       headers: {
@@ -108,15 +104,14 @@ export const getSocieteByregion = async (page : number , search : string) => {
     })).data?.object;
     return reponse;
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:', error);
     navigate('/');
   }
 }
 
-export function usegetSocietebyregion(page:number , search : string) {
+export function usegetSocietebyregion(page:number , search : string , navigate:any) {
   return useQuery({
     queryKey: ["societebyregion" , page , search],
-    queryFn: () => getSocieteByregion(page , search),
+    queryFn: () => getSocieteByregion(page , search , navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -126,7 +121,7 @@ export function usegetSocietebyregion(page:number , search : string) {
 }
 
 
-const getSocieteglobal = async (page : number , search : string, idregion :number , filtresocieteom:boolean , date_begin:string , date_end : string) => {
+const getSocieteglobal = async (page : number , search : string, idregion :number , filtresocieteom:boolean , date_begin:string , date_end : string , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`scomadminstration/getSocieteglobalpagination?page=${page}&search=${search}&idregion=${idregion}&filter=${filtresocieteom}&date_begin=${date_begin}&date_end=${date_end}`, {
       headers: {
@@ -135,29 +130,28 @@ const getSocieteglobal = async (page : number , search : string, idregion :numbe
     })).data?.object;
     return reponse;
   } catch (error) {
-    console.log('ERROR FETCHING ORDER MISSION:', error);
     navigate('/');
   }
 }
 
-export function usegetSocieteglobal(idregion : number ,  page:number , search : string , filtresocieteom:boolean , date_begin:string , date_end : string) {
+export function usegetSocieteglobal(idregion : number ,  page:number , search : string , filtresocieteom:boolean , date_begin:string , date_end : string , navigate:any) {
   return useQuery({
     queryKey: ["societeglobalpagination" , page , search , idregion , filtresocieteom , date_begin , date_end ],
-    queryFn: () => getSocieteglobal(page , search , idregion , filtresocieteom , date_begin , date_end),
+    queryFn: () => getSocieteglobal(page , search , idregion , filtresocieteom , date_begin , date_end , navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
   })
-}getSocieteglobal
+}
+
 const getProfil = async () => {
   try {
     const respone = (await instanceAxios.get("data/profil"));
     return respone.data;
   } catch (error) {
     console.log(error);
-    navigate('/');
   }
 }
 export function usegetProfils() {
@@ -177,7 +171,6 @@ const getRegions = async () => {
     return respone.data;
   } catch (error) {
     console.log(error);
-    navigate('/');
   }
 }
 export function usegetRegions() {
@@ -198,7 +191,6 @@ const getDistrict = async (idregion : number) => {
     return respone.data;
   } catch (error) {
     console.log(error);
-    navigate('/');
   }
 }
 
@@ -213,7 +205,7 @@ export function usegetDistrict(idregion : number) {
     refetchOnReconnect: false,
   })
 }
-const getRole = async () => {
+const getRole = async (navigate:any) => {
   try {
     const respone = (await instanceAxios.get(`scomadminstration/getrole`, {
       headers: {
@@ -222,14 +214,13 @@ const getRole = async () => {
     }));
     return respone.data;
   } catch (error) {
-    console.log(error);
-    navigate('/');
+    navigate("/");
   }
 }
-export function usegetRole() {
+export function usegetRole(navigate:any) {
   return useQuery({
     queryKey: ["getrole",localStorage.getItem('token-user')],
-    queryFn: getRole,
+    queryFn: ()=>getRole(navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -237,7 +228,7 @@ export function usegetRole() {
     refetchOnReconnect: false,
   })
 }
-const getAdministrationValidate = async (page:number) => {
+const getAdministrationValidate = async (page:number , navigate:any) => {
   try {
     const respone = (await instanceAxios.get(`scomadminstration/account_validate?page=${page}`, {
       headers: {
@@ -246,14 +237,13 @@ const getAdministrationValidate = async (page:number) => {
     }));
     return respone.data.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usegetAdministrationValidate(page:number) {
+export function usegetAdministrationValidate(page:number , navigate:any) {
   return useQuery({
     queryKey: ["account_validate",page],
-    queryFn:()=> getAdministrationValidate(page),
+    queryFn:()=> getAdministrationValidate(page,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -261,7 +251,7 @@ export function usegetAdministrationValidate(page:number) {
     refetchOnReconnect: false,
   })
 }
-const getAdministrationNoValidate = async (page:number) => {
+const getAdministrationNoValidate = async (page:number  , navigate:any) => {
   try {
     const respone = (await instanceAxios.get(`scomadminstration/account_Novalidate?page=${page}`, {
       headers: {
@@ -270,14 +260,13 @@ const getAdministrationNoValidate = async (page:number) => {
     }));
     return respone.data.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usegetAdministrationNoValidate(page:number) {
+export function usegetAdministrationNoValidate(page:number , navigate:any) {
   return useQuery({
     queryKey: ["account_Novalidate",page],
-    queryFn:()=> getAdministrationNoValidate(page),
+    queryFn:()=> getAdministrationNoValidate(page,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,

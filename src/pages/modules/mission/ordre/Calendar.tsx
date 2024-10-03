@@ -2,7 +2,7 @@ import FullCalendar  from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction';
-import { Breadcrumb, Tag, theme, Tooltip } from 'antd';
+import {Tag, theme, Tooltip } from 'antd';
 import { usegetCalendar } from '../../../../api/equipe/ApiDr_dt';
 import frlocal from '@fullcalendar/core/locales/fr'
 import {
@@ -14,11 +14,13 @@ import 'dayjs/locale/fr'; // Importer la locale française
 dayjs.locale('fr');
 import { TransFormData } from '../../../../types/mission/Ordredemission';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 function Calendar() {
+  const navigate = useNavigate();
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const [year, setYear] = useState(Number(dayjs().format('YYYY')));
   const [date,setDate] = useState(`${dayjs().format('YYYY')}-${dayjs().format('MM')}`)
-  const suivi_mission = usegetCalendar(year);
+  const suivi_mission = usegetCalendar(year , navigate);
   if (suivi_mission.isPending) {
     return <span>loading...</span>
   }
@@ -59,7 +61,6 @@ function Calendar() {
   }
   return (
     <>
-      <Breadcrumb className="font-sans p-2" items={[{ title: 'Calendrier' }]} />
       <div
         className="flex flex-col gap-y-2 font-sans"
         style={{
@@ -67,6 +68,7 @@ function Calendar() {
           minHeight: 360,
           background: colorBgContainer,
           borderRadius: borderRadiusLG,
+          marginTop:10
         }}
       >
         <span className='text-xl font-bold'>Calendrier.</span>

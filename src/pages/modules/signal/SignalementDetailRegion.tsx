@@ -6,9 +6,11 @@ import {
   RightOutlined
 } from '@ant-design/icons';
 import { Button } from "antd";
-function SignalementDetailRegion({date} : {date:number}) {
+import { useNavigate } from "react-router-dom";
+function SignalementDetailRegion({ date }: { date: number }) {
+  const navigate = useNavigate();
   const [page, setPage] = useState(0);
-  const data_signal = useGetSignalbyregion(date, page);
+  const data_signal = useGetSignalbyregion(date, page,navigate);
   if (data_signal.isLoading) {
     return <>loading...</>
   }
@@ -17,7 +19,7 @@ function SignalementDetailRegion({date} : {date:number}) {
   }
   const data = data_signal.data;
   console.log(data)
-   const handleNext = () => {
+  const handleNext = () => {
     if (data.hasnext) {
       setPage(page + 1)
     }

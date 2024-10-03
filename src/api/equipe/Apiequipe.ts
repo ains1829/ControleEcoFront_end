@@ -1,8 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios"
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
-const getMyEquipe = async () => {
+const getMyEquipe = async (navigate : any) => {
   try {
     const reponse = (await instanceAxios.get('statistique/detailequipe', {
       headers: {
@@ -11,14 +9,13 @@ const getMyEquipe = async () => {
     }))
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usegetMyEquipe() {
+export function usegetMyEquipe(navigate:any) {
   return useQuery({
     queryKey: ["detailequipe"],
-    queryFn: getMyEquipe,
+    queryFn:()=> getMyEquipe(navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -26,7 +23,7 @@ export function usegetMyEquipe() {
     refetchOnReconnect: false,
   })
 }
-const missionBytype = async () => {
+const missionBytype = async (navigate:any) => {
   try {
     const reponse = (await instanceAxios.get('statistique/stat_typemissionbyequipe', {
       headers: {
@@ -35,14 +32,13 @@ const missionBytype = async () => {
     }))
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function useStatTypeMissionByEquipe() {
+export function useStatTypeMissionByEquipe(navigate:any) {
   return useQuery({
     queryKey: ["stattypemissionbyequipe"],
-    queryFn: missionBytype,
+    queryFn:()=> missionBytype(navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -51,7 +47,7 @@ export function useStatTypeMissionByEquipe() {
   })
 }
 
-const StatMission = async () => {
+const StatMission = async (navigate:any) => {
   try {
     const reponse = (await instanceAxios.get('statistique/missionstatbyequipe', {
       headers: {
@@ -60,15 +56,14 @@ const StatMission = async () => {
     }))
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 
-export function useStatMissionByEquipe() {
+export function useStatMissionByEquipe(navigate:any) {
   return useQuery({
     queryKey: ["statmissionbyequipe"],
-    queryFn: StatMission,
+    queryFn:()=> StatMission(navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -77,7 +72,7 @@ export function useStatMissionByEquipe() {
   })
 }
 
-const Autresuivibyordermission = async (idmission: number) => {
+const Autresuivibyordermission = async (idmission: number , navigate:any) => {
     try {
     const reponse = (await instanceAxios.get(`mission/autresuivibyordermission?idordermission=${idmission}`, {
       headers: {
@@ -86,14 +81,13 @@ const Autresuivibyordermission = async (idmission: number) => {
     }));
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function useAutresuivibyordermission(idmission : number) {
+export function useAutresuivibyordermission(idmission : number , navigate:any) {
   return useQuery({
     queryKey: ["autresuivibyordermission", idmission],
-    queryFn: () => Autresuivibyordermission(idmission),
+    queryFn: () => Autresuivibyordermission(idmission,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -101,7 +95,7 @@ export function useAutresuivibyordermission(idmission : number) {
     refetchOnReconnect: false,
   }) 
 }
-const CollecteMissionByEquipe = async (idmission : number) => {
+const CollecteMissionByEquipe = async (idmission : number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`mission/collectebyordermission?idordermission=${idmission}`, {
       headers: {
@@ -110,15 +104,14 @@ const CollecteMissionByEquipe = async (idmission : number) => {
     }));
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
-    navigate('/');
+    navigate("/");
   }
 }
 
-export function useCollecteMissionByEquipe (id : number) {
+export function useCollecteMissionByEquipe (id : number , navigate:any) {
   return useQuery({
     queryKey: ["collectemissionbyequipe", id],
-    queryFn: () => CollecteMissionByEquipe(id),
+    queryFn: () => CollecteMissionByEquipe(id,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -127,7 +120,7 @@ export function useCollecteMissionByEquipe (id : number) {
   })
 }
 
-const EnqueteMissionByEquipe = async (idmission : number) => {
+const EnqueteMissionByEquipe = async (idmission : number , navigate : any) => {
   try {
     const reponse = (await instanceAxios.get(`mission/enqeuetebyordermission?idordermission=${idmission}`, {
       headers: {
@@ -136,15 +129,14 @@ const EnqueteMissionByEquipe = async (idmission : number) => {
     }));
     return reponse.data?.object;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 
-export function useEnqueteMissionByEquipe (id : number) {
+export function useEnqueteMissionByEquipe (id : number , navigate:any) {
   return useQuery({
     queryKey: ["enquetemissionbyequipe", id],
-    queryFn: () => EnqueteMissionByEquipe(id),
+    queryFn: () => EnqueteMissionByEquipe(id,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -153,7 +145,7 @@ export function useEnqueteMissionByEquipe (id : number) {
   })
 }
 
-const OrdremissionByEquipe = async (page:number , filter:number) => {
+const OrdremissionByEquipe = async (page:number , filter:number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`mission/suivi_mission?page=${page}&filter=${filter}` , {
       headers: {
@@ -162,14 +154,13 @@ const OrdremissionByEquipe = async (page:number , filter:number) => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usegetOrdermissionByEquipe(page:number , filter:number) {
+export function usegetOrdermissionByEquipe(page:number , filter:number , navigate : any) {
   return useQuery({
     queryKey: ["ordermissionbyequipe" , page , filter],
-    queryFn: () => OrdremissionByEquipe(page, filter),
+    queryFn: () => OrdremissionByEquipe(page, filter,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -177,7 +168,7 @@ export function usegetOrdermissionByEquipe(page:number , filter:number) {
     refetchOnReconnect: false,
   })
 }
-const getEquipeByRegion = async () => {
+const getEquipeByRegion = async (navigate:any) => {
   try {
     const reponse = (await instanceAxios.get("scomadminstration/equipebyregion" , {
       headers: {
@@ -186,14 +177,13 @@ const getEquipeByRegion = async () => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usegetEquipeByregion() {
+export function usegetEquipeByregion(navigate:any) {
   return useQuery({
     queryKey: ['equipebyregion'],
-    queryFn: getEquipeByRegion,
+    queryFn:()=>getEquipeByRegion(navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -201,7 +191,7 @@ export function usegetEquipeByregion() {
     refetchOnReconnect: false,
   })
 }
-const getDistrict = async () => {
+const getDistrict = async (navigate:any) => {
   try {
     const reponse = (await instanceAxios.get("scomadminstration/getdistrictbyregion", {
       headers: {
@@ -210,14 +200,13 @@ const getDistrict = async () => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usegetDistrictByregion() {
+export function usegetDistrictByregion(navigate:any) {
   return useQuery({
     queryKey: ['districtbyregion'],
-    queryFn: getDistrict,
+    queryFn:()=> getDistrict(navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
@@ -225,7 +214,7 @@ export function usegetDistrictByregion() {
     refetchOnReconnect: false,
   })
 }
-const getSociete = async () => {
+const getSociete = async (navigate:any) => {
   try {
     const reponse = (await instanceAxios.get("scomadminstration/getSocietebyregion", {
       headers: {
@@ -234,14 +223,13 @@ const getSociete = async () => {
     }));
     return reponse.data?.object
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
-export function usegetSocieteByregion() {
+export function usegetSocieteByregion(navigate:any) {
   return useQuery({
     queryKey: ['Societebyregion'],
-    queryFn: getSociete,
+    queryFn: ()=>getSociete(navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,

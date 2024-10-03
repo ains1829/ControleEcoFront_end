@@ -1,8 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Authuser } from "../../json/Authuser";
 import { instanceAxios } from "../../axios/Theaxios";
-import { useNavigate } from "react-router-dom";
-const navigate = useNavigate();
 const Authentification = async (data: Authuser) => {
   return await instanceAxios.post("auth/authentification", data);
 }
@@ -17,7 +15,7 @@ export function useAuthentification() {
   })
 }
 
-const ValidateAccount = async (idaccount: number) => {
+const ValidateAccount = async (idaccount: number , navigate:any) => {
   try {
     const reponse = (await instanceAxios.get(`scomadminstration/validateaccount_dsi?idaccount=${idaccount}`, {
       headers: {
@@ -26,14 +24,13 @@ const ValidateAccount = async (idaccount: number) => {
     })).data;
     return reponse;
   } catch (error) {
-    console.log(error);
     navigate('/');
   }
 }
 export function useValidateAccount() {
   const queryclient = useQueryClient();
   return useMutation({
-    mutationFn: ({id} : {id:number}) => ValidateAccount(id),
+    mutationFn: ({id , navigate} : {id:number , navigate:any}) => ValidateAccount(id,navigate),
     onSettled: async(_,error)=> {
       if (error) {
         console.log(error)

@@ -8,6 +8,7 @@ const Login : FC = () => {
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const Authmutation = useAuthentification();
+  const { control, handleSubmit , reset } = useForm<Authuser>();
   const HandleAuth: SubmitHandler<Authuser> = async (data) => {
     const reponse = await Authmutation.mutateAsync(data);
     if (reponse.data?.status === 200) {
@@ -27,13 +28,13 @@ const Login : FC = () => {
         navigate("/suivimission")
       }
     } else {
+      reset()
       messageApi.open({
         type: 'error',
         content: 'Mot de passe incorrect',
       });
     }
   }
-  const { control, handleSubmit } = useForm<Authuser>();
   return (
     <>
       {contextHolder}

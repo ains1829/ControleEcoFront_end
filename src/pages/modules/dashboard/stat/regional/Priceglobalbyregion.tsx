@@ -15,7 +15,7 @@ function Priceglobalbyregion({ product, mois,annee} : { product:number,mois:numb
   return (
     
         <div className="grid grid-cols-3 gap-10">
-          <div className="flex flex-col gap-y-10  p-5 rounded-xl shadow-lg">
+          <div className="flex flex-col gap-y-10  p-5  shadow-md">
             <div className="flex justify-between">
               <span className="text-xs text-gray-500 font-bold">Prix moyenne</span>
               <DollarOutlined  style={{fontSize:'22px'}}/>
@@ -39,7 +39,7 @@ function Priceglobalbyregion({ product, mois,annee} : { product:number,mois:numb
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-y-10  p-5 rounded-xl shadow-lg">
+          <div className="flex flex-col gap-y-10  p-5  shadow-md">
             <div className="flex justify-between">
               <span className="text-xs text-gray-500 font-bold">Prix max</span>
               <DollarOutlined  style={{fontSize:'22px'}}/>
@@ -63,7 +63,7 @@ function Priceglobalbyregion({ product, mois,annee} : { product:number,mois:numb
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-y-10  p-5 rounded-xl shadow-lg">
+          <div className="flex flex-col gap-y-10  p-5  shadow-md">
             <div className="flex justify-between">
               <span className="text-xs text-gray-500 font-bold">Prix min</span>
               <DollarOutlined  style={{fontSize:'22px'}}/>

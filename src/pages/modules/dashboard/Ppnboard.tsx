@@ -74,7 +74,6 @@ function Ppnboard() {
                 <span className="text-xs font-bold">Province : </span>
                 <Select
                   className="font-sans"
-                  allowClear
                   options={options}
                   onChange={handleChangeProvince}
                   placeholder='Antananarivo'
@@ -100,8 +99,8 @@ function Ppnboard() {
         </div>
         <Priceglobal province={province_choice} product={product_choice} mois={moisNumber} annee={anne}/>
       </div>
-      <Evoluation province={province_choice} product={product_choice} annee={anne}/>
       <Provinceregion province={province_choice} product={product_choice} mois={moisNumber} annee={anne}/>
+      <Evoluation province={province_choice} product={product_choice} annee={anne}/>
     </div>
   )
 }
