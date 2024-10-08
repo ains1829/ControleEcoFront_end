@@ -11,7 +11,9 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
 import { useValidateOrdermission, useValidateOrdermissionDgdmt } from "../../../../api/mission/Apiordremission";
 import { UserInstance } from "../../../../types/administration/Userconnected";
+import { useNavigate } from "react-router-dom";
 function Mission({ data }: { data: Ordredemission }) {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const validation = useValidateOrdermission();
   const validation_dg = useValidateOrdermissionDgdmt();
@@ -28,7 +30,7 @@ function Mission({ data }: { data: Ordredemission }) {
   const confirms_ordermission = async (id: number, validate: boolean) => {
     try {
       if (role === "SG") {
-        const reponse = await validation.mutateAsync({ idordermission: id, validate });
+        const reponse = await validation.mutateAsync({ idordermission: id, validate , navigate});
         if (reponse.status === 200) {
           if (validate == true) {
             message.success('Demande OK');
@@ -39,7 +41,7 @@ function Mission({ data }: { data: Ordredemission }) {
           message.error(reponse.object);
         }
       } else {
-        const reponse = await validation_dg.mutateAsync({ idordermission: id,validate });
+        const reponse = await validation_dg.mutateAsync({ idordermission: id,validate , navigate });
         if (reponse.status === 200) {
           if (validate == true) {
             message.success('Demande OK');

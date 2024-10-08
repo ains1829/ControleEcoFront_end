@@ -214,6 +214,7 @@ const getRole = async (navigate:any) => {
     }));
     return respone.data;
   } catch (error) {
+    console.log(error+"sasa")
     navigate("/");
   }
 }

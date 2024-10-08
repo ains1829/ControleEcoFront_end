@@ -88,7 +88,7 @@ function Ordermission() {
               options={[
                 { label: <span>Tous ({data_om.total})</span> , value: '0' },
                 { label: <span>Approuvés ({data_om.valider})</span>, value: '1' },
-                { label: <span>En attente ({data_om.non_valider})</span>, value: '2' },
+                { label: <span>En attente ({data_om.non_valider + data_om.attente_dg})</span>, value: '2' },
                 { label: <span>Rejetés({data_om.supprimer}) </span>, value: '3' },
               ]}
               value={selectedButton}

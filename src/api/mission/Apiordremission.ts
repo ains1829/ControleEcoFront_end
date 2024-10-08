@@ -3,7 +3,6 @@ import { instanceAxios } from "../axios/Theaxios";
 import { Jsonmission } from "../json/mission/Jsonmission";
 import { Jsoncollecte } from "../json/mission/jsoncollecte";
 import { SocieteForm } from "../../types/societe/SocieteForm";
-import { useNavigate } from "react-router-dom";
 
 const DetailCollecte = async (idcollecte: number , navigate:any) => {
   try {

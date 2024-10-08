@@ -45,7 +45,7 @@ function AdministrationPage() {
       title: <span className="font-sans">Nom</span>,
       dataIndex: 'name',
       key: 'name',
-      width: '35%',
+      width: '15%',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),

@@ -264,7 +264,7 @@ export function OrdermissionUser() {
                 <div key={1} className="grid grid-cols-2 items-center font-sans p-4">
                   <div className="flex flex-col">
                     <label className="font-sans font-bold text-secondary">Societe</label>
-                    <span className="text-xs">Indiquez la société concernée</span>
+                    <span className="text-xs font-sans">Indiquez la société concernée</span>
                   </div>
                   <div className="flex flex-col gap-y-2">
                     <Controller control={control} name="societe" render={({ field }) => 
