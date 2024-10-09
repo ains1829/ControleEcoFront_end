@@ -132,7 +132,7 @@ function AdminSg() {
           </div>
           <Table columns={columns} dataSource={data_admin} pagination={false} />
         </div>
-        <Modal key={data_detail?.key!} className="font-sans" title={<span className="font-bold font-sans">Modification.</span>} onOk={handleOk} onCancel={handleCancel} open={open}
+        <Modal key={data_detail?.key!} centered width={1000} className="font-sans" onOk={handleOk} onCancel={handleCancel} open={open}
           footer={(_  , {})=>(
             <></>
           )}>

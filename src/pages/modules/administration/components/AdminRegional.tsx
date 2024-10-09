@@ -40,8 +40,8 @@ function AdminRegional() {
   const options_region: any[] = [];
   if (region.isSuccess) {
     region.data.forEach((item : any) => (
-     options_region.push({value:item.idregion , label : <span className="font-sans">{item.nameregion}</span>})
-   ))
+      options_region.push({value:item.idregion , label : <span className="font-sans">{item.nameregion}</span>})
+    ))
   }
   const handleChange = (value: number, option: any) => {
     setPage(0)
@@ -211,7 +211,7 @@ function AdminRegional() {
             </div>
           </div>
       </div>
-      <Modal key={data_detail?.key!} className="font-sans" title={<span className="font-bold font-sans">Modification.</span>} onOk={handleOk} onCancel={handleCancel} open={open}
+      <Modal key={data_detail?.key!} centered width={1000} className="font-sans" onOk={handleOk} onCancel={handleCancel} open={open}
         footer={(_  , {})=>(
           <></>
         )}>

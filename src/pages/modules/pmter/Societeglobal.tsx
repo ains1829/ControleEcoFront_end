@@ -1,4 +1,4 @@
-import {  Button, Input, message, Modal, Select, theme, Upload, UploadFile, UploadProps } from "antd";
+import {  Button, Divider, FloatButton, Input, message, Modal, Select, theme, Upload, UploadFile, UploadProps } from "antd";
 import Search, { SearchProps } from "antd/es/input/Search";
 import { useState } from "react";
 import {
@@ -124,38 +124,33 @@ function Societeglobal() {
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
           <span className="text-xl font-bold" >Societe.</span>
-          <span className="text-xs font-bold">({region_view })</span>
         </div>
-        <div className="flex flex-c items-center gap-2">
-            <span className="text-xs font-bold">Historique des descentes</span>
-            <RangePicker style={{ width: '200px' }} picker="month" placeholder={['Date 1', 'Date 2']} onChange={onYearRangeChange}/>
+      </div>
+      <div className="flex gap-5">
+        <div className="w-5/6">
+          <ResulFilter region={region_choice} search={search} isfilter={filterOm_mission} datebegin={date_begin} date_end={date_end} />
         </div>
-        <div className="flex gap-2">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold">Region</span>
+        <div className="flex flex-col gap-y-5">
+          <div className="flex flex-col gap-2">
+            <span className="font-bold text-secondary">Recherche</span>
+            <Search placeholder="Recherche" allowClear onSearch={onSearch} className="font-sans"/>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="font-bold text-secondary">Historique des descentes</span>
+            <RangePicker picker="month" placeholder={['Date 1', 'Date 2']} onChange={onYearRangeChange}/>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="font-bold text-secondary">Region</span>
             <Select
               allowClear={false}
               options={options}
               placeholder="Tous"
               className="font-sans"
-              style={{ width: '200px' }}
               onChange={handleChange}
             />
           </div>
-          <div >
-            <Search placeholder="Recherche" allowClear onSearch={onSearch} className="font-sans" 
-              style={{ width: '500px' }}
-            />
-          </div>
-          {
-            role === "DSI" &&
-            <div className="flex justify-end font-sans font-bold">
-              <Button icon={<PlusCircleOutlined /> }  className="text-xs bg-secondary text-white font-sans" onClick={()=>setOpen(true)}>Nouveau societe </Button>
-            </div>
-          }
         </div>
       </div>
-        <ResulFilter region={region_choice}  search={search} isfilter={filterOm_mission} datebegin={date_begin} date_end={date_end} />
       </div>
       <Modal
         centered
@@ -171,8 +166,8 @@ function Societeglobal() {
       >
         <form id="newsociete" className="font-sans flex flex-col gap-y-2 divide-y" onSubmit={handleSubmit(handlenewsociete)}>
           <div className="flex flex-col p-4 ">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
             </svg>
             <div className="mt-2 flex flex-col gap-y-1">
               <span className="font-bold text-secondary text-sm">Nouveaux société</span>
@@ -203,7 +198,7 @@ function Societeglobal() {
           </div>
           <div className="grid grid-cols-2 gap-4 p-4 items-center">
             <div className="flex flex-col">
-              <span className="font-bold text-secondary">Responsable et contact</span>
+              <label className="font-bold text-secondary">Responsable et contact</label>
               <span className="text-xs">Entrez le nom du responsable et son numéro de téléphone</span>
             </div>
             <div className="flex flex-col gap-y-2">
@@ -265,6 +260,10 @@ function Societeglobal() {
           </div>
         </form>
       </Modal>
+      {
+        role === "DSI" &&
+          <FloatButton icon={<PlusCircleOutlined /> }  type="default" shape="circle" tooltip={<div className="font-sans text-xs">Nouveaux </div>}onClick={()=>setOpen(true)}/>
+      }
     </>
   )
 }

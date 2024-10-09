@@ -60,7 +60,7 @@ function Societe() {
           <span className="text-xl font-bold" >Societe.</span>
           <Search placeholder="Recherche" allowClear onSearch={onSearch} className="w-1/4 font-sans" />
         </div>
-        <C_societe data={data_societe} />
+        <C_societe data={data_societe} page={0} region={0} search="" isfilter datebegin="" date_end=""  />
         <div className="flex justify-between items-center">
           <div className="flex gap-2">
             <div className={`${ClassNamePrevious} p-2 text-xs items-center text-white rounded-xl font-bold flex gap-2`} onClick={handlePrevious}>

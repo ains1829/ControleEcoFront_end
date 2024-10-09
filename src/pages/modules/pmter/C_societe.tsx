@@ -1,18 +1,29 @@
-import { Avatar, Button, Divider, Drawer, Empty, Image, Space, Table, TableColumnsType, Tag } from 'antd';
+import { Avatar, Button, Divider, Drawer, Empty, Image, Modal, Space, Table, TableColumnsType, Tag} from 'antd';
 import { useState } from 'react';
 import { Societedata } from '../../../types/societe/SocieteData';
 import { useSocieteRef } from '../../../api/mission/Apiordremission';
 import { useNavigate } from 'react-router-dom';
-const C_societe = ({ data }: { data: Societedata[] }) => {
+import { UserInstance } from '../../../types/administration/Userconnected';
+import {EditOutlined} from '@ant-design/icons';
+import FormSociete from './components/FormSociete';
+const C_societe = ({ data , page, region, search, isfilter, datebegin, date_end }: { data: Societedata[] , page:number, region: number,  search: string, isfilter: boolean, datebegin: string, date_end: string  }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [open_modal, setOpen_modal] = useState(false);
   const [data_societe, setdatasociete] = useState<Societedata>();
   const [idsociete, setSociete] = useState(0);
-  const data_ref = useSocieteRef(idsociete,navigate);
+  const data_ref = useSocieteRef(idsociete, navigate);
+  const [societe_modify, setSocieteModify] = useState<Societedata | null>(null); 
+  const role = UserInstance().getRole
   const handleClick = async (data: Societedata) => {
     setdatasociete(data);
     setSociete(Number(data.key))
     setOpen(true);
+    
+  }
+  const UpModal = async (data: Societedata) => {
+    setSocieteModify(data);
+    setOpen_modal(true);
   }
   const truncateText = (text: string) => {
     let maxlength = 50;
@@ -41,29 +52,11 @@ const C_societe = ({ data }: { data: Societedata[] }) => {
       title: <span className='font-sans'>Description</span> ,
       dataIndex: 'description',
       key: 'description',
-      width: '40%',
+      width: '30%',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
       render: (text) => <span className='font-sans'>{truncateText(text) }</span>
-    },
-    {
-      title:  <span className='font-sans'>NIF</span>,
-      dataIndex: 'nif',
-      key: 'nif',
-      onHeaderCell: () => ({
-        style: { backgroundColor: 'transparent' },
-      }),
-      render: (text) => <span className='font-sans'>{text }</span>
-    },
-    {
-      title: <span className='font-sans'>STAT</span>,
-      dataIndex: 'stat',
-      key: 'stat',
-      onHeaderCell: () => ({
-        style: { backgroundColor: 'transparent' },
-      }),
-      render: (text) => <span className='font-sans'>{text }</span>
     },
     {
       title: <span className='font-sans'>District</span>,
@@ -90,6 +83,9 @@ const C_societe = ({ data }: { data: Societedata[] }) => {
       }),
       render: (_, record) => (
         <Space size="middle">
+          {
+            role === "DSI" && <Button icon={<EditOutlined />} className='text-xs font-sans p-4' type='dashed' onClick={()=>UpModal(record)}>Modifier</Button>
+          }
           <Button type="dashed" className="text-xs font-sans p-4" onClick={()=>handleClick(record)} >Detail</Button>
         </Space>
       ),
@@ -98,6 +94,9 @@ const C_societe = ({ data }: { data: Societedata[] }) => {
   const onClose = () => {
     setOpen(false);
   };
+  const CloseModal = () => {
+    setOpen_modal(false);
+  }
   return (
     <>
       <Table columns={columns} dataSource={data} pagination={false} />
@@ -182,6 +181,16 @@ const C_societe = ({ data }: { data: Societedata[] }) => {
             </div>
         </div>
       </Drawer>
+      <Modal
+        key={societe_modify?.key!}
+        centered
+        open={open_modal}
+        onCancel={() => setOpen_modal(false)}
+        width={1000}
+        footer={(_, {   }) => ( <> </> )}
+      >
+        <FormSociete page={page} societe_modify={societe_modify!} CloseModal={CloseModal} regions={region} search={search} isfilter={isfilter} datebegin={datebegin} date_end={date_end}  />
+      </Modal>
     </>
   )
 }

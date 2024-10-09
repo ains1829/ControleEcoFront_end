@@ -2,6 +2,8 @@ import { Progress, Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import { useEnqueteregionglobal } from '../../../api/dashboard/Statistique';
 import { Statregion, TransFormDataStat } from '../../../types/stat/Statregion';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const columns: TableColumnsType<Statregion> = [
   {
@@ -72,11 +74,6 @@ const columns: TableColumnsType<Statregion> = [
       <span className='font-sans'>{text}</span>
   },
   {
-    title: <span className='font-sans'>Progression</span>,
-    key:'progression',
-    render:(_,record) =><Progress type='line'  percent={parseFloat(((record.fini * 100) / record.t_enquete).toFixed(2))} className='font-sans'/>
-  },
-  {
     title: <span className='font-sans'>En regle</span>,
     dataIndex: 'clean',
     sorter: (a, b) => a.clean - b.clean,
@@ -89,15 +86,25 @@ const columns: TableColumnsType<Statregion> = [
     sorter: (a, b) => a.infraction - b.infraction,
     render: (text) =>
       <span className='font-sans'>{text}</span>
-  }
+  },
+  {
+    title: <span className='font-sans'>Progression</span>,
+    key:'progression',
+    render:(_,record) =><Progress type='line'  percent={parseFloat(((record.fini * 100) / record.t_enquete).toFixed(2))} className='font-sans'/>
+  },
 ];
 
-const onChange: TableProps<Statregion>['onChange'] = (pagination, filters, sorter, extra) => {
-  console.log('params', pagination, filters, sorter, extra);
-};
 
-function Tableregion({date} : {date : number}) {
-  const data_region = useEnqueteregionglobal(date);
+function Tableregion({ date }: { date: number }) {
+  const navigate = useNavigate();
+  const [pagination, setPagination] = useState({
+    current: 1, // page actuelle
+    pageSize: 10, // nombre d'éléments par page
+  });
+  const data_region = useEnqueteregionglobal(date,navigate);
+  const onChange: TableProps<Statregion>['onChange'] = (pagination:any) => {
+    setPagination(pagination);
+  };
   if (data_region.isPending) {
     return <>loading....</>
   }
@@ -106,7 +113,12 @@ function Tableregion({date} : {date : number}) {
   }
   const data_stat_region = TransFormDataStat(data_region.data);
   return (
-    <Table columns={columns} dataSource={data_stat_region} onChange={onChange} pagination={false} />
+    <Table columns={columns} dataSource={data_stat_region} onChange={onChange} pagination={{
+      current: pagination.current,
+      pageSize: pagination.pageSize,
+      total: data_stat_region.length,
+    }}
+  />
   )
 }
 

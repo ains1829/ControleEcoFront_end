@@ -1,4 +1,4 @@
-import { DatePicker, DatePickerProps, theme } from "antd";
+import { DatePicker, DatePickerProps, Divider, theme } from "antd";
 import { useState } from "react";
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr'; // Importer la locale française
@@ -45,8 +45,16 @@ function Signalement() {
           <GroupedBarChart date={date_actuelle} />
         </div>
       </div>
-      <div className="flex flex-col gap-y-3 mt-3 p-5 bg-white rounded-lg">
-        <span className="font-sans font-bold text-red-500">Tableau des Signalements Totaux par Région</span>
+      <div className="flex flex-col"
+        style={{
+          padding: 24,
+          background: colorBgContainer,
+          borderRadius: borderRadiusLG,
+          marginTop:10
+        }}
+      >
+        <span className="font-sans font-bold">Details par Région</span>
+          <Divider />
         <Signalementbyregion date={date_actuelle}/>
       </div>
     </div>

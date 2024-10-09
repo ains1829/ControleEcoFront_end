@@ -2,6 +2,8 @@ import { Progress, Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import {useStatbyregionbytypemission } from '../../../api/dashboard/Statistique';
 import { Statregiontype, TransFormStatRegion } from '../../../types/stat/Statregiontype';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const columns: TableColumnsType<Statregiontype> = [
   {
@@ -77,12 +79,17 @@ const columns: TableColumnsType<Statregiontype> = [
   }
 ];
 
-const onChange: TableProps<Statregiontype>['onChange'] = (pagination, filters, sorter, extra) => {
-  console.log('params', pagination, filters, sorter, extra);
-};
 
-function Tableregionstat({typemission ,  date} : {typemission:number , date : number}) {
-  const data_region = useStatbyregionbytypemission(typemission,date);
+function Tableregionstat({ typemission, date }: { typemission: number, date: number }) {
+  const navigate = useNavigate();
+  const data_region = useStatbyregionbytypemission(typemission, date, navigate);
+  const [pagination, setPagination] = useState({
+    current: 1, // page actuelle
+    pageSize: 10, // nombre d'éléments par page
+  });
+  const onChange: TableProps<Statregiontype>['onChange'] = (pagination:any) => {
+    setPagination(pagination);
+  };
   if (data_region.isPending) {
     return <>loading....</>
   }
@@ -91,7 +98,11 @@ function Tableregionstat({typemission ,  date} : {typemission:number , date : nu
   }
   const data_stat_region = TransFormStatRegion(data_region.data);
   return (
-    <Table columns={columns} dataSource={data_stat_region} onChange={onChange} pagination={false} />
+    <Table columns={columns} dataSource={data_stat_region} onChange={onChange} pagination={{
+      current: pagination.current,
+      pageSize: pagination.pageSize,
+      total: data_stat_region.length,
+    }} />
   )
 }
 

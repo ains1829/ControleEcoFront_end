@@ -1,5 +1,5 @@
 export interface Societedata{
-  key: React.Key;
+  key: number;
   namesociete: string;
   description: string;
   nif: string;
@@ -7,7 +7,9 @@ export interface Societedata{
   numerofiscal: string;
   telephone: string;
   responsable: string;
+  idregion: number;
   district: string;
+  iddistrict: number;
   addresse: string;
   logo: string;
 }
@@ -21,6 +23,8 @@ export const TransformdataSociete = (data: any[]) : Societedata [] => {
     numerofiscal: item.numerofiscal,
     telephone: item.telephone,
     responsable: item.responsable,
+    idregion:item.region.idregion,
+    iddistrict:item.district.iddistrict,
     district: item.district.nameville,
     addresse: item.addresse,
     logo:item.url_logo

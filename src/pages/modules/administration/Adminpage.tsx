@@ -21,7 +21,7 @@ function Adminpage() {
         <AdminRegional />
       </div>
       <FloatButton icon={<PlusCircleOutlined />} type="default" shape="circle" tooltip={<div className="font-sans text-xs">Nouveaux </div>} style={{ fontSize: '20px' }} onClick={handleOk}  />
-      <Modal title={<span className="font-bold font-sans">Nouveau membres.</span>} onOk={handleOk} onCancel={handleCancel} open={open} footer={(_  , {})=>(
+      <Modal onOk={handleOk} onCancel={handleCancel} width={1000} centered open={open} footer={(_  , {})=>(
           <></>
         )}>
         <NewAdmin closed_modal={handleCancel} />

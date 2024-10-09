@@ -1,6 +1,7 @@
-import { Button, Table, TableColumnsType } from 'antd';
+import {Table, TableColumnsType, TableProps } from 'antd';
 import { useStatsignalementbyregion } from '../../../../../api/dashboard/SignalementStat';
-import { Link } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 interface RegionData {
   key: string;
   regionName: string;
@@ -15,15 +16,22 @@ const TransFormRegionData = (data: any[]): RegionData[] => {
 }
 
 function Signalementbyregion({ date }: { date: number }) {
-  const signalement_byregion = useStatsignalementbyregion(date);
+  const navigate = useNavigate();
+  const signalement_byregion = useStatsignalementbyregion(date, navigate);
+  const [pagination, setPagination] = useState({
+    current: 1, // page actuelle
+    pageSize: 10, // nombre d'éléments par page
+  });
   if (signalement_byregion.isPending) {
     return <>loading...</>
   }
   if (signalement_byregion.isError) {
     return <>error...</>
   }
-
-const columns: TableColumnsType<RegionData> = [
+  const onChange: TableProps<RegionData>['onChange'] = (pagination:any) => {
+    setPagination(pagination);
+  };
+  const columns: TableColumnsType<RegionData> = [
     {
       title: <span className='font-sans'>Nom de la Région</span>,
       dataIndex: 'regionName',
@@ -37,18 +45,23 @@ const columns: TableColumnsType<RegionData> = [
       title: <span className='font-sans'>Total Signalements</span>,
       dataIndex: 'totalReports',
       key: 'totalReports',
+      sorter:(a,b) => a.totalReports - b.totalReports,
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
       render: (text) => <span className='font-sans'>{text }</span>
     },
-];
+  ];
   const data = TransFormRegionData(signalement_byregion.data);
     return (
         <Table 
           dataSource={data} 
-          columns={columns} 
-          pagination={false}
+          onChange={onChange}
+          columns={columns} pagination={{
+          current: pagination.current,
+          pageSize: pagination.pageSize,
+          total: data.length,
+          }} 
         />
     );
 };

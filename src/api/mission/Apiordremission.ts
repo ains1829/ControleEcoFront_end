@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { instanceAxios } from "../axios/Theaxios";
 import { Jsonmission } from "../json/mission/Jsonmission";
 import { Jsoncollecte } from "../json/mission/jsoncollecte";
-import { SocieteForm } from "../../types/societe/SocieteForm";
+import { SocieteForm, SocieteForm_modify } from "../../types/societe/SocieteForm";
 
 const DetailCollecte = async (idcollecte: number , navigate:any) => {
   try {
@@ -409,7 +409,36 @@ export function useSaveSociete() {
       if (error) {
         console.log(error)
       } else {
-        await queryclient.invalidateQueries({queryKey:["societeglobalpagination" , 0 , '' , 0]})
+        await queryclient.invalidateQueries({queryKey:["societeglobalpagination" , 0 , '' , 0,false,'','']})
+      }
+    }
+  })
+}
+const ModifySociete = async (logo:File ,data: SocieteForm_modify , navigate:any) => {
+  try {
+    const formData = new FormData();
+    formData.append("photo", logo);
+    formData.append("data", new Blob([JSON.stringify(data)], { type:'application/json'}));
+    const reponse = (await instanceAxios.post("scomadminstration/updateSociete", formData , {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`,
+        }
+    }));
+    return reponse;
+  } catch (error) {
+    navigate('/');
+  }
+}
+export function useModifySociete(page:number , search:string,idregion:number, isfilter:boolean,date_begin:string,date_end:string ) {
+  const queryclient = useQueryClient();
+  return useMutation({
+    mutationFn: ({logo , data , navigate} : {logo:File , data:SocieteForm_modify , navigate:any}) => ModifySociete(logo,data , navigate),
+    onSettled: async (_, error) => {
+      if (error) {
+        console.log(error)
+      } else {
+        await queryclient.invalidateQueries({queryKey:["societeglobalpagination" , page, search , idregion,isfilter,date_begin,date_end]})
       }
     }
   })
