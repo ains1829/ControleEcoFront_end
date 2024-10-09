@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { useState } from "react";
 import UploadComponent from "./upload/UploadComponent";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEnqueteMissionByEquipe } from "../../../../../api/equipe/Apiequipe";
 import { TransformdataEnquete } from "../../../../../types/mission/suivi/Enquete";
 import UploadConvocation from "./upload/UploadConvocation";
@@ -17,8 +17,9 @@ import Feedback from "./Feedback";
 import { UserInstance } from "../../../../../types/administration/Userconnected";
 function EnqueteMission() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
+  const navigate = useNavigate();
   const { id } = useParams();
-  const enquete = useEnqueteMissionByEquipe(Number(id));
+  const enquete = useEnqueteMissionByEquipe(Number(id) , navigate);
   const enquete_finish = useEnqueteFinished();
   const [open, setOpen] = useState(false);
   const role = UserInstance().getRole;
@@ -42,7 +43,7 @@ function EnqueteMission() {
     setOpen(false);
   };
   const ClotureMission = async (idordermission: number) => {
-    const mission_finish = await enquete_finish.mutateAsync({ idordermission });
+    const mission_finish = await enquete_finish.mutateAsync({ idordermission,navigate });
     if (mission_finish.status === 200) {
       message.success("Enqute cloturer");
     } else {

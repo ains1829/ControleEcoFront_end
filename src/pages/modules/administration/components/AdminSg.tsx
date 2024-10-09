@@ -95,15 +95,6 @@ function AdminSg() {
       render: (text) => <span className='font-sans'>{text}</span>
     },
     {
-      title: <span className="font-sans">Status</span>,
-      dataIndex: 'age',
-      key:'age',
-      onHeaderCell: () => ({
-        style: { backgroundColor: 'transparent' },
-      }),
-      render: (text) => <> {text >= 60 ? <Tag color="red" className="font-sans">Retraite(e)</Tag> : <Tag color="green" className="font-sans">En activite</Tag>} </>
-    },
-    {
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),

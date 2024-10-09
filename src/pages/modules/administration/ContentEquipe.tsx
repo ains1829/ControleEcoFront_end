@@ -78,7 +78,7 @@ function ContentEquipe() {
           ))
         }
       </div>
-      <Modal className="font-sans" title={<span className="font-bold font-sans">Nouveau Equipe.</span>} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
+      <Modal centered className="font-sans" title={<span className="font-bold font-sans">Nouveau Equipe.</span>} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}
         footer={(_, { }) => (
           <>
             <Button loading={newEquipe.isPending} htmlType="submit" type="dashed" form="equipe_form" className="font-sans text-xs" size="large"> Valider </Button>

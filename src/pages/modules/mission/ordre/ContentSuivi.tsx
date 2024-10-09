@@ -8,13 +8,15 @@ import {
   RightOutlined,TeamOutlined
 } from '@ant-design/icons';
 import Myequipe from "../../administration/Myequipe";
+import { useNavigate } from "react-router-dom";
 function ContentSuivi() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [selectedButton, selectedFetch] = useState('0');
-  const suivi_mission = usegetOrdermissionByEquipe(page , Number(selectedButton));
-  const dashboard_mission = useStatMissionByEquipe();
-  const type_mission_dashboard = useStatTypeMissionByEquipe();
+  const suivi_mission = usegetOrdermissionByEquipe(page , Number(selectedButton),navigate);
+  // const dashboard_mission = useStatMissionByEquipe(navigate);
+  const type_mission_dashboard = useStatTypeMissionByEquipe(navigate);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (suivi_mission.isPending) {
     return <span>loading...</span>
@@ -22,25 +24,19 @@ function ContentSuivi() {
   if (suivi_mission.isError) {
     return <span>error...</span>
   }
-  if (dashboard_mission.isPending) {
-    return <span>loading...</span>
-  }
-  if (dashboard_mission.isError) {
-    return <span>Errorr....</span>
-  }
   if (type_mission_dashboard.isPending) {
     return <span>loading...</span>
   }
   if (type_mission_dashboard.isError) {
     return <span>errorrr...</span>
   }
-  const mission_stat = dashboard_mission.data;
+  // const mission_stat = dashboard_mission.data;
   const typemission_stat = type_mission_dashboard.data;
   const data_mission = TransformDataContent(suivi_mission.data);
   const handleClick = (name:string) =>{
     selectedFetch(name)
   }
-   const handleNext = () => {
+  const handleNext = () => {
     if (data_mission.hasnext) {
       setPage(page + 1)
     }
@@ -73,9 +69,9 @@ function ContentSuivi() {
         <div className="flex justify-between font-sans items-center">
           <div className="flex flex-col gap-y-2">
             <span className="text-xl font-bold" >Mission.</span>
-            <span className="font-bold text-sm">({mission_stat?.total_missions } total)</span>
+            <span className="font-bold text-sm">({typemission_stat[0].nombre_mission  + typemission_stat[1].nombre_mission + typemission_stat[2].nombre_mission} total)</span>
           </div>
-          <div className="w-1/3 grid grid-cols-2 gap-x-5">
+          {/* <div className="w-1/3 grid grid-cols-2 gap-x-5">
               <div className="flex p-1 justify-evenly gap-2 text-white bg-green-400 items-center rounded-full font-bold text-xs">
                 <span>Mission terminer</span>
                 <span className="text-xl">{mission_stat?.missions_fini }</span>
@@ -84,8 +80,8 @@ function ContentSuivi() {
                 <span>Mission en cours</span>
                 <span className="text-xl">{mission_stat?.missions_en_cours }</span>
               </div>
-            </div>
-        </div>
+            </div> */}
+          </div>
         <div className="mt-5 grid grid-cols-3 gap-4">
           <div className="flex flex-col gap-y-8 font-sans rounded-lg shadow-lg p-5">
             <div className="flex justify-between items-center">

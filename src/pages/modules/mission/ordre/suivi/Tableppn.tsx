@@ -2,6 +2,7 @@ import React from 'react';
 import { Table } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { useDetailCollecte } from '../../../../../api/mission/Apiordremission';
+import { useNavigate } from 'react-router-dom';
 
 interface PpnType {
   key: React.Key;
@@ -24,7 +25,7 @@ const columns: TableColumnsType<PpnType> = [
   {
     title: <span className='font-sans'>Produit (PPN)</span> ,
     dataIndex: 'product',
-     onHeaderCell: () => ({
+    onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
     render: (text) => <span className='font-sans'>{text }</span>
@@ -32,7 +33,7 @@ const columns: TableColumnsType<PpnType> = [
   {
     title:<span className='font-sans'>Prix</span> ,
     dataIndex: 'price',
-     onHeaderCell: () => ({
+    onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
     render: (text, record) => <span className='font-sans'>{text} Ar / {record.unite}</span>
@@ -40,14 +41,15 @@ const columns: TableColumnsType<PpnType> = [
   {
     title: <span className='font-sans'>Lieu d'observation</span>,
     dataIndex: 'obsevation',
-     onHeaderCell: () => ({
+    onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
     render: (text) => <span className='font-sans'>{text }</span>
   }
 ];
 function Tableppn({ idcollecte }: { idcollecte: number }) {
-  const collecte = useDetailCollecte(idcollecte);
+  const navigate = useNavigate();
+  const collecte = useDetailCollecte(idcollecte,navigate);
   if (collecte.isPending) {
     return <>loading...</>
   }

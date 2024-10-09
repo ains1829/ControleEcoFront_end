@@ -31,7 +31,7 @@ function ContentPage() {
   let item_menu = Array()
   if (role === "SG" || role === "DG") {
     item_menu.push(getItem('Dashboard', 'sub1', <DashboardOutlined />, [
-      getItem(<Link to="/dashboardsg">Ordre</Link>, '1'),
+      getItem(<Link to="/dashboardsg">Etat mission</Link>, '1'),
       getItem(<Link to="/ppnglobal">PPN</Link>, '2'),
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
@@ -40,7 +40,7 @@ function ContentPage() {
   }
   if (role === "DSI") {
     item_menu.push(getItem('Dashboard', 'sub1', <DashboardOutlined />, [
-      getItem(<Link to="/dashboardsg">Suivi</Link>, '1'),
+      getItem(<Link to="/dashboardsg">Etat mission</Link>, '1'),
       getItem(<Link to="/ppnglobal">PPN</Link>, '5'),
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))

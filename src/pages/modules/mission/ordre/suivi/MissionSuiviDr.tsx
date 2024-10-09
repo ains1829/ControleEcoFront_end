@@ -7,10 +7,12 @@ import {
   LeftOutlined,
   RightOutlined
 } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 function MissionSuiviDr({date_actuelle} : {date_actuelle:number}) {
   const [page, setPage] = useState(0);
+  const navigate = useNavigate();
   const [selectedButton, selectedFetch] = useState('0');
-  const suivi_mission = usegetOrdremissionByDrDt(page, date_actuelle, Number(selectedButton));
+  const suivi_mission = usegetOrdremissionByDrDt(page, date_actuelle, Number(selectedButton),navigate);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (suivi_mission.isPending) {
     return <span>loading...</span>
@@ -22,7 +24,7 @@ function MissionSuiviDr({date_actuelle} : {date_actuelle:number}) {
   const handleClick = (name:string) =>{
     selectedFetch(name)
   }
-   const handleNext = () => {
+  const handleNext = () => {
     if (data_mission.hasnext) {
       setPage(page + 1)
     }

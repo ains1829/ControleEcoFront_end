@@ -3,8 +3,10 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 import type { UploadFile, UploadProps } from 'antd';
 import { useEnquetePvinfraction } from '../../../../../../api/mission/Apiordremission';
+import { useNavigate } from 'react-router-dom';
 
-function Uploadinfraction({idordermission} : {idordermission : number} ) {
+function Uploadinfraction({ idordermission }: { idordermission: number }) {
+  const navigate = useNavigate();
   const [file, setFile] = useState<UploadFile | null>(null);
   const [uploading, setUploading] = useState(false);
   const [ispdf, setIspdf] = useState(false);
@@ -12,7 +14,7 @@ function Uploadinfraction({idordermission} : {idordermission : number} ) {
   const handleUpload = async () => {
     setUploading(true);
     const file_upload = file as unknown as File;
-    const reponse = await envoyer.mutateAsync({ idordermission: idordermission, fiche: file_upload});
+    const reponse = await envoyer.mutateAsync({ idordermission: idordermission, fiche: file_upload,navigate});
     console.log(reponse);
     if (reponse.status === 200 ) {
       setUploading(false);
@@ -44,7 +46,7 @@ function Uploadinfraction({idordermission} : {idordermission : number} ) {
       <Upload {...props}>
         <div className='flex items-center' style={{cursor:'pointer'}}>
           <span className='font-sans'>Fichier en pdf  : </span>  
-          <Button className='ml-2 text-xs font-sans' type="dashed" icon={<UploadOutlined />}>Fiche Technique</Button>
+          <Button className='ml-2 text-xs font-sans' type="dashed" icon={<UploadOutlined />}>Pv Infraction</Button>
         </div>
       </Upload>
       <Button

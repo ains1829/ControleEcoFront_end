@@ -4,10 +4,12 @@ import {
 } from '@ant-design/icons';
 import { M_Equipe } from "../../../../types/mission/M_Equipe";
 import { UseDesactivateEquipe } from "../../../../api/equipe/ApiDr_dt";
+import { useNavigate } from "react-router-dom";
 function Equipe({ data }: { data: M_Equipe }) {
+  const navigate = useNavigate();
   const desactivate = UseDesactivateEquipe();
   const confirm =  async () => {
-    const reponse = await desactivate.mutateAsync(data.idequipe);
+    const reponse = await desactivate.mutateAsync({id:data.idequipe , navigate});
     if (reponse.status === 500) {
       message.open({
         type: 'error', 
@@ -27,7 +29,7 @@ function Equipe({ data }: { data: M_Equipe }) {
           <div className="flex justify-between">
             <Avatar src={data.photo_chef} size={"large"} />
             <div className="flex  items-center cursor-pointer font-sans text-red-500">
-               <Popconfirm
+              <Popconfirm
                   title={<span className="font-sans text-xs">Suppression</span>}
                   description={<span className="font-sans text-xs">Êtes-vous sûr de vouloir supprimer l'équipe ?</span>}
                   onConfirm={confirm}

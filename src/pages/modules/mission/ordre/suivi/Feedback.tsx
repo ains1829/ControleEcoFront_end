@@ -1,10 +1,12 @@
 import { Empty } from "antd";
 import { usegetFeedback } from "../../../../../api/mission/Api";
+import { useNavigate } from "react-router-dom";
 
 function Feedback({ idordermission }: { idordermission: number }) {
-  const feedback = usegetFeedback(idordermission);
+  const navigate = useNavigate();
+  const feedback = usegetFeedback(idordermission,navigate);
   if (feedback.isPending) {
-    return <>loadingg...</>
+    return <>loading...</>
   }
   if (feedback.isError) {
     return <>error...</>

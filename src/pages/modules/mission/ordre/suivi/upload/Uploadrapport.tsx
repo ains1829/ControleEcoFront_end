@@ -3,8 +3,10 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
 import type { UploadFile, UploadProps } from 'antd';
 import { useEnvoyeRapport } from '../../../../../../api/mission/Apiordremission';
+import { useNavigate } from 'react-router-dom';
 
-function Uploadrapport({idordermission} : {idordermission : number} ) {
+function Uploadrapport({ idordermission }: { idordermission: number }) {
+  const navigate = useNavigate();
   const [file, setFile] = useState<UploadFile | null>(null);
   const [uploading, setUploading] = useState(false);
   const [ispdf, setIspdf] = useState(false);
@@ -12,7 +14,7 @@ function Uploadrapport({idordermission} : {idordermission : number} ) {
   const handleUpload = async () => {
     setUploading(true);
     const file_upload = file as unknown as File;
-    const reponse = await envoyer.mutateAsync({ idordermission: idordermission, rapport: file_upload});
+    const reponse = await envoyer.mutateAsync({ idordermission: idordermission, rapport: file_upload, navigate});
     if (reponse.status === 200 ) {
       setUploading(false);
     } else {

@@ -29,7 +29,7 @@ function Profil() {
     <>
       <Dropdown  menu={{ items }} trigger={['click']} arrow placement='bottomLeft'>
         <div className='flex items-center gap-2 cursor-pointer p-2'>
-          <Avatar src={role.getPhoto} />
+          <Avatar style={{background:'#f56a00'}}> {role.getRole} </Avatar>
           <div className='flex flex-col text-xs font-sans gap-y-1'>
             <span className='font-bold'>
               {role.getName}
