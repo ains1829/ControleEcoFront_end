@@ -15,6 +15,7 @@ import {
 } from 'chart.js';
 import { usePpnAnne } from "../../../../api/dashboard/PpnStat";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,10 +27,11 @@ ChartJS.register(
 );
 function Evoluation({province , product,annee} : {province:number,product:number,annee:number}) {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
+  const navigate = useNavigate();
   const [date1, setDate1] = useState(annee);
   const [date2, setDate2] = useState(0);
   const [choix, setChoix] = useState(true);
-  const ppn = usePpnAnne(province, product, choix, date1, date2);
+  const ppn = usePpnAnne(province, product, choix, date1, date2,navigate);
   const { RangePicker } = DatePicker;
   const onYearRangeChange = async (dates:any, _:any) => {
     if (dates) {
@@ -52,7 +54,6 @@ function Evoluation({province , product,annee} : {province:number,product:number
   if (ppn.isError) {
     return <>error...</>
   }
-  console.log(ppn.data)
   const extractData = (data: any[], target: number[]) => {
     data.forEach((item: any) => target.push(item.p_moyenne));
   };
@@ -74,7 +75,7 @@ function Evoluation({province , product,annee} : {province:number,product:number
       {
         label: ppn.data.date2,
         data: data_price2,
-        borderColor: 'rgba(153, 102, 255, 1)', // Couleur de la bordure pour la troisième série
+        borderColor: 'rgba(153, 102, 255, 1)', 
         backgroundColor: 'rgba(153, 102, 255, 0.5)'
       },
       {
@@ -91,7 +92,7 @@ function Evoluation({province , product,annee} : {province:number,product:number
       {
         label: ppn.data.date1,
         data: data_price1,
-        borderColor: 'rgba(153, 102, 255, 1)', // Couleur de la bordure pour la troisième série
+        borderColor: 'rgba(153, 102, 255, 1)', 
         backgroundColor: 'rgba(153, 102, 255, 0.5)'
       },
       {
@@ -109,7 +110,7 @@ function Evoluation({province , product,annee} : {province:number,product:number
         position: 'top' as const, // Utilise une valeur valide ici
       },
       title: {
-        display: true,
+        display: false,
         text: 'Multi-line Chart',
       },
     },
@@ -126,17 +127,17 @@ const data = {
 
 
   return (
-     <div
-        className="flex flex-col  font-sans"
-        style={{
-          padding: 24,
-          minHeight: 360,
-          background: colorBgContainer,
-          borderRadius: borderRadiusLG,
-        }}
+    <div
+      className="flex flex-col  font-sans"
+      style={{
+        padding: 24,
+        minHeight: 360,
+        background: colorBgContainer,
+        borderRadius: borderRadiusLG,
+      }}
     > 
       <div className="flex justify-between">
-        <span className="text-sm font-bold">Evoluation PPN par an</span>
+        <span className="text-sm font-bold">Evoluation (PPN) par annee</span>
         <div className="flex gap-8 items-center">
           <Button icon={<CalendarOutlined />} className="font-sans text-xs" type="dashed" onClick={handleThreeyears}>Les trois dernières années</Button>
           <span className="text-xs font-bold">Comparer vos date ici : </span>

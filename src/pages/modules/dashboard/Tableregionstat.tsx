@@ -85,7 +85,7 @@ function Tableregionstat({ typemission, date }: { typemission: number, date: num
   const data_region = useStatbyregionbytypemission(typemission, date, navigate);
   const [pagination, setPagination] = useState({
     current: 1, // page actuelle
-    pageSize: 10, // nombre d'éléments par page
+    pageSize: 7, // nombre d'éléments par page
   });
   const onChange: TableProps<Statregiontype>['onChange'] = (pagination:any) => {
     setPagination(pagination);

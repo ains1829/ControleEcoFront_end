@@ -1,4 +1,4 @@
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import { usegetSocieteglobal } from "../../../../api/mission/Api";
 import { TransformdataSociete } from "../../../../types/societe/SocieteData";
 import C_societe from "../C_societe";
@@ -7,10 +7,13 @@ import {
   RightOutlined
 } from '@ant-design/icons'
 import { useNavigate } from "react-router-dom";
-function ResulFilter({ region, search, isfilter, datebegin, date_end }: { region: number,  search: string, isfilter: boolean, datebegin: string, date_end: string }) {
+function ResulFilter({ change_filter, region, search, isfilter, datebegin, date_end }: { change_filter:number, region: number,  search: string, isfilter: boolean, datebegin: string, date_end: string }) {
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
-  const societe = usegetSocieteglobal(region, page, search, isfilter, datebegin, date_end,navigate);
+  const societe = usegetSocieteglobal(region, page, search, isfilter, datebegin, date_end, navigate);
+  useEffect(() => {
+    setPage(0);
+  }, [change_filter]);
   if (societe.isPending) {
     return <>loading....</>
   }
@@ -40,7 +43,7 @@ function ResulFilter({ region, search, isfilter, datebegin, date_end }: { region
     <>
       <div className="flex flex-col">
         <C_societe data={data_societe} page={page} region={region} search={search} isfilter={isfilter} datebegin={datebegin} date_end={date_end} />
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mt-5">
             <div className="flex gap-2">
               <div className={`${ClassNamePrevious} p-2 text-xs items-center text-white rounded-xl font-bold flex gap-2`} onClick={handlePrevious}>
                 <LeftOutlined />

@@ -15,6 +15,7 @@ import {
 } from 'chart.js';
 import {usePpnAnnebydirecteur } from "../../../../../api/dashboard/PpnStat";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,10 +27,11 @@ ChartJS.register(
 );
 function Evoluationbyregion({product,annee} : {product:number,annee:number}) {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
+  const navigate = useNavigate();
   const [date1, setDate1] = useState(annee);
   const [date2, setDate2] = useState(0);
   const [choix, setChoix] = useState(true);
-  const ppn = usePpnAnnebydirecteur(product, choix, date1, date2);
+  const ppn = usePpnAnnebydirecteur(product, choix, date1, date2,navigate);
   const { RangePicker } = DatePicker;
   const onYearRangeChange = async (dates:any, _:any) => {
     if (dates) {
@@ -109,7 +111,7 @@ function Evoluationbyregion({product,annee} : {product:number,annee:number}) {
         position: 'top' as const, // Utilise une valeur valide ici
       },
       title: {
-        display: true,
+        display: false,
         text: 'Multi-line Chart',
       },
     },

@@ -2,8 +2,10 @@ import {
   DollarOutlined
 } from '@ant-design/icons';
 import { usePpnglobalprovince } from '../../../../api/dashboard/PpnStat';
-function Priceglobal({province , product, mois,annee} : {province:number , product:number,mois:number,annee:number}) {
-  const priceGlobal = usePpnglobalprovince(province, product, mois, annee);
+import { useNavigate } from 'react-router-dom';
+function Priceglobal({ province, product, mois, annee }: { province: number, product: number, mois: number, annee: number }) {
+  const navigate = useNavigate();
+  const priceGlobal = usePpnglobalprovince(province, product, mois, annee,navigate);
   if (priceGlobal.isPending) {
     return <>loading...</>
   }
@@ -30,9 +32,9 @@ function Priceglobal({province , product, mois,annee} : {province:number , produ
                     <>
                       <span className="text-xs text-gray-500">Comparé au mois dernier</span>
                       {
-                        data_price.haverapport.moyenne_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> - {data_price.haverapport.moyenne_rapport} %</span>
+                        data_price.moyenne_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> {data_price.moyenne_rapport.toFixed(2)} %</span>
                         :
-                          <span className="text-xs bg-red-500 p-1 rounded-full text-white font-bold"> + {data_price.haverapport.moyenne_rapport}%</span>
+                          <span className="text-xs bg-red-500 p-1 rounded-full text-white font-bold"> + {data_price.moyenne_rapport.toFixed(2)}%</span>
                       }
                     </>
                   )
@@ -54,9 +56,9 @@ function Priceglobal({province , product, mois,annee} : {province:number , produ
                     <>
                       <span className="text-xs text-gray-500">Comparé au mois dernier</span>
                       {
-                        data_price.haverapport.max_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> - {data_price.haverapport.max_rapport} %</span>
+                        data_price.max_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> {data_price.max_rapport.toFixed(2)} %</span>
                         :
-                          <span className="text-xs bg-red-500 p-1 rounded-full text-white font-bold"> + {data_price.haverapport.max_rapport}%</span>
+                          <span className="text-xs bg-red-500 p-1 rounded-full text-white font-bold"> + {data_price.max_rapport.toFixed(2)}%</span>
                       }
                     </>
                   )
@@ -78,9 +80,9 @@ function Priceglobal({province , product, mois,annee} : {province:number , produ
                     <>
                       <span className="text-xs text-gray-500">Comparé au mois dernier</span>
                       {
-                        data_price.haverapport.min_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> - {data_price.haverapport.min_rapport} %</span>
+                        data_price.min_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> {data_price.min_rapport.toFixed(2)} %</span>
                         :
-                          <span className="text-xs bg-red-500 p-1 rounded-full text-white font-bold"> + {data_price.haverapport.min_rapport}%</span>
+                          <span className="text-xs bg-red-500 p-1 rounded-full text-white font-bold"> + {data_price.min_rapport.toFixed(2)}%</span>
                       }
                     </>
                   )

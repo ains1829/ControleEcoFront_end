@@ -2,7 +2,7 @@ import FullCalendar  from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction';
-import {Tag, theme, Tooltip } from 'antd';
+import {Divider, Tag, theme, Tooltip } from 'antd';
 import { usegetCalendar } from '../../../../api/equipe/ApiDr_dt';
 import frlocal from '@fullcalendar/core/locales/fr'
 import {
@@ -62,7 +62,7 @@ function Calendar() {
   return (
     <>
       <div
-        className="flex flex-col gap-y-2 font-sans"
+        className="flex flex-col font-sans"
         style={{
           padding: 24,
           minHeight: 360,
@@ -72,6 +72,7 @@ function Calendar() {
         }}
       >
         <span className='text-xl font-bold'>Calendrier.</span>
+        <Divider />
         <div>
           <FullCalendar
             plugins={[dayGridPlugin, listPlugin, interactionPlugin]}

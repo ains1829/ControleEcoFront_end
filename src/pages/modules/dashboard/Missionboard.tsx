@@ -1,17 +1,20 @@
-import {DatePicker, DatePickerProps, Divider, Progress, Segmented, theme } from "antd";
+import { Button, DatePicker, DatePickerProps, Divider, Modal, Progress, Segmented, theme } from "antd";
 import { useEnqueteglobal, useStatMissionglobal, useTypeMissionglobal } from "../../../api/dashboard/Statistique";
 import { useState } from "react";
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import EnqueteStat from "./EnqueteStat";
 import CollecteStat from "./CollecteStat";
 import AutresuiviStat from "./AutresuiviStat";
+import {MoreOutlined} from '@ant-design/icons'
 import dayjs from 'dayjs';
-import 'dayjs/locale/fr'; // Importer la locale française
+import 'dayjs/locale/fr';
 import { useNavigate } from "react-router-dom";
+import ContentCharMission from "./ContentChart_mission";
 dayjs.locale('fr');
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 export function Missionboard() {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [date_actuelle, setDate] = useState(Number(dayjs().format('YYYY')));
   const [choix_component, setComponent] = useState('0');
   const statmission_global = useStatMissionglobal(date_actuelle,navigate);
@@ -45,12 +48,9 @@ export function Missionboard() {
   const data = statmission_global.data;
   const data_typemission = stat_typemission.data;
   const enquete_global_Stat = enquete_stat_global.data;
-  console.log(enquete_global_Stat);
   const handleClick = (name:string) =>{
     setComponent(name)
   }
-  console.log(data);
-  console.log(data_typemission);
   return (
     <>
       <div
@@ -74,8 +74,9 @@ export function Missionboard() {
         </div>
         <Divider dashed />
         <div className="flex flex-col font-sans">
-          <div className="flex flex-col gap-y-2">
+          <div className="flex justify-between gap-y-2">
             <span className="text-xl font-bold" >Mission total : {data?.total_missions}</span>
+            <Button icon={<MoreOutlined />} type="dashed" className="font-sans text-xs" onClick={()=> setOpen(true)}>Progression par region</Button>
           </div>
           <div className="mt-5 grid grid-cols-3 gap-4">
             <div className="flex flex-col gap-y-8 font-sans rounded-lg shadow-lg p-5">
@@ -111,33 +112,25 @@ export function Missionboard() {
           </div>
         </div>
       </div>
-      <div
-        style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-              marginTop:10
-        }}
-      >
+      <ContentCharMission annee={date_actuelle} />
+      <Modal onCancel={()=>setOpen(false)} open={open} centered width={1400} footer={(_,{})=>(<></>)}>
         <span className="font-sans font-bold">Progression par region</span>
-        <Divider dashed />
-        <div className="mb-4 w-1/4">
+        <div className="mt-4 mb-4 w-1/4">
           <Segmented
-              className="font-sans p-1"
-              options={[
-                { label: 'Enquete', value: '0' },
-                { label: 'Collecte', value: '1' },
-                { label: 'Autre suivi', value: '2' }
-              ]}
+            className="font-sans p-1"
+            options={[
+              { label: 'Enquete', value: '0' },
+              { label: 'Collecte', value: '1' },
+              { label: 'Autre suivi', value: '2' }
+            ]}
             block
             value={choix_component}
             onChange={handleClick}
-              style={{
-                display: 'flex',
-                gap: '1rem',
-              }}
-            />
+            style={{
+              display: 'flex',
+              gap: '1rem',
+            }}
+          />
         </div>
         {
           choix_component === '0' ?
@@ -145,7 +138,7 @@ export function Missionboard() {
               choix_component === '1' ? <CollecteStat date={date_actuelle} data={data_typemission[1]} /> :
                 <AutresuiviStat date={date_actuelle} data={data_typemission[2]} />
         }
-      </div>
+      </Modal>
     </>
   )
 }

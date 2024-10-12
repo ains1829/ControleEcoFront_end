@@ -2,10 +2,12 @@ import {Doughnut} from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { Divider } from 'antd';
 import {useRepartitionanomalybyregion } from '../../../../api/dashboard/SignalementStat';
+import { useNavigate } from 'react-router-dom';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement);
 function PieChartRegion({ date }: { date: number }) {
-  const anomalyrepartition = useRepartitionanomalybyregion(date);
+  const navigate = useNavigate();
+  const anomalyrepartition = useRepartitionanomalybyregion(date,navigate);
   if (anomalyrepartition.isPending) {
     return <>loading...</>
   }

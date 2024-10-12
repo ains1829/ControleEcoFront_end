@@ -99,7 +99,7 @@ function Tableregion({ date }: { date: number }) {
   const navigate = useNavigate();
   const [pagination, setPagination] = useState({
     current: 1, // page actuelle
-    pageSize: 10, // nombre d'éléments par page
+    pageSize: 7, // nombre d'éléments par page
   });
   const data_region = useEnqueteregionglobal(date,navigate);
   const onChange: TableProps<Statregion>['onChange'] = (pagination:any) => {

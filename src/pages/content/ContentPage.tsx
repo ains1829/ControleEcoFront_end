@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
   DashboardOutlined,
-  UserOutlined,
+  TeamOutlined,
+  BankOutlined,
   AuditOutlined,
-  ScheduleOutlined,CalendarOutlined
+  SafetyOutlined,CalendarOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import {  Layout, Menu, theme } from 'antd';
@@ -36,7 +37,7 @@ function ContentPage() {
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
     item_menu.push(getItem(<Link to='/ordredemission'>Ordre de mission</Link>, '3', <AuditOutlined />))
-    item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '4', <ScheduleOutlined />))
+    item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '4', <BankOutlined />))
   }
   if (role === "DSI") {
     item_menu.push(getItem('Dashboard', 'sub1', <DashboardOutlined />, [
@@ -44,9 +45,9 @@ function ContentPage() {
       getItem(<Link to="/ppnglobal">PPN</Link>, '5'),
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
-    item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '2', <ScheduleOutlined />))
-    item_menu.push(getItem(<Link to="/administration">Administration</Link> , '3' , <UserOutlined />))
-    item_menu.push(getItem(<Link to="/account">Account</Link> , '4' , <ScheduleOutlined />))
+    item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '2', <BankOutlined />))
+    item_menu.push(getItem(<Link to="/administration">Administration</Link> , '3' , <TeamOutlined />))
+    item_menu.push(getItem(<Link to="/account">Account</Link> , '4' , <SafetyOutlined />))
   }
   if (role === "DR" || role === "DT") {
     item_menu.push(getItem('Dashboard', 'sub2', <DashboardOutlined />, [
@@ -58,9 +59,9 @@ function ContentPage() {
         getItem(<Link to="/ordredemissiondr">Ordre de mission</Link>, '1'),
         getItem(<Link to="/suivimission_dr_dt" >Suivi Mission </Link> ,'2')
     ]))
-    item_menu.push(getItem(<Link to="/missionnaire">Membres</Link> , '5' , <UserOutlined />))
+    item_menu.push(getItem(<Link to="/missionnaire">Membres</Link> , '5' , <TeamOutlined />))
     item_menu.push(getItem(<Link to="/calendar">Calendrier</Link> , '4' , <CalendarOutlined />))
-    item_menu.push(getItem(<Link to="/societe">Societe</Link>, '3', <ScheduleOutlined />))
+    item_menu.push(getItem(<Link to="/societe">Societe</Link>, '3', <BankOutlined />))
   }
   if (role === "CH") {
     item_menu.push(

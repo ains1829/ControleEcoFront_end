@@ -1,9 +1,11 @@
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import {useEvolutionSignalmentbyregion } from '../../../../api/dashboard/SignalementStat';
+import { useNavigate } from 'react-router-dom';
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 const GroupedBarChartRegion = ({ date }: { date: number }) => {
-  const evolution = useEvolutionSignalmentbyregion(date);
+  const navigate = useNavigate();
+  const evolution = useEvolutionSignalmentbyregion(date,navigate);
   if (evolution.isPending) {
     return <>loading...</>
   }

@@ -1,9 +1,10 @@
-import {  Button, Divider, FloatButton, Input, message, Modal, Select, theme, Upload, UploadFile, UploadProps } from "antd";
+import {  Button, Divider, FloatButton, Input, message, Modal, Popover, Select, theme, Upload, UploadFile, UploadProps } from "antd";
 import Search, { SearchProps } from "antd/es/input/Search";
 import { useState } from "react";
 import {
   PlusCircleOutlined,
-  UploadOutlined
+  UploadOutlined,
+  FilterOutlined
 } from '@ant-design/icons';
 import { usegetDistrict, usegetRegions } from "../../../api/mission/Api";
 import TextArea from "antd/es/input/TextArea";
@@ -21,10 +22,15 @@ function Societeglobal() {
   const [file, setFile] = useState<UploadFile | null>(null);
   const [search, setSearch] = useState('');
   const [filterOm_mission, setFilterom] = useState(false);
+  const [filter_om, setFilter] = useState(false);
   const [date_begin, setDatebegin] = useState('');
   const [date_end, setDateend] = useState('');
+  const [date_begin_filter, setDateBeginfilter] = useState('');
+  const [date_end_filter, setDateEndfilter] = useState('');
+  const [search_filter, setSearchFilter] = useState('');
+  const [region_filter, setRegionFilter] = useState(0);
+  const [click_button_filter, setClick] = useState(0);
   const [region_choice, setRegion] = useState(0);
-  const [region_view , setRegionview] = useState('Tous')
   const region = usegetRegions();
   const [choice_region, setChoice] = useState(0);
   const [open, setOpen] = useState(false);
@@ -70,12 +76,11 @@ function Societeglobal() {
   }; 
   const handleChange = (value: number , option : any) => {
     setRegion(value)
-    setRegionview(option.label)
+    // setRegionview(option.label)
   };
-  const onSearch: SearchProps['onSearch'] = (value, _e) => {
-    setSearch(value)
+  const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value)
   };
-
   const handlenewsociete: SubmitHandler<SocieteForm> = async (data) => {
     const file_upload = file as unknown as File;
     const reponse = await savesociete.mutateAsync({logo:file_upload , data:data,navigate});
@@ -85,7 +90,7 @@ function Societeglobal() {
         content: "New Societe",
       });
       setRegion(0);
-      setRegionview('Tous');
+      // setRegionview('Tous');
       setOpen(false);
       setFile(null);
       reset();
@@ -103,12 +108,54 @@ function Societeglobal() {
       setDatebegin(startYear.format('YYYY') + "-" + startYear.format('MM') + '-01');
       setDateend(endYear.format('YYYY') + "-" + endYear.format('MM') + '-01');
       setFilterom(true)
-      setSearch('');
     } else {
       console.log('Aucune date sélectionnée');
       setFilterom(false);
     }
   };
+  const resetFilter =  () => {
+    setSearchFilter('');
+    setDateBeginfilter('');
+    setDateEndfilter('');
+    setRegionFilter(0);
+    setFilter(false);
+    setClick(click_button_filter + 1);
+  }
+  const HandleFilter = () => {
+    console.log("salut")
+    setDateBeginfilter(date_begin);
+    setDateEndfilter(date_end);
+    setSearchFilter(search);
+    setRegionFilter(region_choice);
+    setFilter(filterOm_mission);
+    setClick(click_button_filter + 1);
+  }
+  const content = (
+    <div className="font-sans flex flex-col gap-y-3 p-1">
+      <div className="flex flex-col gap-2">
+        <span className="text-secondary">Recherche</span>
+        <Input placeholder="recherche" onChange={onSearch} className="font-sans" />
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="text-secondary">Historique des descentes</span>
+        <RangePicker className="font-sans" picker="month" placeholder={['Date 1', 'Date 2']} onChange={onYearRangeChange}/>
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="text-secondary">Region</span>
+        <Select
+          allowClear={false}
+          options={options}
+          placeholder="Tous"
+          className="font-sans"
+          onChange={handleChange}
+        />
+      </div>
+      <div className="flex justify-end gap-2">
+        <Button onClick={resetFilter} type="dashed" className="font-sans text-xs">Reset</Button>
+        <Button onClick={HandleFilter} type="dashed" className="font-sans text-xs bg-secondary text-white">Valider</Button>
+      </div>
+    </div>
+  )
   return (
     <>
     <div
@@ -125,32 +172,11 @@ function Societeglobal() {
         <div className="flex flex-col">
           <span className="text-xl font-bold" >Societe.</span>
         </div>
+        <Popover title={<span className="font-sans p-1">Filtre</span>} placement="bottom" arrow content={content}>
+          <Button className="font-sans" icon={<FilterOutlined />} type="dashed">Filter</Button>
+        </Popover>
       </div>
-      <div className="flex gap-5">
-        <div className="w-5/6">
-          <ResulFilter region={region_choice} search={search} isfilter={filterOm_mission} datebegin={date_begin} date_end={date_end} />
-        </div>
-        <div className="flex flex-col gap-y-5">
-          <div className="flex flex-col gap-2">
-            <span className="font-bold text-secondary">Recherche</span>
-            <Search placeholder="Recherche" allowClear onSearch={onSearch} className="font-sans"/>
-          </div>
-          <div className="flex flex-col gap-2">
-            <span className="font-bold text-secondary">Historique des descentes</span>
-            <RangePicker picker="month" placeholder={['Date 1', 'Date 2']} onChange={onYearRangeChange}/>
-          </div>
-          <div className="flex flex-col gap-2">
-            <span className="font-bold text-secondary">Region</span>
-            <Select
-              allowClear={false}
-              options={options}
-              placeholder="Tous"
-              className="font-sans"
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-      </div>
+        <ResulFilter change_filter={click_button_filter} region={region_filter} search={search_filter} isfilter={filter_om} datebegin={date_begin_filter} date_end={date_end_filter} />
       </div>
       <Modal
         centered
