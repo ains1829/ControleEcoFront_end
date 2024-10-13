@@ -41,8 +41,8 @@ function ContentPage() {
   }
   if (role === "DSI") {
     item_menu.push(getItem('Dashboard', 'sub1', <DashboardOutlined />, [
-      getItem(<Link to="/dashboardsg">Etat mission</Link>, '1'),
-      getItem(<Link to="/ppnglobal">PPN</Link>, '5'),
+      getItem(<Link to="/dashboardsg">Etat mission</Link>, '5'),
+      getItem(<Link to="/ppnglobal">PPN</Link>, '1'),
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
     item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '2', <BankOutlined />))

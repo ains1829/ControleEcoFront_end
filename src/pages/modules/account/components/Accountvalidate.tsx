@@ -2,10 +2,12 @@ import { Avatar, Table, TableColumnsType, Tag, theme } from "antd";
 import { useState } from "react";
 import { usegetAdministrationValidate } from "../../../../api/mission/Api";
 import { Account, TransformDataAccount } from "../../../../types/administration/Account";
+import { useNavigate } from "react-router-dom";
 function Accountvalidate() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const [page, setPage] = useState(0);
-  const Account_validate = usegetAdministrationValidate(page);
+  const navigate = useNavigate();
+  const Account_validate = usegetAdministrationValidate(page , navigate);
   if (Account_validate.isPending) {
     return <>loading...</>
   }

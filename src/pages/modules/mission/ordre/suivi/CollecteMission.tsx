@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Divider, Empty, Input, Tag, theme } from "antd";
+import { Breadcrumb, Button, Divider, Empty, Input, Modal, Tag, theme } from "antd";
 import {
   SyncOutlined,
   PlusCircleOutlined,
@@ -16,6 +16,7 @@ import { Jsoncollecte } from "../../../../../api/json/mission/jsoncollecte";
 import Tableppn from "./Tableppn";
 import Feedback from "./Feedback";
 import { UserInstance } from "../../../../../types/administration/Userconnected";
+import Appercuppn from "./Appercuppn";
 export interface InputGroup {
   id: number;
   nameproduct: string;
@@ -32,6 +33,7 @@ function CollecteMission() {
   const collect = useCollecteMissionByEquipe(Number(id),navigate);
   const finished_collect = useCollecteFinished();
   const role = UserInstance().getRole;
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     if (product.isSuccess) {
       const data_product = TransformDataProduct(product?.data);
@@ -39,8 +41,8 @@ function CollecteMission() {
         id: item.idproduct,
         nameproduct: item.nameproduct,
         unite: item.unite,
-        inputs: [""],
-        observations: [""],
+        inputs: [],
+        observations: [],
       }));
       setInputGroups(donne);
     }
@@ -84,6 +86,9 @@ function CollecteMission() {
           : group
       )
     );
+    };
+  const allInputsEmpty = (inputGroups: InputGroup[]): boolean => {
+    return inputGroups.every(group => group.inputs.length === 0);
   };
   const handleSumbit = async (event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -94,11 +99,7 @@ function CollecteMission() {
     }));
     let idordermission = collecte_object?.ordermission.idordermission;
     if (idordermission !== undefined) {
-      console.log(dataToSend)
-      var reponse = await finished_collect.mutateAsync({ idordermission, data: dataToSend , navigate});
-      console.log(reponse);
-    } else {
-      console.log('idordermission undefined');
+      await finished_collect.mutateAsync({ idordermission, data: dataToSend , navigate});
     }
   }
   let url = "";
@@ -140,7 +141,7 @@ function CollecteMission() {
             <div className="flex flex-col gap-y-4">
               <div>
                 <strong>OM : </strong>
-                <a href="Https://Ordredemission.com" className="ml-1"> <span style={{color:'blue'}}>Ordredemission.com</span></a>
+                <a href={collecte_object.ordermission.urlfile } className="ml-1"> <span style={{color:'blue'}}>{collecte_object.ordermission.urlfile }</span></a>
               </div>
               <div>
                 <strong>District : </strong>
@@ -164,16 +165,19 @@ function CollecteMission() {
             <Divider dashed />
             {
               collecte_object?.statu === 200 ? 
-              <>
-                <strong>PPN collecté</strong>
-                <Tableppn idcollecte={collecte_object.idcollecte} />
-              </> 
+                <>
+                  <div className="flex flex-col">
+                    <strong>PPN collecté</strong>
+                    <span>Voici les données collectées.</span>
+                  </div>
+                  <Tableppn idcollecte={collecte_object.idcollecte} />
+                </> 
                 :
                 (role === 'DR' || role === 'DT') ? <>
                   <strong>Ppn en cours de collecte</strong>
                   <Empty />
                 </> :
-              <form onSubmit={handleSumbit}>
+              <form id="send_collecte" onSubmit={handleSumbit}>
                 <div className="flex flex-col gap-y-4">
                     {inputGroups.map((group) => (
                       <div key={group.id} className="flex flex-col gap-y-1">
@@ -221,7 +225,7 @@ function CollecteMission() {
                       </div>
                     ))}
                     <div>
-                      <Button loading={finished_collect.isPending} htmlType="submit" type="dashed" className="font-sans  p-4">Valider</Button>
+                      <Button type="dashed" className="font-sans bg-secondary text-white text-xs p-4" onClick={()=> setOpen(true)}>Aperçu</Button>
                     </div>
                 </div>
               </form>
@@ -234,6 +238,12 @@ function CollecteMission() {
           </div>
         </div>
       </div>
+      <Modal width={1000} centered open={open} onCancel={() => setOpen(false)} footer={(_, { }) => (
+        <>
+          <Button disabled={allInputsEmpty(inputGroups)} form="send_collecte" loading={finished_collect.isPending} htmlType="submit" type="dashed" className="font-sans  p-4">Valider</Button></>
+        )}>
+        <Appercuppn data={inputGroups} />
+      </Modal>
     </>
   )
 }
