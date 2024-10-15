@@ -1,4 +1,4 @@
-import { Table, TableColumnsType, Tag, theme } from "antd";
+import { Table, TableColumnsType, theme } from "antd";
 import { usegetMissionnaire } from "../../../api/administration/Apiadmin";
 import { Administration, TransformDataAdministration } from "../../../types/administration/Administration";
 import ContentEquipe from "./ContentEquipe";

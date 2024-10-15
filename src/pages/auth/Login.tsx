@@ -1,7 +1,7 @@
 import {Button, Input, message } from "antd"
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Authuser } from "../../api/json/Authuser";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthentification } from "../../api/auth/mutation/Mutation";
 import { FC } from "react";
 const Login : FC = () => {
@@ -71,7 +71,7 @@ const Login : FC = () => {
             >Connexion</Button>
           </div>
           <div className="content-form text-center">
-            <span className="text-xs">Don't have an account yet ? <a href="#" className="font-bold text-secondary">Sign up here</a></span>
+            <span className="text-xs">Don't have an account yet ? <Link  to="/register" className="font-bold text-secondary">Sign up here</Link></span>
           </div>
         </form>
       </div>

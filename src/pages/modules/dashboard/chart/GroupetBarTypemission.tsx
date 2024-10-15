@@ -22,28 +22,22 @@ const GroupetBarTypemission = ({ annee }: { annee: number }) => {
   extractData(data_fecth.data.collecte , data_collecte)
   extractData(data_fecth.data.autre_suivi , data_autresuivi)
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: [  'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     datasets: [
       {
         label: 'Enquête',
         data: data_enquete,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
+        backgroundColor: 'rgb(23, 155, 174)',
       },
       {
         label: 'Collecte Économique',
         data: data_collecte,
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
+        backgroundColor: 'rgb(65, 88, 166)',
       },
       {
         label: 'Autre Suivi',
         data: data_autresuivi,
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
+        backgroundColor: 'rgb(255, 131, 67)',
       },
     ],
   };

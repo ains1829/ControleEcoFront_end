@@ -19,14 +19,15 @@ import Administration from "./pages/modules/administration/Adminpage"
 import Ppnboardregional from "./pages/modules/dashboard/Ppnboardregional"
 import Autresuivi from "./pages/modules/mission/ordre/suivi/Autresuivi"
 import Signalement from "./pages/modules/dashboard/stat/Signalementboard"
-// import Signaladmin from "./pages/modules/signal/Signaladmin"
 import SignalmentRegion from "./pages/modules/dashboard/stat/SignalmentRegion"
 import Account from "./pages/modules/account/Account"
+import Register from "./pages/auth/Register"
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route element={<ContentPage />}> 
           <Route path="/dashboardsg" element={<Missionboard />}></Route>
           <Route path="/signalement" element={<Signalement />}></Route>
@@ -44,7 +45,6 @@ function App() {
           <Route path="/autresuivi/:id" element={<Autresuivi />} />
           <Route path="/collecteeconomique/:id" element={<CollecteMission />} />
           <Route path="/administration" element={<Administration />} />
-          {/* <Route path="/signal/:id/:date" element={<Signaladmin />} /> */}
           <Route path="/signalementregion" element={<SignalmentRegion />} />
           <Route path="/account" element={<Account/>} />
         </Route>
