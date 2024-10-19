@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { usegetRole } from "../../api/mission/Api";
 
 class Userconnected{
@@ -35,7 +36,8 @@ class Userconnected{
 
 }
 export function UserInstance(): Userconnected {
-  const getrole = usegetRole();
+  const navigate = useNavigate();
+  const getrole = usegetRole(navigate);
   const user = new Userconnected();
   if (getrole.isSuccess && getrole.data) {
     user.role = getrole.data.object.role,

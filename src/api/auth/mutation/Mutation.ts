@@ -41,3 +41,29 @@ export function useValidateAccount() {
     }
   })
 }
+
+const ValidateResultatCollecte = async (validate:boolean, idcollecte: number, navigate: any) => {
+  try {
+    const reponse = (await instanceAxios.get(`scomadminstration/validate_resultatcollecte?validate=${validate}&idcollecte=${idcollecte}`, {
+      headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token-user')}`,
+      }
+    })).data;
+    return reponse;
+  } catch (error) {
+    navigate('/');
+  }
+}
+export function useValidateResultatCollecte(page:number) {
+  const queryclient = useQueryClient();
+  return useMutation({
+    mutationFn: ({validate, id , navigate} : {validate:boolean, id:number , navigate:any}) => ValidateResultatCollecte(validate,id,navigate),
+    onSettled: async(_,error)=> {
+      if (error) {
+        console.log(error)
+      } else {
+        await queryclient.invalidateQueries({ queryKey: ["gestion_collecte", page]})
+      }
+    }
+  })
+}

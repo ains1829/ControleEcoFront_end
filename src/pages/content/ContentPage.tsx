@@ -4,7 +4,7 @@ import {
   TeamOutlined,
   BankOutlined,
   AuditOutlined,
-  SafetyOutlined,CalendarOutlined
+  SafetyOutlined,CalendarOutlined,DollarOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import {  Layout, Menu, theme } from 'antd';
@@ -46,8 +46,9 @@ function ContentPage() {
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
     item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '2', <BankOutlined />))
+    item_menu.push(getItem(<Link to="/validation_ppn">Validation ppn</Link>,'7', <DollarOutlined />))
     item_menu.push(getItem(<Link to="/administration">Administration</Link> , '3' , <TeamOutlined />))
-    item_menu.push(getItem(<Link to="/account">Account</Link> , '4' , <SafetyOutlined />))
+    item_menu.push(getItem(<Link to="/account">Account</Link>, '4', <SafetyOutlined />))
   }
   if (role === "DR" || role === "DT") {
     item_menu.push(getItem('Dashboard', 'sub2', <DashboardOutlined />, [

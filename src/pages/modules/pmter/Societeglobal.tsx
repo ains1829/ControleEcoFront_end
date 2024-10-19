@@ -74,9 +74,8 @@ function Societeglobal() {
     },
     fileList : file ? [file] : [],
   }; 
-  const handleChange = (value: number , option : any) => {
+  const handleChange = (value: number) => {
     setRegion(value)
-    // setRegionview(option.label)
   };
   const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value)
@@ -90,7 +89,6 @@ function Societeglobal() {
         content: "New Societe",
       });
       setRegion(0);
-      // setRegionview('Tous');
       setOpen(false);
       setFile(null);
       reset();
@@ -241,7 +239,6 @@ function Societeglobal() {
                 <Controller control={control} name="idregion"
                   render={({ field:{onChange , value} }) => 
                     <Select
-                      allowClear
                       options={options_regions}
                       placeholder="Region"
                       onChange={(value) => { onChange(value); if (value === undefined) {
@@ -256,7 +253,6 @@ function Societeglobal() {
                   render={({ field }) => 
                     <Select
                     {...field}
-                    allowClear
                     options={options_district}
                     placeholder="District"
                   />

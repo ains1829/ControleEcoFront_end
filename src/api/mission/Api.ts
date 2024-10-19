@@ -275,3 +275,27 @@ export function usegetAdministrationNoValidate(page:number , navigate:any) {
     refetchOnReconnect: false,
   })
 }
+
+const getCollecteNovalidate = async (page: number, navigate: any) => {
+  try {
+    const respone = (await instanceAxios.get(`scomadminstration/gestion_collecte?page=${page}`, {
+    headers: {
+      "Authorization" : `Bearer ${localStorage.getItem('token-user')}`
+    }
+    }));
+    return respone.data.object;
+  } catch (error) {
+    navigate('/');
+  }
+}
+export function usegetCollecteNovalidate(page:number , navigate:any) {
+  return useQuery({
+    queryKey: ["gestion_collecte",page],
+    queryFn:()=> getCollecteNovalidate(page,navigate),
+    staleTime: Infinity,
+    gcTime: 1000 * 60 * 15,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  })
+}

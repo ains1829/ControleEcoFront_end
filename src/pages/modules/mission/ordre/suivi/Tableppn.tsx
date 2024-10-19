@@ -4,14 +4,14 @@ import type { TableColumnsType } from 'antd';
 import { useDetailCollecte } from '../../../../../api/mission/Apiordremission';
 import { useNavigate } from 'react-router-dom';
 
-interface PpnType {
+export interface PpnType {
   key: React.Key;
   product: string;
   price: number;
   obsevation: string;
   unite: string;
 }
-const TransformdataDetailCollecte = (data: any[]): PpnType[] => {
+export const TransformdataDetailCollecte = (data: any[]): PpnType[] => {
   return data.map(item => ({
     key: item.iddetailcollecte,
     product: item.product.nameproduct,
@@ -21,9 +21,9 @@ const TransformdataDetailCollecte = (data: any[]): PpnType[] => {
   }))
 }
 
-const columns: TableColumnsType<PpnType> = [
+export const columns: TableColumnsType<PpnType> = [
   {
-    title: <span className='font-sans'>Produit (PPN)</span> ,
+    title: <span className='font-sans'>Produit</span> ,
     dataIndex: 'product',
     onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
@@ -58,7 +58,7 @@ function Tableppn({ idcollecte }: { idcollecte: number }) {
   }
   return (
     <>
-      <Table columns={columns} dataSource={TransformdataDetailCollecte(collecte.data)} pagination={false} />
+      <Table columns={columns} dataSource={TransformdataDetailCollecte(collecte.data)}/>
     </>
   )
 }

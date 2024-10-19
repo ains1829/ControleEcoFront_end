@@ -18,7 +18,6 @@ function Accountvalidate() {
   if (Account_validate.isError) {
     return <>error...</>
   }
-  console.log(Account_validate.data)
   const handleNext = () => {
     if (Account_validate.data.hasnext) {
       setPage(page + 1)

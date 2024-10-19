@@ -22,6 +22,7 @@ import Signalement from "./pages/modules/dashboard/stat/Signalementboard"
 import SignalmentRegion from "./pages/modules/dashboard/stat/SignalmentRegion"
 import Account from "./pages/modules/account/Account"
 import Register from "./pages/auth/Register"
+import Validation_ppn from "./pages/modules/validation/Validation_ppn"
 function App() {
   return (
     <>
@@ -46,7 +47,8 @@ function App() {
           <Route path="/collecteeconomique/:id" element={<CollecteMission />} />
           <Route path="/administration" element={<Administration />} />
           <Route path="/signalementregion" element={<SignalmentRegion />} />
-          <Route path="/account" element={<Account/>} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/validation_ppn" element={<Validation_ppn />} />
         </Route>
       </Routes>
     </>
