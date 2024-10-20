@@ -27,8 +27,7 @@ const TransformdataCollecte = (data: any[]): CollecteData[] => {
   }))
 }
 
-function TableValidation({ filter, date_begin, date_end, region, district, value_radio }: { filter: boolean, date_begin: string, date_end: string, region: number, district: number, value_radio: number }) {
-  console.log(filter)
+function TableValidation() {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [open, SetOpen] = useState(false);

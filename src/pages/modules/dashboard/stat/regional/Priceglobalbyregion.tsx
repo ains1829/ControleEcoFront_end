@@ -31,7 +31,7 @@ function Priceglobalbyregion({ product, mois, annee }: { product: number, mois: 
                     <>
                       <span className="text-xs text-gray-500">Comparé au mois dernier</span>
                       {
-                        data_price.haverapport.moyenne_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> {data_price.moyenne_rapport.toFixed(2)} %</span>
+                        data_price.moyenne_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> {data_price.moyenne_rapport.toFixed(2)} %</span>
                         :
                           <span className="text-xs bg-red-500 p-1 rounded-full text-white font-bold"> + {data_price.moyenne_rapport.toFixed(2)}%</span>
                       }
@@ -55,7 +55,7 @@ function Priceglobalbyregion({ product, mois, annee }: { product: number, mois: 
                     <>
                       <span className="text-xs text-gray-500">Comparé au mois dernier</span>
                       {
-                        data_price.haverapport.max_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> {data_price.max_rapport.toFixed(2)} %</span>
+                        data_price.max_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold"> {data_price.max_rapport.toFixed(2)} %</span>
                         :
                           <span className="text-xs bg-red-500 p-1 rounded-full text-white font-bold"> + {data_price.max_rapport.toFixed(2)}%</span>
                       }
@@ -79,7 +79,7 @@ function Priceglobalbyregion({ product, mois, annee }: { product: number, mois: 
                     <>
                       <span className="text-xs text-gray-500">Comparé au mois dernier</span>
                       {
-                        data_price.haverapport.min_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold">{data_price.min_rapport.toFixed(2)} %</span>
+                        data_price.min_rapport < 0 ? <span className="text-xs bg-green-500 p-1 rounded-full text-white font-bold">{data_price.min_rapport.toFixed(2)} %</span>
                         :
                           <span className="text-xs bg-red-500 p-1 rounded-full text-white font-bold"> + {data_price.min_rapport.toFixed(2)}%</span>
                       }
