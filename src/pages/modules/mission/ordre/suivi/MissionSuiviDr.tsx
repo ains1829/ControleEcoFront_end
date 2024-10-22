@@ -8,11 +8,14 @@ import {
   RightOutlined
 } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
+import { SearchProps } from "antd/es/input";
+import Search from "antd/es/input/Search";
 function MissionSuiviDr({date_actuelle} : {date_actuelle:number}) {
   const [page, setPage] = useState(0);
+  const [Search_ref, setRef] = useState('');
   const navigate = useNavigate();
   const [selectedButton, selectedFetch] = useState('0');
-  const suivi_mission = usegetOrdremissionByDrDt(page, date_actuelle, Number(selectedButton),navigate);
+  const suivi_mission = usegetOrdremissionByDrDt(page, date_actuelle, Search_ref,Number(selectedButton),navigate);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (suivi_mission.isPending) {
     return <span>loading...</span>
@@ -21,6 +24,14 @@ function MissionSuiviDr({date_actuelle} : {date_actuelle:number}) {
     return <span>error...</span>
   }
   const data_mission = TransformDataContent(suivi_mission.data);
+  const onSearch: SearchProps['onSearch'] = (value, _e, _) => { 
+    if (value.trim().length === 0) {
+      setRef('')
+    } else {
+      setRef(value)
+      setPage(0)
+    }
+  }
   const handleClick = (name:string) =>{
     selectedFetch(name)
   }
@@ -56,7 +67,7 @@ function MissionSuiviDr({date_actuelle} : {date_actuelle:number}) {
         <div className="flex flex-col gap-y-2 mb-3">
           <span className="text-xl font-bold" >Suivi mission.</span>
         </div>
-        <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center">
           <div className="w-1/4">
             <Segmented
               className="font-sans p-1"
@@ -74,9 +85,12 @@ function MissionSuiviDr({date_actuelle} : {date_actuelle:number}) {
               }}
             />
           </div>
+        <div className="flex items-center gap-2">
+          <Search placeholder="Reference" onSearch={onSearch} style={{ width: 200 }} />
           <div className="flex gap-2">
             <Button size="small" className="font-sans text-xs" disabled={ClassNamePrevious} type="dashed" icon={<LeftOutlined />} onClick={handlePrevious}>Previous</Button>
-            <Button size="small" className="font-sans text-xs" disabled={classNameNext} type="dashed" icon={<RightOutlined/>} onClick={handleNext} >Next</Button>
+            <Button size="small" className="font-sans text-xs" disabled={classNameNext} type="dashed" icon={<RightOutlined/>} iconPosition="end" onClick={handleNext} >Next</Button>
+          </div>
           </div>
       </div>
       {

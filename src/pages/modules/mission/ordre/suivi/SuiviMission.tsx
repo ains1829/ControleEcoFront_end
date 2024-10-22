@@ -44,12 +44,15 @@ function SuiviMission({ data }: { data: Ordredemission }) {
           </div>
         </div>
         <div className="title">
-          <div className="font-bold mb-2">
-            {
-              data.typemission === 1 ? <>Descente chez {data.nomsociete}</> :
-                data.typemission === 2 ? <>{data.nomdistrict}</> :
-                  <>Autre Suivi</>
-            }
+          <div className="flex flex-col mb-2">
+            <span className="font-bold">
+              {
+                data.typemission === 1 ? <>Descente chez {data.nomsociete}</> :
+                  data.typemission === 2 ? <>{data.nomdistrict}</> :
+                    <>Autre Suivi</>
+              }
+            </span>
+            <span className="text-xs text-gray-600">Ref : {data.numeroserie }</span>
           </div>
           <div className="type-mission">
             {

@@ -172,7 +172,9 @@ const C_societe = ({ data , page, region, search, isfilter, datebegin, date_end 
                             data_ref.data.map((item:any , index:number) => (
                               <div key={index} className='p-2 flex justify-between items-center border-dotted border-b-2 border-gray-200'>
                                 <span>Ref</span>
-                                <span className='text-xs font-bold'>{ item.numeroserie}</span>
+                                <div className='flex gap-2 text-xs'>
+                                  <span className=' font-bold'>{item.numeroserie}</span>
+                                  (date d'ordre :  {item.date_om}) </div>
                               </div>
                           ))
                         )

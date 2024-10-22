@@ -77,9 +77,9 @@ export function UseAdministrationNoequipe(navigate:any) {
   })
 }
 
-const OrdremissionByDrDt = async (page:number , annee:number , filter:number,navigate:any) => {
+const OrdremissionByDrDt = async (page:number , annee:number , ref:string, filter:number,navigate:any) => {
   try {
-    const reponse = (await instanceAxios.get(`mission/suivi_mission_sender?page=${page}&annee=${annee}&filter=${filter}` , {
+    const reponse = (await instanceAxios.get(`mission/suivi_mission_sender?page=${page}&annee=${annee}&filter=${filter}&ref=${ref}` , {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem('token-user')}`
       }
@@ -89,10 +89,10 @@ const OrdremissionByDrDt = async (page:number , annee:number , filter:number,nav
     navigate('/');
   }
 }
-export function usegetOrdremissionByDrDt(page:number , annee:number , filter:number,navigate:any) {
+export function usegetOrdremissionByDrDt(page:number , annee:number , ref:string, filter:number,navigate:any) {
   return useQuery({
-    queryKey: ["suivi_mission_sender" , page , annee,filter],
-    queryFn: () => OrdremissionByDrDt(page, annee, filter,navigate),
+    queryKey: ["suivi_mission_sender" , page , annee,ref,filter],
+    queryFn: () => OrdremissionByDrDt(page, annee, ref, filter,navigate),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 15,
     refetchOnWindowFocus: false,
