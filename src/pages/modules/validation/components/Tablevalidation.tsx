@@ -1,5 +1,4 @@
 import { Button, Modal, Table, TableColumnsType, Tag } from 'antd';
-import dayjs from 'dayjs';
 import { useState } from 'react';
 import Detailvalidation from './Detailvalidation';
 import { usegetCollecteNovalidate } from '../../../../api/mission/Api';

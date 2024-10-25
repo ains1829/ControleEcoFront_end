@@ -1,7 +1,7 @@
 import { Button, Divider, Modal, Progress, Segmented, theme } from "antd";
 import SuiviMission from "./suivi/SuiviMission";
 import {useState } from "react";
-import { usegetOrdermissionByEquipe, useStatMissionByEquipe, useStatTypeMissionByEquipe } from "../../../../api/equipe/Apiequipe";
+import { usegetOrdermissionByEquipe, useStatTypeMissionByEquipe } from "../../../../api/equipe/Apiequipe";
 import { TransformDataContent } from "../../../../types/mission/Contentdata";
 import {
   LeftOutlined,
@@ -15,7 +15,6 @@ function ContentSuivi() {
   const [page, setPage] = useState(0);
   const [selectedButton, selectedFetch] = useState('0');
   const suivi_mission = usegetOrdermissionByEquipe(page , Number(selectedButton),navigate);
-  // const dashboard_mission = useStatMissionByEquipe(navigate);
   const type_mission_dashboard = useStatTypeMissionByEquipe(navigate);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (suivi_mission.isPending) {
@@ -30,7 +29,6 @@ function ContentSuivi() {
   if (type_mission_dashboard.isError) {
     return <span>errorrr...</span>
   }
-  // const mission_stat = dashboard_mission.data;
   const typemission_stat = type_mission_dashboard.data;
   const data_mission = TransformDataContent(suivi_mission.data);
   const handleClick = (name:string) =>{
@@ -71,16 +69,6 @@ function ContentSuivi() {
             <span className="text-xl font-bold" >Mission.</span>
             <span className="font-bold text-sm">({typemission_stat[0].nombre_mission  + typemission_stat[1].nombre_mission + typemission_stat[2].nombre_mission} total)</span>
           </div>
-          {/* <div className="w-1/3 grid grid-cols-2 gap-x-5">
-              <div className="flex p-1 justify-evenly gap-2 text-white bg-green-400 items-center rounded-full font-bold text-xs">
-                <span>Mission terminé </span>
-                <span className="text-xl">{mission_stat?.missions_fini }</span>
-              </div>
-              <div className="flex p-1 justify-evenly gap-2 text-white bg-orange-300 items-center rounded-full font-bold text-xs">
-                <span>Mission en cours</span>
-                <span className="text-xl">{mission_stat?.missions_en_cours }</span>
-              </div>
-            </div> */}
           </div>
         <div className="mt-5 grid grid-cols-3 gap-4">
           <div className="flex flex-col gap-y-8 font-sans rounded-lg shadow-lg p-5">
