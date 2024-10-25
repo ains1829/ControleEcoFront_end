@@ -24,7 +24,7 @@ const GroupedBarChartRegion = ({ date }: { date: number }) => {
     ],
     datasets: [
       {
-        label: 'Evolution signalment',
+        label: 'Évolution des signalements',
         data: value, // Remplacez par vos données
         backgroundColor: '#e74c3c',
       }
@@ -43,7 +43,7 @@ const GroupedBarChartRegion = ({ date }: { date: number }) => {
   return (
     <div>
       <div className='flex'>
-        <span className='font-sans font-bold text-red-500'>Visualisation du Nombre de Signalements par Mois</span>
+        <span className='font-sans font-bold text-secondary'>Visualisation du nombre de signalements par mois</span>
       </div>
       <Bar data={data} options={options} />
     </div>

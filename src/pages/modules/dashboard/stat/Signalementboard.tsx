@@ -28,7 +28,7 @@ function Signalement() {
       > 
         <div className="flex justify-between">
           <div className="flex flex-col gap-y-1">
-            <span className="text-xl font-bold">Signalment.</span>
+            <span className="text-xl font-bold">Signalement.</span>
             <span className="text-xs">(annee : {date_actuelle })</span>
           </div>
           <div className="flex gap-4 items-center">

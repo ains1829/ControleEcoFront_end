@@ -1,10 +1,14 @@
-import { Button, Divider, Modal, Table, TableColumnsType, TableProps, theme } from "antd";
+import { Button, Divider, Modal, Table, TableColumnsType, theme } from "antd";
 import { useRegionProvince } from "../../../../api/dashboard/PpnStat";
 import { Statppn, TransFormPpnRegion } from "../../../../types/stat/Statppn";
 import Tabledistrict from "./Tabledistrict";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { formatNumber } from "./components/Price";
 
+export function formatValue(value: number): string {
+  return value === 0 ? '_' : `${formatNumber(value)}`;
+}
 function Provinceregion({ province, product, mois, annee }: { province: number, product: number, mois: number, annee: number }) {
   const navigate = useNavigate();
   const ppnregion = useRegionProvince(province, product, mois, annee,navigate);
@@ -24,9 +28,10 @@ function Provinceregion({ province, product, mois, annee }: { province: number, 
     setRegion(data.key);
     setNameregion(data.nameregion)
   }
+
   const columns: TableColumnsType<Statppn> = [
     {
-      title: <span className="font-sans">Region Name</span>,
+      title: <span className="font-sans">Region</span>,
       dataIndex: 'nameregion',
       key: 'nameregion',
       onHeaderCell: () => ({
@@ -35,34 +40,34 @@ function Provinceregion({ province, product, mois, annee }: { province: number, 
       render: (text) => <span className="font-sans">{text}</span>
     },
     {
-      title: <span className="font-sans">Prix Moyenne</span>,
+      title: <span className="font-sans">Prix moyenne</span>,
       dataIndex: 'p_moyenne',
       key: 'p_moyenne',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
       sorter: (a, b) => a.p_moyenne - b.p_moyenne,
-      render: (text) => <span className="font-sans">{text} Ariary</span>
+      render: (prix) => <span className="font-sans">{formatValue(prix)}</span>
     },
     {
-      title: <span className="font-sans">Prix Max</span>,
+      title: <span className="font-sans">Prix max</span>,
       dataIndex: 'p_max',
       key: 'p_max',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent'},
       }),
       sorter: (a, b) => a.p_max - b.p_max,
-      render: (text) => <span className="font-sans">{text} Ariary</span>
+      render: (prix) => <span className="font-sans">{formatValue(prix)}</span>
     },
     {
-      title: <span className="font-sans">Prix Min</span>,
+      title: <span className="font-sans">Prix min</span>,
       dataIndex: 'p_min',
       key: 'p_min',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
       sorter: (a, b) => a.p_min - b.p_min,
-      render: (text) => <span className="font-sans">{text} Ariary</span>
+      render: (prix) => <span className="font-sans">{formatValue(prix)}</span>
     },
     {
       dataIndex: 'action',
@@ -73,9 +78,6 @@ function Provinceregion({ province, product, mois, annee }: { province: number, 
       render: (_,record) => <Button type="dashed" className="font-sans text-xs font-bold text-secondary" onClick={()=>handleClick(record)}>Detail par district</Button>
     }
   ];
-  const onChange: TableProps<Statppn>['onChange'] = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
   return (
     <div
         className="flex flex-col  font-sans"
@@ -89,7 +91,7 @@ function Provinceregion({ province, product, mois, annee }: { province: number, 
         <span className="text-bold text-sm font-bold ">Detail par region</span>
       </div>
       <Divider/>
-      <Table  columns={columns} dataSource={data} onChange={onChange} pagination={false} />
+      <Table  columns={columns} dataSource={data} pagination={false} />
       <Modal
         title={<span className="font-sans">{name_region}</span>}
         centered

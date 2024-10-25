@@ -5,6 +5,7 @@ import { Ordredemission } from "../../../../types/mission/Ordredemission"
 function DetailMission({data} : {data:Ordredemission}) {
   return (
     <>
+      <Divider dashed className="font-sans"><span className="text-xs">À propos</span> </Divider>
       <div className="flex flex-col gap-y-4 detail font-sans">
         <div>
           <span>Ref : </span>
@@ -38,11 +39,11 @@ function DetailMission({data} : {data:Ordredemission}) {
         <div>
           <span>Context : </span>
           <span className="text">
-           {data.context}
+            {data.context}
           </span>
         </div>
       </div>
-      <Divider dashed className="font-sans"> <span className="text-xs">Equipe en mission</span></Divider>
+      <Divider dashed className="font-sans"> <span className="text-xs">Les missionnaires</span></Divider>
       <TableComponent data={data.detailequipe} />
     </>
   )

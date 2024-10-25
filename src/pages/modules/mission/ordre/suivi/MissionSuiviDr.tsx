@@ -65,7 +65,7 @@ function MissionSuiviDr({date_actuelle} : {date_actuelle:number}) {
         }}
       > 
         <div className="flex flex-col gap-y-2 mb-3">
-          <span className="text-xl font-bold" >Suivi mission.</span>
+          <span className="text-xl font-bold" >Suivi des missions.</span>
         </div>
       <div className="flex justify-between items-center">
           <div className="w-1/4">

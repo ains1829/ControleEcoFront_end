@@ -25,25 +25,16 @@ export const columns: TableColumnsType<PpnType> = [
   {
     title: <span className='font-sans'>Produit</span> ,
     dataIndex: 'product',
-    onHeaderCell: () => ({
-        style: { backgroundColor: 'transparent' },
-      }),
     render: (text) => <span className='font-sans'>{text }</span>
   },
   {
     title:<span className='font-sans'>Prix</span> ,
     dataIndex: 'price',
-    onHeaderCell: () => ({
-        style: { backgroundColor: 'transparent' },
-      }),
     render: (text, record) => <span className='font-sans'>{text} Ar / {record.unite}</span>
   },
   {
     title: <span className='font-sans'>Lieu d'observation</span>,
     dataIndex: 'obsevation',
-    onHeaderCell: () => ({
-        style: { backgroundColor: 'transparent' },
-      }),
     render: (text) => <span className='font-sans'>{text }</span>
   }
 ];

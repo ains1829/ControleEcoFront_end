@@ -68,8 +68,8 @@ function ContentEquipe() {
   return (
     <>
       <div className="font-sans flex justify-between">
-        <span className="text-xl font-bold mb-2" >Misionnaires.</span>
-        <Button icon={<UsergroupAddOutlined />} className="font-sans text-xs" type="dashed" onClick={showModal}>Nouveau equipe</Button>
+        <span className="text-xl font-bold mb-2" >Liste des équipes</span>
+        <Button icon={<UsergroupAddOutlined />} className="font-sans text-xs" type="dashed" onClick={showModal}>Nouvelle Équipe</Button>
       </div>
       <div className="grid grid-cols-4 gap-5">
         {
@@ -103,7 +103,7 @@ function ContentEquipe() {
                 <Select {...field} className="font-sans" options={options} placeholder="Chef" />} />
             </div>
             <div className="flex flex-col gap-y-2 p-2">
-              <label className="text-xs font-bold">Membre d'equipe</label>
+              <label className="text-xs font-bold">Membres d'equipe</label>
               <Controller control={control} name="membres" render={({field}) => <Select {...field} className="font-sans" mode="multiple" style={{ width: '100%' }} placeholder="Membre equipe" options={options}  />} />
             </div>
           </form>

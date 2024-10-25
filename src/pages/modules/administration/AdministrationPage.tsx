@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import Search, { SearchProps } from "antd/es/input/Search";
 import { useNavigate } from "react-router-dom";
+import { formatOrderDate } from "../mission/ordre/Mission";
 function AdministrationPage() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const navigate = useNavigate();
@@ -97,13 +98,13 @@ function AdministrationPage() {
       render: (text) => <span className='font-sans'>{text}</span>
     },
     {
-      title: <span className="font-sans">Ne(e) le</span>,
+      title: <span className="font-sans">Né(e) le</span>,
       dataIndex: 'date_naissance',
       key: 'date_naissance',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      render: (text) => <span className='font-sans'>{text}</span>
+      render: (text) => <span className='font-sans'>{formatOrderDate(text)}</span>
     }
   ]
   const data_missionnaire = TransformDataAdministration(data.data.data)
@@ -129,7 +130,7 @@ function AdministrationPage() {
         }}
         > 
           <div className="flex justify-between items-center">
-            <span className="text-xl font-bold" >Membres.</span>
+            <span className="text-xl font-bold" >Liste des fonctionnaires.</span>
             <Search placeholder="Recherche" allowClear onSearch={onSearch} className="w-1/4 font-sans" />
           </div>
           <Table columns={columns} dataSource={data_missionnaire} pagination={false} />

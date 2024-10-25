@@ -10,7 +10,7 @@ dayjs.locale('fr');
 function SignalmentRegion() {
   const [date_actuelle, setDate] = useState(Number(dayjs().format('YYYY')));
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
-   const onChange: DatePickerProps['onChange'] = (date, _) => {
+  const onChange: DatePickerProps['onChange'] = (date, _) => {
     if (date) {
       const year = date.format('YYYY');  
       setDate(Number(year))
@@ -29,7 +29,7 @@ function SignalmentRegion() {
       >
       <div className="flex justify-between">
           <div className="flex flex-col gap-y-1">
-            <span className="text-xl font-bold">Signalment.</span>
+            <span className="text-xl font-bold">Signalement.</span>
             <span className="text-xs">(annee : {date_actuelle })</span>
           </div>
           <div className="flex gap-4 items-center">

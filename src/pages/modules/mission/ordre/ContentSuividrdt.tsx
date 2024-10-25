@@ -4,10 +4,12 @@ import { useStatbyprogressiongbyregion } from "../../../../api/dashboard/Statist
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
 import MissionSuiviDr from "./suivi/MissionSuiviDr";
+import { useNavigate } from "react-router-dom";
 dayjs.locale('fr');
 function ContentSuividrdt() {
+  const navigate = useNavigate();
   const [date_actuelle, setDate] = useState(Number(dayjs().format('YYYY')));
-  const progressing = useStatbyprogressiongbyregion(date_actuelle);
+  const progressing = useStatbyprogressiongbyregion(date_actuelle,navigate);
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   if (progressing.isPending) {
     return <>loading...</>
@@ -35,7 +37,7 @@ function ContentSuividrdt() {
       > 
         <div className="flex justify-between">
           <div className="flex flex-col gap-y-2">
-            <span className="text-xl font-bold" >Mission total : {data_progressing[0].nombre_mission + data_progressing[1].nombre_mission + data_progressing[2].nombre_mission}</span>
+            <span className="text-xl font-bold" >Total des missions : {data_progressing[0].nombre_mission + data_progressing[1].nombre_mission + data_progressing[2].nombre_mission}</span>
             <span>(annee : {date_actuelle})</span>
           </div>
           <div className="flex gap-4 items-center">

@@ -52,7 +52,7 @@ const columns: TableColumnsType<Statregiontype> = [
       <span className='font-sans'>{text}</span>
   },
   {
-    title: <span className='font-sans'>Mission total</span>,
+    title: <span className='font-sans'>Total des missions</span>,
     dataIndex: 't_mission',
     sorter:(a,b) => a.t_mission - b.t_mission,
     render: (text) =>

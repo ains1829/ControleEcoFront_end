@@ -4,6 +4,7 @@ import { Statppn, TransFormPpnRegion } from "../../../../../types/stat/Statppn";
 import Tabledistrict from "../Tabledistrict";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { formatValue } from "../Provinceregion";
 
 function Provinceregional({ product, mois, annee }: { product: number, mois: number, annee: number }) {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Provinceregional({ product, mois, annee }: { product: number, mois: num
   }
   const columns: TableColumnsType<Statppn> = [
     {
-      title: <span className="font-sans">Region Name</span>,
+      title: <span className="font-sans">Region</span>,
       dataIndex: 'nameregion',
       key: 'nameregion',
       onHeaderCell: () => ({
@@ -35,34 +36,34 @@ function Provinceregional({ product, mois, annee }: { product: number, mois: num
       render: (text) => <span className="font-sans">{text}</span>
     },
     {
-      title: <span className="font-sans">Prix Moyenne</span>,
+      title: <span className="font-sans">Prix moyenne</span>,
       dataIndex: 'p_moyenne',
       key: 'p_moyenne',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
       sorter: (a, b) => a.p_moyenne - b.p_moyenne,
-      render: (text) => <span className="font-sans">{text} Ariary</span>
+      render: (prix) => <span className="font-sans">{formatValue(prix)}</span>
     },
     {
-      title: <span className="font-sans">Prix Max</span>,
+      title: <span className="font-sans">Prix max</span>,
       dataIndex: 'p_max',
       key: 'p_max',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent'},
       }),
       sorter: (a, b) => a.p_max - b.p_max,
-      render: (text) => <span className="font-sans">{text} Ariary</span>
+      render: (prix) => <span className="font-sans">{formatValue(prix)}</span>
     },
     {
-      title: <span className="font-sans">Prix Min</span>,
+      title: <span className="font-sans">Prix min</span>,
       dataIndex: 'p_min',
       key: 'p_min',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
       sorter: (a, b) => a.p_min - b.p_min,
-      render: (text) => <span className="font-sans">{text} Ariary</span>
+      render: (prix) => <span className="font-sans">{formatValue(prix)}</span>
     },
     {
       dataIndex: 'action',

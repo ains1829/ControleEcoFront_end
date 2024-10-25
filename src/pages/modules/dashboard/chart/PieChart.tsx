@@ -58,7 +58,7 @@ const data_pie = {
   };
   return (
     <div className='flex flex-col font-sans'>
-      <span className='text-sm font-bold'>Total Signal : {total_signal}</span>
+      <span className='text-sm font-bold'>Total des signalements  : {total_signal}</span>
       <span className='mt-5 font-sans font-bold text-red-500'>Répartition des anomalies</span>
       <div className='mt-5'>
         <Doughnut data={data_pie} options={options} />

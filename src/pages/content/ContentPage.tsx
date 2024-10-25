@@ -32,16 +32,16 @@ function ContentPage() {
   let item_menu = Array()
   if (role === "SG" || role === "DG") {
     item_menu.push(getItem('Dashboard', 'sub1', <DashboardOutlined />, [
-      getItem(<Link to="/dashboardsg">Etat mission</Link>, '1'),
+      getItem(<Link to="/dashboardsg">État des missions</Link>, '1'),
       getItem(<Link to="/ppnglobal">PPN</Link>, '2'),
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
-    item_menu.push(getItem(<Link to='/ordredemission'>Ordre de mission</Link>, '3', <AuditOutlined />))
+    item_menu.push(getItem(<Link to='/ordredemission'>Ordres de mission</Link>, '3', <AuditOutlined />))
     item_menu.push(getItem(<Link to="/societeglobal">Societe</Link>, '4', <BankOutlined />))
   }
   if (role === "DSI") {
     item_menu.push(getItem('Dashboard', 'sub1', <DashboardOutlined />, [
-      getItem(<Link to="/dashboardsg">Etat mission</Link>, '5'),
+      getItem(<Link to="/dashboardsg">État des missions</Link>, '5'),
       getItem(<Link to="/ppnglobal">PPN</Link>, '1'),
       getItem(<Link to="/signalement">Signalement</Link>, '6')
     ]))
@@ -56,9 +56,9 @@ function ContentPage() {
       getItem(<Link to="/signalementregion">Signalement</Link>, '7')
     ]))
     item_menu.push(
-      getItem('Mission', 'sub1', <AuditOutlined />, [
-        getItem(<Link to="/ordredemissiondr">Ordre de mission</Link>, '1'),
-        getItem(<Link to="/suivimission_dr_dt" >Suivi Mission </Link> ,'2')
+      getItem('Missions', 'sub1', <AuditOutlined />, [
+        getItem(<Link to="/ordredemissiondr">Ordres de mission</Link>, '1'),
+        getItem(<Link to="/suivimission_dr_dt" >Suivi des missions </Link> ,'2')
     ]))
     item_menu.push(getItem(<Link to="/missionnaire">Membres</Link> , '5' , <TeamOutlined />))
     item_menu.push(getItem(<Link to="/calendar">Calendrier</Link> , '4' , <CalendarOutlined />))
@@ -66,8 +66,8 @@ function ContentPage() {
   }
   if (role === "CH") {
     item_menu.push(
-      getItem('Mission', 'sub1', <AuditOutlined />, [
-      getItem(<Link to='/suivimission'>Suivi de mission</Link>, '1')
+      getItem('Missions', 'sub1', <AuditOutlined />, [
+      getItem(<Link to='/suivimission'>Suivi des mission</Link>, '1')
     ]))
   }
   const items: MenuItem[] = item_menu

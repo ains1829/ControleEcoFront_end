@@ -76,7 +76,7 @@ function Ordermission() {
         }}
       >
         <div className="flex justify-between items-center">
-          <span className="text-xl font-bold">Ordre de mission.</span>
+          <span className="text-xl font-bold">Ordres de mission.</span>
           <div className="w-1/3">
             <Search placeholder="Rechercher dans les demandes" allowClear onSearch={onSearch} style={{ fontFamily:'font-sans'}} className="font-sans"/>
           </div>

@@ -41,7 +41,7 @@ function SignalementDetailRegion({ date }: { date: number }) {
     <>
       <div className="bg-white p-5 mt-2 font-sans">
         <div className="flex mb-5 justify-between">
-          <span className="font-bold text-xl">Liste Signalment.</span>
+          <span className="font-bold text-xl">Liste des signalements.</span>
             <div className="flex gap-2">
               <Button size="small" className="font-sans text-xs" disabled={ClassNamePrevious} type="dashed" icon={<LeftOutlined />} onClick={handlePrevious}>Previous</Button>
               <Button size="small" className="font-sans text-xs" disabled={classNameNext} type="dashed" icon={<RightOutlined/>} onClick={handleNext} >Next</Button>

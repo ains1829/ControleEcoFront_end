@@ -40,7 +40,7 @@ const C_societe = ({ data , page, region, search, isfilter, datebegin, date_end 
       render:(text)=><Avatar src={text} size="large" shape="square" />
     },
     {
-      title: <span className='font-sans'>Nom Société</span>,
+      title: <span className='font-sans'>Société</span>,
       dataIndex: 'namesociete',
       key: 'namesociete',
       onHeaderCell: () => ({
@@ -115,7 +115,7 @@ const C_societe = ({ data , page, region, search, isfilter, datebegin, date_end 
           </div>  
           <Divider />
           <div className='font-sans flex flex-col gap-y-2'>
-            <span className='font-bold font-sans'>Detail Societe</span>
+            <span className='font-bold font-sans'>Détails de la société</span>
             <div className='font-sans gap-4 mt-3 di'>
               <div className='flex flex-col gap-y-5'>
                 <div className='flex justify-between items-center'>

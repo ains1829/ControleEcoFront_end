@@ -15,6 +15,7 @@ import Uploadinfraction from "./upload/Uploadinfraction";
 import { useEnqueteFinished } from "../../../../../api/mission/Apiordremission";
 import Feedback from "./Feedback";
 import { UserInstance } from "../../../../../types/administration/Userconnected";
+import { formatOrderDate } from "../Mission";
 function EnqueteMission() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const navigate = useNavigate();
@@ -85,19 +86,19 @@ function EnqueteMission() {
                 <strong>Resultat : </strong>
                 <span className="ml-1">
                   {
-                    enquete_object.statu === 210 ? <Tag color="success" className="font-sans">Societe Clean</Tag> :
-                      enquete_object.statu === 515 ? <Tag color="error" className="font-sans">Societe commis faute</Tag> :
+                    enquete_object.statu === 210 ? <Tag color="success" className="font-sans">Société en règle</Tag> :
+                      enquete_object.statu === 515 ? <Tag color="error" className="font-sans">Société en infraction</Tag> :
                         <>en cours</>
                   }
                 </span>
               </div>
               <div>
-                <strong>Debut du mission : </strong>
-                <span>{ enquete_object.ordermission.debut.toString() }</span>
+                <strong>Debut de la mission : </strong>
+                <span>{ formatOrderDate(enquete_object.ordermission.debut)}</span>
               </div>
               <div>
-                <strong>Fin du mission : </strong>
-                <span>{ enquete_object.ordermission.fin != null ? enquete_object.ordermission.fin.toString() : 'en cours' }</span>
+                <strong>fin de la mission : </strong>
+                <span>{ enquete_object.ordermission.fin != null ? formatOrderDate(enquete_object.ordermission.fin) : 'en cours' }</span>
               </div>
               <div className="flex flex-col">
                 <strong className="mb-1">Context</strong>
@@ -119,19 +120,19 @@ function EnqueteMission() {
               items={[
                 {
                   title: <span className="text-sm">Fiche Technique</span>,
-                  description :  enquete_object.statu === 10 ? 'en cours' :  <span>Terminer le :  { enquete_object.datefichetechnique.toString()}</span>,
+                  description :  enquete_object.statu === 10 ? 'en cours' :  <span className="text-xs">Terminer le :  { formatOrderDate(enquete_object.datefichetechnique)}</span>,
                 },
                 {
                   title: <span className="text-sm">Convocation</span>,
-                  description:  enquete_object.statu < 20 ? 'en attente'  : enquete_object.statu === 20 ? 'en cours' :  <span>Terminer le :  { enquete_object.dateconvocation.toString()}</span>
+                  description:  enquete_object.statu < 20 ? 'en attente'  : enquete_object.statu === 20 ? 'en cours' :  <span className="text-xs">Terminer le :  { formatOrderDate(enquete_object.dateconvocation)}</span>
                 },
                 {
                   title: <span className="text-sm">PV Audition</span>,
-                  description : enquete_object.statu < 30 ? 'en attente'  : enquete_object.statu === 30 ? 'en cours' :  <span>Terminer le :  { enquete_object.datepvaudition.toString()}</span>,
+                  description : enquete_object.statu < 30 ? 'en attente'  : enquete_object.statu === 30 ? 'en cours' :  <span className="text-xs">Terminer le :  { formatOrderDate(enquete_object.datepvaudition)}</span>,
                 },
                 {
                   title: <span className="text-sm">PV Infraction</span>,
-                  description : enquete_object.statu < 200 ? 'en attente'  : enquete_object.statu === 200 ? 'en cours' : enquete_object.statu === 210 ? ' Clean ' : <span>Terminer le :  { enquete_object.dateinfraction.toString()}</span>,
+                  description : enquete_object.statu < 200 ? 'en attente'  : enquete_object.statu === 200 ? 'en cours' : enquete_object.statu === 210 ? ' Clean ' : <span className="text-xs">Terminer le :  { formatOrderDate(enquete_object.dateinfraction)}</span>,
                 },
               ]}
           />
@@ -147,12 +148,13 @@ function EnqueteMission() {
           }
         </div>
       <Drawer
-        title={`Detail Mission`}
         placement="right"
         size={"large"}
         onClose={onClose}
         open={open}
         className="font-sans"
+        closable={false}
+        width={600}
         extra={ enquete_object.statu === 200 || enquete_object.statu === 500 ? 
           <Space>
             <Button loading={enquete_finish.isPending} type="dashed" onClick={()=>ClotureMission(enquete_object.ordermission.idordermission)}>
@@ -162,7 +164,10 @@ function EnqueteMission() {
           :
           ''
         }
-      >
+        >
+          <div className="mb-8">
+            <span className="font-bold mb-5">Les rapports des missions effectuées lors de la descente</span>
+          </div>
           <div className="flex flex-col gap-y-3">
             <div className="flex gap-2">
               <span className="font-bold text-blue-500">Etape 1 : </span>
@@ -175,7 +180,7 @@ function EnqueteMission() {
                   <span>Date : </span>
                 </div>
                 <div>
-                  {enquete_object.statu === 10 ? 'en cours' : '  ' + enquete_object.datefichetechnique.toString() }
+                  {enquete_object.statu === 10 ? 'en cours' : '  ' + formatOrderDate(enquete_object.datefichetechnique)}
                 </div>
               </div>
               <div className="flex gap-2">
@@ -209,7 +214,7 @@ function EnqueteMission() {
                   <span>Date : </span>
                 </div>
                 <div>
-                  {enquete_object.statu < 20 ? 'en attente' : enquete_object.statu === 20 ? 'en cours' : enquete_object.dateconvocation.toString()}
+                  {enquete_object.statu < 20 ? 'en attente' : enquete_object.statu === 20 ? 'en cours' : formatOrderDate(enquete_object.dateconvocation)}
                 </div>
               </div>
             </div>
@@ -240,7 +245,7 @@ function EnqueteMission() {
                   <span>Date : </span>
                 </div>
                 <div>
-                  {enquete_object.statu < 30 ? 'en attente' : enquete_object.statu === 30 ? 'en cours' : enquete_object.datepvaudition.toString()}
+                  {enquete_object.statu < 30 ? 'en attente' : enquete_object.statu === 30 ? 'en cours' : formatOrderDate(enquete_object.datepvaudition)}
                 </div>
             </div>
             <div className="flex gap-2">
@@ -269,7 +274,7 @@ function EnqueteMission() {
                 <span><CalendarOutlined /> </span>
                 <span>Date : </span>
               </div>
-              <div> {enquete_object.statu < 200 ? 'en attente' : enquete_object.statu === 200 ? ' en cours' : enquete_object.statu === 210 ? ' Clean ' : enquete_object.dateinfraction.toString() }</div>
+              <div> {enquete_object.statu < 200 ? 'en attente' : enquete_object.statu === 200 ? ' en cours' : enquete_object.statu === 210 ? ' Clean ' : formatOrderDate(enquete_object.dateinfraction)}</div>
             </div>
             <div className="flex gap-2">
               <div className="flex gap-2">

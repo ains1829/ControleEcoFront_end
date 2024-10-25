@@ -1,4 +1,4 @@
-import { Button, Popconfirm, PopconfirmProps, Space, message , Modal, Divider, Tag } from "antd";
+import { Button, Popconfirm, PopconfirmProps, message , Modal, Tag } from "antd";
 import { useState } from "react";
 import {
   CheckCircleOutlined,
@@ -12,6 +12,9 @@ import 'dayjs/locale/fr';
 import { useValidateOrdermission, useValidateOrdermissionDgdmt } from "../../../../api/mission/Apiordremission";
 import { UserInstance } from "../../../../types/administration/Userconnected";
 import { useNavigate } from "react-router-dom";
+export function formatOrderDate(dateString: Date): string {
+  return dayjs(dateString).format('DD MMMM YYYY');
+}
 function Mission({ data }: { data: Ordredemission }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -69,27 +72,20 @@ function Mission({ data }: { data: Ordredemission }) {
   return (
     <>
       <Modal
-        title={<div className="font-sans text-secondary"> <QuestionCircleOutlined /> Demande OM <Divider className="font-sans" dashed ><span className="text-xs">Details OM</span></Divider> </div>}
+        title={
+          <div className="flex flex-col gap-y-2 font-sans text-secondary">
+            <span className="text-xl"><QuestionCircleOutlined /></span>
+            <span>Demande d'ordre de mission.</span>
+          </div>
+        }
         centered
         open={open}
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         width={1000}
-        footer={(_, {}) => (
-          <>
-            {
-              (
-                data.status === 100 || data.status === 500 || (data.status === 0 && role !== "SG") || (data.status === 10 && role !== "DG")
-              ) ? '' : 
-              <Space>
-                <Button icon={<CheckCircleOutlined />} className="font-sans text-xs" type="dashed" onClick={() => confirms_ordermission(data.idordermission, true)} >Approuver</Button>
-                <Button icon={<CloseCircleOutlined />} className="font-sans text-xs" type="dashed" danger onClick={()=>confirms_ordermission(data.idordermission , false)} >Rejeter</Button>
-              </Space>
-            }
-          </>
-        )}
+        footer
       >
-      <DetailMission data={data} />
+        <DetailMission data={data} />
       </Modal>
       <div className="flex border-b-2 border-dotted border-gray-100 gap-4 p-3 items-center">
         <div className="flex-none w-1/4">
@@ -140,12 +136,12 @@ function Mission({ data }: { data: Ordredemission }) {
           }
         </div>
         <div className="flex-none w-1/4">
-          <span className="text-xs">{ dayjs(data.dateordre).format('DD MMMM YYYY') }</span>
+          <span className="text-xs">{ formatOrderDate(data.dateordre)}</span>
         </div>
         <div className="flex-none w-1/4">
           {
-            data.status === 100 ? <Tag color="success" className="font-sans p-1">Approuver</Tag> :
-              data.status === 500 ? <Tag color="error" className="font-sans p-1">Rejeter</Tag> : 
+            data.status === 100 ? <Tag color="success" className="font-sans p-1"> Approuvé</Tag> :
+              data.status === 500 ? <Tag color="error" className="font-sans p-1">Rejeté</Tag> : 
               (data.status === 0 && role === 'SG') ? <Tag color="error" className="font-sans p-1">Validation requise</Tag> : 
                 (data.status === 10 && role === 'SG') ? <Tag color="warning" className="font-sans p-1">Validation DG requise</Tag> :
                   (data.status === 10 && role === 'DG') ?
@@ -156,29 +152,29 @@ function Mission({ data }: { data: Ordredemission }) {
         <div className="flex flex-none w-1/4 gap-5 items-center">
           {
             ((data.status === 0 && role === 'SG') || (data.status === 10 && role === 'DG')) ? <>
-                <Popconfirm title={<span className="font-sans text-xs">Approuver L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir approuver cette demande d'OM ?</span>}
+                <Popconfirm title={<span className="font-sans text-xs"> Approuvé L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir  Approuvé cette demande d'OM ?</span>}
                   onConfirm={()=>confirms_ordermission(data.idordermission , true)}
                   onCancel={cancel}
                   okText={<span className="font-sans text-xs">Oui</span>}
                   cancelText={<span className="font-sans text-xs">Non</span>}
                   icon={<CheckCircleOutlined style={{color:"green"}} /> }
                 >
-                  <Button className="font-sans text-xs" type="dashed" icon={<CheckCircleOutlined />}>Approuver</Button>
+                  <Button className="font-sans text-xs" type="dashed" icon={<CheckCircleOutlined />}> Approuvé</Button>
                 </Popconfirm>
               <Popconfirm
-                title={<span className="font-sans text-xs">Rejeter L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir de rejeter cette demande d'OM ?</span>}
+                title={<span className="font-sans text-xs">Rejeté L'OM</span>} description={<span className="font-sans text-xs"> Êtes-vous sûr de vouloir de Rejeté cette demande d'OM ?</span>}
                 onConfirm={()=>confirms_ordermission(data.idordermission , false)}
                 onCancel={cancel}
                 okText={<span className="font-sans text-xs">Oui</span>}
                 cancelText={<span className="font-sans text-xs">Non</span>}
               >
-                <Button  type="dashed" className="font-sans text-xs"  icon={<CloseCircleOutlined />} danger>Rejeter</Button>
+                <Button  type="dashed" className="font-sans text-xs"  icon={<CloseCircleOutlined />} danger>Rejeté</Button>
               </Popconfirm>
             </>
               :
               ''
           }
-          <Button className="font-sans text-xs" type="dashed"onClick={() => setOpen(true)}>Details</Button>
+          <Button className="font-sans text-xs" type="dashed"onClick={() => setOpen(true)}>Detail</Button>
         </div>
       </div>
     </>

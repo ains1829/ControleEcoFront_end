@@ -1,4 +1,4 @@
-import { Avatar, Button,Modal,Table, TableColumnsType, Tag, theme } from "antd";
+import { Avatar, Button,Modal,Table, TableColumnsType, theme } from "antd";
 import { usegetAdministrator } from "../../../../api/mission/Apipublic";
 import { Administration, TransformDataAdministration } from "../../../../types/administration/Administration";
 import {
@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons';
 import { useState } from "react";
 import FormModifiedAdmin from "./FormModifiedAdmin";
+import { formatOrderDate } from "../../mission/ordre/Mission";
 function AdminSg() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const administrator = usegetAdministrator();
@@ -86,13 +87,13 @@ function AdminSg() {
       render: (text) => <span className='font-sans'>{text}</span>
     },
     {
-      title: <span className="font-sans">Ne(e) le</span>,
+      title: <span className="font-sans">Né(e) le</span>,
       dataIndex: 'date_naissance',
       key: 'date_naissance',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      render: (text) => <span className='font-sans'>{text}</span>
+      render: (text) => <span className='font-sans'>{formatOrderDate(text)}</span>
     },
     {
       onHeaderCell: () => ({

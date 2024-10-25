@@ -7,6 +7,7 @@ import {
   LeftOutlined,
   RightOutlined
 } from '@ant-design/icons';
+import { formatOrderDate } from "../../mission/ordre/Mission";
 function Accountvalidate() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const [page, setPage] = useState(0);
@@ -86,13 +87,13 @@ function Accountvalidate() {
       render:()=> <Tag color={"green"} className="font-sans">Valider</Tag>
     },
     {
-      title: <span className="font-sans">Date validation</span>,
+      title: <span className="font-sans">Date de validation</span>,
       dataIndex: 'date_validate',
       key: 'date_validate',
             onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      render:(text)=> <span className='font-sans'>{text}</span>
+      render:(text)=> <span className='font-sans'>{formatOrderDate(text)}</span>
     }
   ]
   let classNameNext = "bg-gray-400 cursor-not-allowed";
@@ -114,7 +115,7 @@ function Accountvalidate() {
           }}
       > 
         <div>
-          <span className="text-xl font-bold">Valider.</span>
+          <span className="text-xl font-bold">Liste des comptes validés .</span>
         </div>
         <Table columns={columns} dataSource={data_account} pagination={false} />
           <div className="flex justify-between items-center">

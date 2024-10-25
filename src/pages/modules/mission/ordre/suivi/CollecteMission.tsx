@@ -17,6 +17,7 @@ import Tableppn from "./Tableppn";
 import Feedback from "./Feedback";
 import { UserInstance } from "../../../../../types/administration/Userconnected";
 import Appercuppn from "./Appercuppn";
+import { formatOrderDate } from "../Mission";
 export interface InputGroup {
   id: number;
   nameproduct: string;
@@ -149,12 +150,12 @@ function CollecteMission() {
               </div>
               <div>
                 <strong>Debut de la mission : </strong>
-                <span>{ collecte_object?.ordermission.debut.toString() }</span>
+                <span>{ formatOrderDate(collecte_object?.ordermission.debut)}</span>
               </div>
               <div>
                 <strong>Fin de la mission : </strong>
                 <span>
-                  { collecte_object?.ordermission.fin != null ? collecte_object?.ordermission.fin.toString() : 'en cours' }
+                  { collecte_object?.ordermission.fin != null ? formatOrderDate(collecte_object?.ordermission.fin) : 'en cours' }
                 </span>
               </div>
               <div className="flex flex-col">
@@ -164,20 +165,22 @@ function CollecteMission() {
             </div>
             <Divider dashed />
             {
-              collecte_object?.statu === 200 ? 
+              collecte_object?.statu === 200 || collecte_object.statu === 210 ? 
                 <>
-                  <div className="flex flex-col">
-                    <strong>PPN collecté</strong>
-                    <span>Voici les données collectées.</span>
+                  <div className="flex flex-col mb-5">
+                    <span>Les informations suivantes illustrent les PPN collectés.</span>
                   </div>
                   <Tableppn idcollecte={collecte_object.idcollecte} />
                 </> 
                 :
                 (role === 'DR' || role === 'DT') ? <>
-                  <strong>Ppn en cours de collecte</strong>
+                  <strong>Collecte des produits de première nécessité en cours</strong>
                   <Empty />
                 </> :
-              <form id="send_collecte" onSubmit={handleSumbit}>
+                  <form id="send_collecte" onSubmit={handleSumbit}>
+                    <div className="mb-8">
+                      <span className="font-bold">Veuillez remplir ce formulaire pour consigner les résultats des collectes que vous avez effectuées</span>
+                    </div>
                 <div className="flex flex-col gap-y-4">
                     {inputGroups.map((group) => (
                       <div key={group.id} className="flex flex-col gap-y-1">

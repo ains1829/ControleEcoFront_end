@@ -75,7 +75,7 @@ export function Missionboard() {
         <Divider dashed />
         <div className="flex flex-col font-sans">
           <div className="flex justify-between gap-y-2">
-            <span className="text-xl font-bold" >Mission total : {data?.total_missions}</span>
+            <span className="text-xl font-bold" >Total des missions : {data?.total_missions}</span>
             <Button icon={<MoreOutlined />} type="dashed" className="font-sans text-xs" onClick={()=> setOpen(true)}>Progression par region</Button>
           </div>
           <div className="mt-5 grid grid-cols-3 gap-4">

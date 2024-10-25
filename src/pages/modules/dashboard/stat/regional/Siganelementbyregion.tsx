@@ -33,7 +33,7 @@ function Signalementbyregion({ date }: { date: number }) {
   };
   const columns: TableColumnsType<RegionData> = [
     {
-      title: <span className='font-sans'>Nom de la Région</span>,
+      title: <span className='font-sans'>Region</span>,
       dataIndex: 'regionName',
       key: 'regionName',
       onHeaderCell: () => ({
@@ -42,7 +42,7 @@ function Signalementbyregion({ date }: { date: number }) {
       render: (text) => <span className='font-sans'>{text }</span>
     },
     {
-      title: <span className='font-sans'>Total Signalements</span>,
+      title: <span className='font-sans'>Nombre de signalements</span>,
       dataIndex: 'totalReports',
       key: 'totalReports',
       sorter:(a,b) => a.totalReports - b.totalReports,

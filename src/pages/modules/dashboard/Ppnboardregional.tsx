@@ -63,7 +63,7 @@ function Ppnboardregional() {
             </div>
           <Divider dashed />
           <div className="flex flex-col gap-y-3 mb-5">
-            <span className="text-bold text-sm font-bold">Produit de premier neccessite (PPN)</span>
+            <span className="text-bold text-sm font-bold">Produit de première nécessité (PPN)</span>
             <Segmented
               className="font-sans p-1"
               defaultValue={1}

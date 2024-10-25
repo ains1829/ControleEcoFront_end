@@ -137,10 +137,10 @@ const data = {
       }}
     > 
       <div className="flex justify-between">
-        <span className="text-sm font-bold">Evoluation (PPN) par annee</span>
+        <span className="text-sm font-bold">Évolution du prix moyen du produit par an</span>
         <div className="flex gap-8 items-center">
           <Button icon={<CalendarOutlined />} className="font-sans text-xs" type="dashed" onClick={handleThreeyears}>Les trois dernières années</Button>
-          <span className="text-xs font-bold">Comparer vos date ici : </span>
+          <span className="text-xs font-bold">Comparez vos dates ici : </span>
           <RangePicker picker="year" placeholder={['Date 1', 'Date 2']} onChange={onYearRangeChange}/>
         </div>
       </div>

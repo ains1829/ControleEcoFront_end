@@ -8,7 +8,7 @@ function CollecteStat({date ,  data} : {date:number , data : any}) {
           <span className="text-2xl">{data.mission_pending }</span>
         </div>
         <div className="flex justify-between items-center border-b-2 ">
-          <span>Mission achevée</span>
+          <span>Mission achevé</span>
           <span className="text-2xl">{data.mission_finished }</span>
         </div>
       </div>

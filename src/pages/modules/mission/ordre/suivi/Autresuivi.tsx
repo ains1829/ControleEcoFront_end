@@ -9,6 +9,7 @@ import {
 import Feedback from "./Feedback";
 import Uploadrapport from "./upload/Uploadrapport";
 import { UserInstance } from "../../../../../types/administration/Userconnected";
+import { formatOrderDate } from "../Mission";
 function Autresuivi() {
   const navigate = useNavigate();
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
@@ -70,12 +71,12 @@ function Autresuivi() {
               </div>
               <div>
                 <strong>Debut de la mission : </strong>
-                <span>{ data_autre?.ordermission.debut.toString() }</span>
+                <span>{ formatOrderDate(data_autre?.ordermission.debut)}</span>
               </div>
               <div>
                 <strong>Fin de la mission : </strong>
                 <span>
-                  { data_autre?.ordermission.fin != null ? data_autre?.ordermission.fin.toString() : 'en cours' }
+                  { data_autre?.ordermission.fin != null ? formatOrderDate(data_autre?.ordermission.fin) : 'en cours' }
                 </span>
               </div>
               <div className="flex flex-col">

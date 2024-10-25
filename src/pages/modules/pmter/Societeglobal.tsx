@@ -168,7 +168,7 @@ function Societeglobal() {
     > 
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
-          <span className="text-xl font-bold" >Societe.</span>
+          <span className="text-xl font-bold" > Liste des sociétés.</span>
         </div>
         <Popover title={<span className="font-sans p-1">Filtre</span>} placement="bottom" arrow content={content}>
           <Button className="font-sans" icon={<FilterOutlined />} type="dashed">Filter</Button>

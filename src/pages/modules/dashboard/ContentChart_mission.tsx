@@ -18,7 +18,7 @@ const ContentCharMission = ({annee} : {annee:number}) => {
     }} className='font-sans'>
       <div className='flex flex-col'>
         <div className="flex flex-col gap-y-1">
-          <span className='font-bold text-xl'>Nombre mission par mois.</span>
+          <span className='font-bold text-xl'>Nombre de mission par mois.</span>
           <span className="text-xs text-gray-500">(annee : {annee})</span>
         </div>
         <Divider dashed />
@@ -44,6 +44,7 @@ const ContentCharMission = ({annee} : {annee:number}) => {
           choix_component === '0' ?
           <GroupedBarCMission annee={annee} /> : <GroupetBarTypemission annee={annee} />
         }
+        
       </div>
     </div>
   );

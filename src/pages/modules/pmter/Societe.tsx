@@ -57,7 +57,7 @@ function Societe() {
       }}
       > 
         <div className="flex justify-between items-center">
-          <span className="text-xl font-bold" >Societe.</span>
+          <span className="text-xl font-bold" >Liste des sociétés.</span>
           <Search placeholder="Recherche" allowClear onSearch={onSearch} className="w-1/4 font-sans" />
         </div>
         <C_societe data={data_societe} page={0} region={0} search="" isfilter datebegin="" date_end=""  />

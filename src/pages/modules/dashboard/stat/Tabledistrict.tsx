@@ -2,6 +2,7 @@ import type { TableColumnsType, TableProps } from 'antd';
 import { Table } from 'antd';
 import { useDistrictByregion } from '../../../../api/dashboard/PpnStat';
 import { useNavigate } from 'react-router-dom';
+import { formatValue } from './Provinceregion';
 interface DataType {
   key: number;
   district: string;
@@ -45,34 +46,34 @@ function Tabledistrict({ idregion, idproduct, mois, annee }: { idregion: number,
         
     },
     {
-      title: <span className='font-sans'>Prix Moyenne</span>,
+      title: <span className='font-sans'>Prix moyenne</span>,
       dataIndex: 'prixMoyenne',
       key: 'prixMoyenne',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      sorter: (a, b) => a.prixMoyenne - b.prixMoyenne, render: (text) =>
-      <span className='font-sans'>{text} Ariary</span>
+      sorter: (a, b) => a.prixMoyenne - b.prixMoyenne,
+      render: (prix) => <span className='font-sans'>{formatValue(prix)}</span>
     },
     {
-      title: <span className='font-sans'>Prix Max</span> ,
+      title: <span className='font-sans'>Prix max</span> ,
       dataIndex: 'prixMax',
       key: 'prixMax',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      sorter: (a, b) => a.prixMax - b.prixMax, render: (text) =>
-      <span className='font-sans'>{text} Ariary</span>
+      sorter: (a, b) => a.prixMax - b.prixMax,
+      render: (prix) => <span className='font-sans'>{formatValue(prix)}</span>
     },
     {
-      title: <span className='font-sans'>Prix Min</span>,
+      title: <span className='font-sans'>Prix min</span>,
       dataIndex: 'prixMin',
       key: 'prixMin',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      sorter: (a, b) => a.prixMin - b.prixMin, render: (text) =>
-      <span className='font-sans'>{text} Ariary</span>
+      sorter: (a, b) => a.prixMin - b.prixMin,
+      render: (prix) => <span className='font-sans'>{formatValue(prix)}</span>
     },
   ];
 

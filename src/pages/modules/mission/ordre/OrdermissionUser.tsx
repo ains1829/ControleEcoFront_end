@@ -132,7 +132,7 @@ export function OrdermissionUser() {
         }}
       >
         <div className="flex justify-between items-center">
-          <span className="text-xl font-bold" >Ordre de mission.</span>
+          <span className="text-xl font-bold" >Ordres de mission.</span>
           <div className="w-1/2">
             <Search placeholder="Rechercher dans les demandes" allowClear onSearch={onSearch} style={{ fontFamily:'font-sans'}} className="font-sans"/>
           </div>
@@ -213,7 +213,7 @@ export function OrdermissionUser() {
             </svg>
 
               <div className="mt-2 flex flex-col gap-y-1">
-                <span className="font-bold text-secondary">Demande d'Ordre de Mission</span>
+                <span className="font-bold text-secondary">Demande d'ordre de mission</span>
                 <span className="text-xs text-gray-600 ">
                   Veuillez compléter ce formulaire pour soumettre une demande d'ordre de mission.
                   Assurez-vous que toutes les informations sont exactes et complètes avant de valider.

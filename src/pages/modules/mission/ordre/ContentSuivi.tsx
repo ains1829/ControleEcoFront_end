@@ -73,7 +73,7 @@ function ContentSuivi() {
           </div>
           {/* <div className="w-1/3 grid grid-cols-2 gap-x-5">
               <div className="flex p-1 justify-evenly gap-2 text-white bg-green-400 items-center rounded-full font-bold text-xs">
-                <span>Mission terminer</span>
+                <span>Mission terminé </span>
                 <span className="text-xl">{mission_stat?.missions_fini }</span>
               </div>
               <div className="flex p-1 justify-evenly gap-2 text-white bg-orange-300 items-center rounded-full font-bold text-xs">

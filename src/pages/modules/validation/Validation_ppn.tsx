@@ -15,7 +15,7 @@ function Validation_ppn() {
         }}
       >
         <div className="flex flex-col gap-y-1">
-          <span className="text-xl font-bold">Resultat collecte.</span>
+          <span className="text-xl font-bold">Résultats des collectes</span>
           <span>Les résultats des collectes doivent être validés avant d'apparaître sur le tableau de bord</span>
         </div>
         <Divider dashed />

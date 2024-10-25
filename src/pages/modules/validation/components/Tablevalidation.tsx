@@ -8,6 +8,7 @@ import {
   LeftOutlined,
   RightOutlined
 } from '@ant-design/icons';
+import { formatOrderDate } from '../../mission/ordre/Mission';
 export interface CollecteData {
   key: number;
   numero_reference: string;
@@ -97,13 +98,13 @@ function TableValidation() {
       title: <span className='font-sans'>Date de Collecte</span>,
       dataIndex: 'date_collecte',
       key: 'date_collecte',
-      render: (text) => <span className='font-sans'>{text}</span>,
+      render: (text) => <span className='font-sans'>{formatOrderDate(text)}</span>,
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
     },
     {
-      title: <span className='font-sans'>Statut</span>,
+      title: <span className='font-sans'>Status</span>,
       dataIndex: 'status',
       key: 'status',
       render: (status: number) => {
@@ -119,7 +120,7 @@ function TableValidation() {
             break;
           case 515:
             color = 'red';
-            return <Tag className='font-sans' color={color}>Rejeter</Tag>
+            return <Tag className='font-sans' color={color}>Rejeté</Tag>
             break;
           default:
             color = 'blue';

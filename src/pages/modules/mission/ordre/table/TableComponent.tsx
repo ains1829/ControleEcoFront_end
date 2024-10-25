@@ -21,7 +21,7 @@ const columns: TableProps<Equipe>['columns'] = [
     render: (text) => <span className='font-sans'>{text}</span>
   },
   {
-    title: <span className="font-sans">Qualite</span>,
+    title: <span className="font-sans">Qualité</span>,
     key: 'profil',
     dataIndex: 'profil',
     render: (_, { profil }) => (

@@ -9,6 +9,7 @@ import {
 import { usegetRegions } from "../../../../api/mission/Api";
 import Search, { SearchProps } from "antd/es/input/Search";
 import FormModifiedAdmin from "./FormModifiedAdmin";
+import { formatOrderDate } from "../../mission/ordre/Mission";
 function AdminRegional() {
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
   const [page, setPage] = useState(0);
@@ -115,13 +116,13 @@ function AdminRegional() {
       render: (text) => <span className='font-sans'>{text}</span>
     },
     {
-      title: <span className="font-sans">Ne(e) le</span>,
+      title: <span className="font-sans">Né(e) le</span>,
       dataIndex: 'date_naissance',
       key: 'date_naissance',
       onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      render: (text) => <span className='font-sans'>{text}</span>
+      render: (text) => <span className='font-sans'>{formatOrderDate(text)}</span>
     },
     {
       onHeaderCell: () => ({
@@ -168,7 +169,7 @@ function AdminRegional() {
       >
         <div className="flex justify-between items-center">
             <div className="flex flex-col">           
-              <span className="text-xl font-bold" >Regional.</span>
+              <span className="text-xl font-bold" >Liste des fonctionnaires.</span>
               <span className="text-xs">({region_view})</span>
             </div>
             <div className="flex w-1/2 gap-2">

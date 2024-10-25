@@ -6,9 +6,12 @@ import {
   CheckCircleOutlined,
 } from '@ant-design/icons';
 import { useValidateAccount } from "../../../../api/auth/mutation/Mutation";
+import { useNavigate } from "react-router-dom";
+import { formatOrderDate } from "../../mission/ordre/Mission";
 function Demande() {
+  const navigate = useNavigate();
   const [page, setPage] = useState(0);
-  const Account_validate = usegetAdministrationNoValidate(page);
+  const Account_validate = usegetAdministrationNoValidate(page,navigate);
   const validate_account = useValidateAccount();
   const { token: { colorBgContainer, borderRadiusLG }, } = theme.useToken();
     if (Account_validate.isPending) {
@@ -19,7 +22,7 @@ function Demande() {
   }
   const data_account = TransformDataAccount(Account_validate.data.data);
   const confirms_account = async (id: number) => {
-    const reponse = await validate_account.mutateAsync({id:id});
+    const reponse = await validate_account.mutateAsync({id:id , navigate});
     if (reponse.status !== 200) {
       message.error(reponse.object)
     }
@@ -90,7 +93,7 @@ function Demande() {
             onHeaderCell: () => ({
         style: { backgroundColor: 'transparent' },
       }),
-      render:(text)=> <span className='font-sans'>{text}</span>
+      render:(text)=> <span className='font-sans'>{formatOrderDate(text)}</span>
     },
     {
       dataIndex: 'action',
@@ -123,7 +126,7 @@ function Demande() {
           }}
       > 
         <div>
-          <span className="font-bold text-xl">Demande.</span>
+          <span className="font-bold text-xl">Demandes de validation des comptes.</span>
         </div>
         <Table columns={columns} dataSource={data_account} pagination={false} />
       </div>

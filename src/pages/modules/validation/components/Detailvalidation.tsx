@@ -35,7 +35,7 @@ function Detailvalidation({ data , page , Close_modal }: { data: CollecteData , 
       <Table columns={columns} dataSource={TransformdataDetailCollecte(collecte.data)}></Table>
       <div className="flex justify-end gap-2">
         <Button disabled={validate.isPending}  onClick={()=>HandleValidate(true)} className="font-sans text-xs" type="dashed">Valider</Button>
-        <Button disabled={validate.isPending} onClick={()=>HandleValidate(false)} className="font-sans text-xs" type="dashed">Rejeter</Button>
+        <Button disabled={validate.isPending} onClick={()=>HandleValidate(false)} className="font-sans text-xs" type="dashed">Rejeté</Button>
       </div>
     </div>
   )

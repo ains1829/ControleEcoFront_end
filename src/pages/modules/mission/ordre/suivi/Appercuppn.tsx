@@ -1,4 +1,4 @@
-import { Table, TableColumnsType } from "antd";
+import { Divider, Table, TableColumnsType } from "antd";
 import { InputGroup } from "./CollecteMission"
 
 function Appercuppn({ data }: { data: InputGroup[] }) {
@@ -44,12 +44,13 @@ interface TransformedData {
   return (
     <>
       <div className="flex flex-col gap-y-5 font-sans">
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-y-2">
           <span className="font-bold">Aperçu des données </span>
           <span className="text-xs">Veuillez bien vérifier les données avant de les valider afin d'assurer leur exactitude.</span>
         </div>
-        <Table columns={columns} dataSource={tableData} pagination={false} />
       </div>
+        <Divider dashed />
+        <Table columns={columns} dataSource={tableData} pagination={false} />
     </>
   )
 }
